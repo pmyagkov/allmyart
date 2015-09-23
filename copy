@@ -1,0 +1,3 @@
+#!/bin/bash -xe
+
+scp -r ./allmyart allmyart@ssh.allmyart.nichost.ru:~/allmyart.ru/docs/wa-apps/shop/themes/allmyart
