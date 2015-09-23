@@ -1,5 +1,5 @@
 #!/bin/bash -xe
 
-cd allmyart
+cd theme
 tar -czvf ../allmyart.tar.gz ./*
 cd -
