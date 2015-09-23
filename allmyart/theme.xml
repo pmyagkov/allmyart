@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE theme PUBLIC "wa-app-theme" "http://www.webasyst.com/wa-content/xml/wa-app-theme.dtd">
-<theme id="default" system="0" vendor="allmyart" author="pmyagkov" app="shop"version="0.0.1">
+<theme id="allmyart" system="0" vendor="allmyart" author="pmyagkov" app="shop" version="0.0.1">
   <name locale="en_US">All my art</name>
   <name locale="ru_RU">All my art</name>
   <files>
