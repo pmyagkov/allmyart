@@ -33,7 +33,6 @@ body {
   font-size: 14px;
   background: #eee;
   line-height: 1.4em;
-  white-space: nowrap;
 }
 
 a {
@@ -1387,34 +1386,26 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
   font-weight: normal;
 }
 
-.aside {
-  background: lime;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 20%;
-}
+/* Main
+------- */
 
-.maincontent {
+main.maincontent {
+  display: block;
+  clear: both;
   margin: 0;
-  position: absolute;
-  left: 20%;
-  right: 0;
-  top: 0;
   background: #fff;
 }
 
-.maincontent .container {
+main.maincontent .container {
   padding-top: 20px;
   padding-bottom: 20px;
 }
 
-.maincontent.submenu-is-shown {
+main.maincontent.submenu-is-shown {
   position: relative;
 }
 
-.maincontent.submenu-is-shown:after {
+main.maincontent.submenu-is-shown:after {
   display: block;
   content: "";
   position: absolute;
@@ -2271,6 +2262,15 @@ html.font_size_16 body {
   }
 
 }
+
+.aside {
+  display: inline-block;
+  height: 100%;
+  width: 500px;
+  background: lime;
+}
+
+
 
 /* WIDE
 ========= */
