@@ -1,8 +1,6 @@
 // Show Menu on Hover
 ( function($) {
 
-    alert('HI');
-
     var enter, leave;
 
     var storage = {

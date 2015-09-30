@@ -1,11 +1,36 @@
+{$categories = $wa->shop->categories(0, null, true)}
+<div class="sidebar-categories">
+    <a class="logo" href="/"></a>
+    <div class="sidebar-categories__header">{'картины'|upper}</div>
+    {foreach $categories as $cat}
+        <div class="sidebar-categories__item">
+            <a class="category-link" href="{$cat.url}">{$cat.name|upper}</a>
+        </div>
+        <!--{if count($cat.childs)}
+            <li>
+                <a href="{$cat.url}">{$cat.name}</a>
+                <div class="flyout">
+                    <div class="container">
+                        {wa_print_tree tree=$cat.childs unfolded=true collapsible_class='collapsible' class="menu-v" elem ='<a href=":url" title=":name">:name</a>'}
+                    </div>
+                </div>
+            </li>
+        {else}
+
+        {/if}-->
+    {/foreach}
+</div>
+<!--
+
+
 {$shop_pages = $wa->shop->pages()}
 
 {if $shop_pages || $theme_settings.category_nav_mode != 'sidebar'}
     
     {if isset($category)}{$selected_category=$category.id}{else}{$selected_category=null}{/if}
-    {$categories = $wa->shop->categories(0, null, true)}
+
     {$tagcloud = $wa->shop->tags()}
-    <!-- plugin hook: 'frontend_nav' -->
+    &lt;!&ndash; plugin hook: 'frontend_nav' &ndash;&gt;
     {* @event frontend_nav.%plugin_id% *}
     {$_hook_frontend_sidebar_section = false}
     {foreach $frontend_nav as $plugin => $output}
@@ -14,7 +39,8 @@
         {/if}
     {/foreach}
     
-    <!-- product search -->
+    &lt;!&ndash; product search &ndash;&gt;
+&lt;!&ndash;
     <form method="get" action="{$wa->getUrl('shop/frontend/search')}" class="search">
         <div class="search-wrapper">
             <input id="search" type="search" name="query" {if !empty($query)}value="{$query}"{/if} placeholder="[s`Find products`]">
@@ -22,7 +48,7 @@
             {* <span class="search-sample">{sprintf('[`E.g. %s`]', '<a href="'|cat:$wa_app_url:"search/?query=productname":'">productname</a>')} *}
         </div>
     </form>
-    
+    &ndash;&gt;
     <ul class="pages flyout-nav" role="navigation">
     
         {if $theme_settings.category_nav_mode != 'sidebar'}
@@ -50,26 +76,11 @@
             
                 {* INLINE category navigation *}
                 
-                {foreach $categories as $cat}
-                    {if count($cat.childs)}
-                        <li>
-                            <a href="{$cat.url}">{$cat.name}</a>
-                            <div class="flyout">
-                                <div class="container">
-                                    {wa_print_tree tree=$cat.childs unfolded=true collapsible_class='collapsible' class="menu-v" elem ='<a href=":url" title=":name">:name</a>'}
-                                </div>
-                            </div>                    
-                        </li>
-                    {else}
-                        <li>
-                            <a href="{$cat.url}">{$cat.name}</a>
-                        </li>
-                    {/if}
-                {/foreach}
+
                 
             {/if}
     
-           {if 0 && $tagcloud}
+           &lt;!&ndash;{if 0 && $tagcloud}
                 
                 {* TAGS *}
                 
@@ -85,10 +96,10 @@
                         </div>
                     </div>
                 </li>
-            {/if} 
+            {/if}&ndash;&gt;
         
     
-            {if $_hook_frontend_sidebar_section}
+            &lt;!&ndash;{if $_hook_frontend_sidebar_section}
                 
                 {* PLUGINS @ frontend_nav *}
                 
@@ -118,7 +129,7 @@
                 {/foreach}
 
 
-            {/if}
+            {/if}&ndash;&gt;
 
         {/if}
 
@@ -133,3 +144,4 @@
     </ul>
 
 {/if}
+-->

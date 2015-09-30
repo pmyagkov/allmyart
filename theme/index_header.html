@@ -1,0 +1,76 @@
+<header class="globalheader"{if $theme_settings.color_custom} style="background: {$theme_settings.color_custom}"{/if}>
+
+{if count($wa->apps())>0 || $wa->isAuthEnabled()}
+
+<!-- GLOBAL NAVIGATION -->
+<div id="globalnav"{if $theme_settings.header_scheme|strstr:'white'} class="light"{/if}>
+<div class="container">
+
+    <h2>
+        <a href="{$wa_url}">
+            {$wa->accountName()}
+        </a>
+    </h2>
+
+    <button id="mobile-nav-toggle"><!-- nav toggle for mobile devices --></button>
+
+    <nav role="navigation">
+
+        <!-- core site sections (apps) -->
+        <ul class="apps">
+            {foreach $wa->apps() as $a}
+            {if !($a.url == $wa_url && $a.name == $wa->accountName())}
+            <li {if $a.url==$wa_app_url && !$wa->globals('isMyAccount')} class="selected"{/if}><a href="{$a.url}">{$a.name}</a></li>
+            {/if}
+            {/foreach}
+        </ul>
+
+        {if $wa->isAuthEnabled()}
+        <!-- user auth -->
+        <ul class="auth">
+
+            {if $wa->user()->isAuth()}
+            {if $wa->myUrl()}
+            <li{if $wa->globals('isMyAccount')} class="bold"{/if}>
+            <a href="{$wa->myUrl()}" class="not-visited"><i class="icon16 userpic20 float-left" style="background-image: url('{$wa->user()->getPhoto2x(20)}');"></i> <strong>{$wa->user('firstname')|default:'[`My account`]'}</strong></a>
+            </li>
+            {else}
+            <li><strong>{$wa->user('firstname')|default:'[`My account`]'}</strong></li>
+            {/if}
+            <li><a href="?logout" class="not-visited">[s`Log out`]</a></li>
+            {else}
+            <li><a href="{$wa->loginUrl()}" class="not-visited">[s`Log in`]</a></li>
+            <li><a href="{$wa->signupUrl()}" class="not-visited">[s`Sign up`]</a></li>
+            {/if}
+        </ul>
+        {/if}
+
+        {if $wa->shop}
+        <!-- cart -->
+        {$cart_total = $wa->shop->cart->total()}
+        <div id="cart" class="cart{if !$cart_total} empty{/if}">
+            <a href="{$wa->getUrl('shop/frontend/cart')}" class="cart-summary">
+                <i class="cart-icon"></i>
+                <strong class="cart-total">{wa_currency_html($cart_total, $wa->shop->currency())}</strong>
+            </a>
+            <div id="cart-content">
+                {* <div class="cart-just-added">
+                %s is now in your shopping cart
+            </div> *}
+            </div>
+            <a href="{$wa->getUrl('shop/frontend/cart')}" class="cart-to-checkout" style="display: none;">
+                [s`View cart`]
+            </a>
+        </div>
+        {/if}
+
+    </nav>
+    <div class="clear-both"></div>
+
+</div>
+</div>
+
+{/if}
+
+
+</header>
