@@ -33,8 +33,9 @@
 {foreach $products as $p}
     {$available = $wa->shop->settings('ignore_stock_count') || $p.count === null || $p.count > 0}
     <li itemscope itemtype ="http://schema.org/Product">
+        {*$wa->shop->product|@print_r*}
 
-        <a href="{$p.frontend_url}" title="{$p.name}">
+        <a class="product-image-link" href="{$p.frontend_url}" title="{$p.name}">
             <div class="image">
                 <div class="badge-wrapper">
                     {$badge_html = $wa->shop->badgeHtml($p.badge)}
@@ -44,15 +45,28 @@
                     {$wa->shop->productImgHtml($p, '200', ['itemprop' => 'image', 'alt' => $p.name, 'default' => "`$wa_theme_url`img/dummy200.png"])}
                 </div>
             </div>
-            <h5>
-                <span itemprop="name">{$p.name}</span>
-                {if $p.rating > 0}
-                    <span class="rating nowrap">{$wa->shop->ratingHtml($p.rating)}</span>
-                {/if}
-            </h5>
+            {*if $p.rating > 0}
+                <span class="rating nowrap">{$wa->shop->ratingHtml($p.rating)}</span>
+            {/if*}
             {if $p.summary}<span itemprop="description" class="summary">{strip_tags($p.summary)|truncate:100}</span>{/if}
         </a>
+        <div class="product-stats">
+            <div class="product-name-price-wrapper">
+                <div class="product-name" itemprop="name">{$p.name}</div>
+                <div class="product-price">от {shop_currency_html($p.price)}</div>
+                <meta itemprop="price" content="{$p.price}">
+                <meta itemprop="priceCurrency" content="{$wa->shop->primaryCurrency()}">
+            </div>
+
+            <div class="product-button-wrapper">
+                <a href="{$p.frontend_url}" class="product-button">
+                    Выбрать размер
+                </a>
+            </div>
+            {if $p.summary}<span itemprop="description" class="summary">{strip_tags($p.summary)|truncate:100}</span>{/if}
+        </div>
         {if !empty($p.features)}
+        {*
         <table class="features">
             {foreach $p.features as $f_code => $f_value}
             <tr{if $features[$f_code].type == 'divider'} class="divider"{/if}>
@@ -73,7 +87,9 @@
             </tr>
             {/foreach}
         </table>
+        *}
         {/if}
+        {*
         <div itemprop="offers" class="offers" itemscope itemtype="http://schema.org/Offer">
             {if $available}
                 <form class="purchase addtocart" {if $p.sku_count > 1}data-url="{$p.frontend_url}{if strpos($p.frontend_url, '?')}&{else}?{/if}cart=1"{/if} method="post" action="{$wa->getUrl('/frontendCart/add')}">
@@ -96,6 +112,7 @@
                 <link itemprop="availability" href="http://schema.org/OutOfStock" />
             {/if}
         </div>
+        *}
     </li>
 {/foreach}
 </ul>

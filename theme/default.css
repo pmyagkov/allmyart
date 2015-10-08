@@ -1523,6 +1523,7 @@ body {
 .maincontent {
   margin: 0;
   background: #fff;
+  white-space: normal;
 }
 
 .maincontent .container {
