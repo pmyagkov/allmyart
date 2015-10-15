@@ -2,64 +2,7 @@
     storefront homepage
 *}
 
-<div class="sidebar">
-    
-    <!-- CONTACT INFO -->
-    <figure class="store-info">
-        <h1 itemprop="name">{$wa->shop->settings('name')}</h1>
-        <h3>
-            <span itemprop="telephone">{$wa->shop->settings('phone')}</span>
-            {if $wh = $wa->shop->settings('workhours')}<br>
-                <span class="hint">{$wh.days_from_to}{if $wh.hours_from && $wh.hours_to} {$wh.hours_from}—{$wh.hours_to}{/if}</span>
-            {/if}
-        </h3>
-        <meta itemprop="address" content="{$wa->shop->settings('country')}">
-        <meta itemprop="currenciesAccepted" content="{$wa->shop->currency()}">
-    </figure>
-    
-    <!-- BULLETS -->
-    <section class="bullets">
-        <figure class="bullet">
-            <h4><span class="b-glyph b-shipping"></span> {$theme_settings.homepage_bullet_title_1}</h4>
-            <p>{$theme_settings.homepage_bullet_body_1}</p>
-        </figure>
-        <figure class="bullet">
-            <h4><span class="b-glyph b-payment"></span> {$theme_settings.homepage_bullet_title_2}</h4>
-            <p>{$theme_settings.homepage_bullet_body_2}</p>
-        </figure>
-        <figure class="bullet">
-            <h4><span class="b-glyph b-location"></span> {$theme_settings.homepage_bullet_title_3}</h4>
-            <p>{$theme_settings.homepage_bullet_body_3}</p>
-        </figure>
-    </section>
-    
-    <!-- FOLLOW -->
-    <aside class="connect">
-        {if !empty($theme_settings.facebook_likebox_code)}
-            <div class="likebox">
-                {$theme_settings.facebook_likebox_code}
-            </div>
-        {/if}
-        {if !empty($theme_settings.twitter_timeline_code)}
-            <div class="likebox">
-                {$theme_settings.twitter_timeline_code}
-            </div>
-        {/if}
-        {if !empty($theme_settings.vk_widget_code)}
-            <div class="likebox">
-                {$theme_settings.vk_widget_code}
-            </div>
-        {/if}
-        {*
-        <div class="likebox">
-             your custom social widget
-        </div>
-        *}
-    </aside>
-
-</div>
-
-<div class="content with-sidebar">
+<div class="content">
     
     {$promocards = $wa->shop->promos()}
     {$bestsellers = $wa->shop->productSet( $theme_settings.homepage_productset_bestsellers )}
@@ -139,7 +82,6 @@
             {/if}
         </article>
     {/if}
-    
     {if $promocards && $theme_settings.homepage_promocards_below_the_slider}
         <!-- PROMOS -->
         <!--<section class="promos">
