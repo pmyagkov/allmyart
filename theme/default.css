@@ -31,7 +31,7 @@ body {
   min-height: 100%;
   font-family: 'Helvetica Neue', Arial, sans-serif;
   font-size: 14px;
-  background: #eee;
+  background: white;
   line-height: 1.4em;
   white-space: nowrap;
 }
@@ -525,7 +525,16 @@ ul.tree ul a {
 }
 
 .paging-nav {
-  text-align: center;
+  text-align: left;
+}
+
+.paging-nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.paging-nav ul li {
+  display: inline-block;
 }
 
 .paging-nav ul li a {
@@ -1395,10 +1404,22 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
   left: 0;
 
   width: 20%;
-  max-width: 300px;
+  max-width: 288px;
   min-width: 180px;
 
   text-align: center;
+
+  background: url('img/side_pic_s.jpg');
+}
+
+.aside::before {
+  content: ' ';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,.6);
 }
 
 .aside .logo {
@@ -1413,6 +1434,7 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
   margin: 80px 0;
   display: inline-block;
   text-align: left;
+  position: relative;
 }
 
 .aside .sidebar-categories__header {
@@ -1431,7 +1453,7 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
 
 .header {
   white-space: nowrap;
-  padding: 45px 30px 15px 30px;
+  padding: 45px 0 15px 0;
 }
 
 .header .phone-wrapper,
@@ -1469,6 +1491,7 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
 .header .cart-wrapper {
   text-align: right;
   width: 40%;
+  margin-left: -5px;
 }
 
 .header .wishlist:before,
@@ -1510,7 +1533,7 @@ body {
 
 .content-bumper {
   width: 20%;
-  max-width: 300px;
+  max-width: 288px;
   min-width: 180px;
   display: inline-block;
 }
@@ -1518,6 +1541,8 @@ body {
 .content-wrapper {
   display: inline-block;
   margin-left: -4px;
+  padding-left: 30px;
+  max-width: 1045px;
 }
 
 .maincontent {
