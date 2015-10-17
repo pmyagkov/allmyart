@@ -415,6 +415,7 @@ input.error, textarea.error { border: 2px solid red; }
 
 .filters {
   width: 100%;
+  text-align: center;
 }
 
 .filters input[type="text"] {
@@ -428,7 +429,7 @@ input.error, textarea.error { border: 2px solid red; }
   white-space: nowrap;
 }
 
-.filters .filter-param_modulesNumber .filter-param__img {
+.filters .filter-param_varchar .filter-param__img {
   background-image: url('img/up_modul_icons_s.png');
   background-repeat: no-repeat;
   width: 32px;
@@ -436,12 +437,20 @@ input.error, textarea.error { border: 2px solid red; }
   display: inline-block;
 }
 
-.filters .filter-param_modulesNumber .filter-param__text {
+.filters .filter-param_modulesnumber {
+  float: left;
+}
+
+.filters .filter-param_orientation {
+  float: right;
+}
+
+.filters .filter-param_varchar .filter-param__text {
   margin-left: 42px;
   line-height: 32px;
 }
 
-.filters .filter-param_modulesNumber .filter-param__value_1 .filter-param__text {
+.filters .filter-param_modulesnumber .filter-param__value_1 .filter-param__text {
   margin-left: 32px;
 }
 
@@ -450,40 +459,92 @@ input.error, textarea.error { border: 2px solid red; }
   position: absolute;
 }
 
-.filters .filter-param_modulesNumber .filter-param__value {
+.filters .filter-param_varchar .filter-param__value {
   margin-right: 40px;
 }
 
-.filters .filter-param_modulesNumber .filter-param__value_1 {
+/* КОЛИЧЕСТВО МОДУЛЕЙ */
+.filters .filter-param_modulesnumber .filter-param__value_1 {
   margin-right: 28px;
 }
 
-.filters .filter-param_modulesNumber .filter-param__value_1 :checked + .filter-param__img {
+.filters .filter-param_modulesnumber .filter-param__value_1 :checked + .filter-param__img {
   background-position: 53.3% 50%;
 }
 
-.filters .filter-param_modulesNumber .filter-param__value_2 .filter-param__img {
-  background-position: 6.25% 50%;
+.filters .filter-param_modulesnumber .filter-param__value_2 .filter-param__img {
+  background-position: 6.65% 50%;
 }
 
-.filters .filter-param_modulesNumber .filter-param__value_2 :checked + .filter-param__img {
+.filters .filter-param_modulesnumber .filter-param__value_2 :checked + .filter-param__img {
   background-position: 59.95% 50%;
 }
 
-.filters .filter-param_modulesNumber .filter-param__value_3 .filter-param__img {
+.filters .filter-param_modulesnumber .filter-param__value_3 .filter-param__img {
   background-position: 13.3% 50%;
 }
 
-.filters .filter-param_modulesNumber .filter-param__value_3 :checked + .filter-param__img {
+.filters .filter-param_modulesnumber .filter-param__value_3 :checked + .filter-param__img {
   background-position: 66.6% 50%;
 }
 
-.filters .filter-param_modulesNumber .filter-param__value_4 .filter-param__img {
+.filters .filter-param_modulesnumber .filter-param__value_4 .filter-param__img {
   background-position: 19.95% 50%;
 }
 
-.filters .filter-param_modulesNumber .filter-param__value_4 :checked + .filter-param__img {
+.filters .filter-param_modulesnumber .filter-param__value_4 :checked + .filter-param__img {
   background-position: 73.3% 50%;
+}
+
+
+/* ФОТО или ГРАФИКА */
+.filters .filter-param_style .filter-param__value_1 {
+  margin-right: 57px;
+}
+
+.filters .filter-param_style .filter-param__value_1 .filter-param__img {
+  background-position: 26.7% 50%;
+}
+
+.filters .filter-param_style .filter-param__value_1 :checked + .filter-param__img {
+  background-position: 80.1% 50%;
+}
+
+.filters .filter-param_style .filter-param__value_2 {
+  margin-right: 82px;
+}
+
+.filters .filter-param_style .filter-param__value_2 .filter-param__img {
+  background-position: 33.3% 50%;
+}
+
+.filters .filter-param_style .filter-param__value_2 :checked + .filter-param__img {
+  background-position: 86.6% 50%;
+}
+
+/* ОРИЕНТАЦИЯ */
+.filters .filter-param_orientation .filter-param__value_1 {
+  margin-right: 128px;
+}
+
+.filters .filter-param_orientation .filter-param__value_1 .filter-param__img {
+  background-position: 40% 50%;
+}
+
+.filters .filter-param_orientation .filter-param__value_1 :checked + .filter-param__img {
+  background-position: 93.3% 50%;
+}
+
+.filters .filter-param_orientation .filter-param__value_2 {
+  margin-right: 145px;
+}
+
+.filters .filter-param_orientation .filter-param__value_2 .filter-param__img {
+  background-position: 46.6% 50%;
+}
+
+.filters .filter-param_orientation .filter-param__value_2 :checked + .filter-param__img {
+  background-position: 100% 50%;
 }
 
 
