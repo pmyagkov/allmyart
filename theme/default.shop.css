@@ -424,15 +424,75 @@ input.error, textarea.error { border: 2px solid red; }
 }
 
 .filters .filter-param {
-  margin-bottom: 20px;
+  display: inline-block;
+  white-space: nowrap;
 }
 
-.filters h5 {
-  margin-bottom: 0.5em;
+.filters .filter-param_modulesNumber .filter-param__img {
+  background-image: url('img/up_modul_icons_s.png');
+  background-repeat: no-repeat;
+  width: 32px;
+  height: 32px;
+  display: inline-block;
 }
+
+.filters .filter-param_modulesNumber .filter-param__text {
+  margin-left: 42px;
+  line-height: 32px;
+}
+
+.filters .filter-param_modulesNumber .filter-param__value_1 .filter-param__text {
+  margin-left: 32px;
+}
+
+.filters input {
+  clip: rect(0,0,100px,100px);
+  position: absolute;
+}
+
+.filters .filter-param_modulesNumber .filter-param__value {
+  margin-right: 40px;
+}
+
+.filters .filter-param_modulesNumber .filter-param__value_1 {
+  margin-right: 28px;
+}
+
+.filters .filter-param_modulesNumber .filter-param__value_1 :checked + .filter-param__img {
+  background-position: 53.3% 50%;
+}
+
+.filters .filter-param_modulesNumber .filter-param__value_2 .filter-param__img {
+  background-position: 6.25% 50%;
+}
+
+.filters .filter-param_modulesNumber .filter-param__value_2 :checked + .filter-param__img {
+  background-position: 59.95% 50%;
+}
+
+.filters .filter-param_modulesNumber .filter-param__value_3 .filter-param__img {
+  background-position: 13.3% 50%;
+}
+
+.filters .filter-param_modulesNumber .filter-param__value_3 :checked + .filter-param__img {
+  background-position: 66.6% 50%;
+}
+
+.filters .filter-param_modulesNumber .filter-param__value_4 .filter-param__img {
+  background-position: 19.95% 50%;
+}
+
+.filters .filter-param_modulesNumber .filter-param__value_4 :checked + .filter-param__img {
+  background-position: 73.3% 50%;
+}
+
 
 .filters label {
-  display: block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .filters .slider {
