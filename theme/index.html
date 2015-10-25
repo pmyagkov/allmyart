@@ -74,15 +74,16 @@
                 <span class="wishlist">ВИШЛИСТ
                     <span class="wishlist__value">10</span>
                 </span>
-                <span class="cart">КОРЗИНА
-                    <span class="cart__value">1000</span>
-                </span>
+                <a href="/cart" class="cart">КОРЗИНА
+                    {$cart_total = $wa->shop->cart->total()}
+                    <span class="cart__value">{$cart_total}</span>
+                </a>
             </div>
         </div>
         <!-- APP CONTENT -->
         <main class="maincontent" role="main">
             <div class="container">
-                {include file="`$wa_active_theme_path`/main.html" inline}
+                {$content}
             </div>
 
             <!-- FOOTER -->

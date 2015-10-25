@@ -3,22 +3,75 @@
 {if !$cart.count}
     
     <div class="cart your-cart-is-empty">
-        <h1>[`Shopping cart`]</h1>
-        <p>[`Your shopping cart is empty.`]</p>
+        <h1 class="category-name">КОРЗИНА</h1>
+        <p>Вы еще ничего не добавили в корзину.</p>
     </div>
 
 {else}
 
-    <form method="post">
-        
-        <h1>[`Shopping cart`]</h1>
+    <form method="post" action="/checkout">
+
+        <h1>КОРЗИНА</h1>
     
         <!-- sixteen-column cart layout -->
         <div class="cart cart-summary-page">
-            
+
             {foreach $cart.items as $item}
+
+                <ul class="cart-rows">
+                    <li class="cart-row" data-id="{$item.id}">
+                        <div class="cart-row__inner">
+                            <a class="cart-row__link cart-row__element" href="{$wa->shop->productUrl($item.product)}" title="{$item.product.name|escape}">
+                                {$wa->shop->productImgHtml($item.product, '96x96', ['default' => "`$wa_theme_url`img/dummy48.png"])}
+                                <span class="cart-row__name cart-row__element">
+                                    {$item.product.name|escape|upper}
+                                    {*if $item.sku_name && $item.sku_name != $item.product.name}{$item.sku_name|escape}{/if*}
+                                </span>
+                            </a>
+                            <span class="cart-row__sku cart-row__element">
+                                <span class="cart-row__sku-value">{$item.sku_name}</span>
+                                <!--<select class="cart-row__sku-select">
+                                    {foreach $wa->shop->product($item.product.id)->skus as $sku}
+                                        <option value="{$sku.id}" data-price="{$sku.price}" {if $sku.id == $item.sku_id}selected{/if}>{$sku.name}</option>
+                                    {/foreach}
+                                </select>-->
+                                <!--<a class="cart-row__sku-select" href="#" data-sku-id="{$item.sku_id}">
+                                    <span class="cart-row__sku-value">
+                                        {$item.sku_name}
+                                    </span>
+                                    <span class="cart-row__sku-arrow"></span>
+                                </a>
+
+                                <ul class="cart-row__sku-list" style="display: none">
+                                    {foreach $wa->shop->product($item.product.id)->skus as $sku}
+                                        <li class="cart-row__sku-item" data-id="{$sku.id}" data-price="{$sku.price}">{$sku.name}</li>
+                                    {/foreach}
+                                </ul>-->
+                            </span>
+
+                            <span class="cart-row__price cart-row__element">
+                                {shop_currency_html($item.full_price, true)}
+                            </span>
+
+                            <a href="#" title="Удалить из корзины" class="delete cart-row__delete cart-row__element">
+
+                            </a>
+
+                        </div>
+                    </li>
+                </ul>
+                {if !empty($item.error)}<script>alert({json_encode($item.error)});</script>{/if}
+
+            {/foreach}
+
+            <div class="cart-total">
+                <span class="cart-total__label">Итого:</span>
+                <span class="cart-total__price">{shop_currency_html($cart.total, true)}</span>
+                <input type="submit" value="Оформление заказа" class="cart-total__checkout">
+            </div>
             
                 <!-- cart item -->
+            <!--
                 <div class="row" data-id="{$item.id}">                  
                     <div class="col w1 item-thumb"><a href="{$wa->shop->productUrl($item.product)}" title="{$item.product.name|escape}">{$wa->shop->productImgHtml($item.product, '96x96', ['default' => "`$wa_theme_url`img/dummy48.png"])}</a>&nbsp;</div>
                     <div class="col w9 item-name">
@@ -26,16 +79,16 @@
                         {if $item.sku_name && $item.sku_name != $item.product.name}{$item.sku_name|escape}{/if}
                     </div>
                     <div class="col w2 item-qty align-center nowrap"><span class="gray">&times;</span> <input type="text" name="quantity[{$item.id}]" value="{$item.quantity}" class="qty{if !empty($item.error)} error{/if}"></div>
-                    <div class="col w1 item-remove"><a class="delete" href="#" title="[`Remove from cart`]"><i class="icon16 remove"></i></a></div>                        
+                    <div class="col w1 item-remove">
+                        <a class="delete" href="#" title="[`Remove from cart`]"><i class="icon16 remove"></i></a></div>
                     <div class="col w3 align-center item-total nowrap">{shop_currency_html($item.full_price, true)}</div>
 
                     {if !empty($item.services)}
-                    <!-- services -->
+
                     <div class="clear-both">
                         <div class="col w1 item-thumb">&nbsp;</div>
                         <div class="col w15 services">
                             {foreach $item.services as $service_id => $s}
-                            <!-- one option -->
                             <div {if !empty($s.id)}data-id="{$s.id}"{/if}>
                             <label>
                                 <input {if !empty($s.id)}checked{/if} type="checkbox" name="services[{$item.id}][]" value="{$service_id}"> {$s.name|escape} {if $s.price && !isset($s.variants)}(<span>+{shop_currency_html($s.price, $s.currency)}</span>){/if}
@@ -59,7 +112,7 @@
                             {foreach $cart.items as $item}{$_exclude_ids[] = $item.product.id}{/foreach}
                             {$related = $wa->shop->crossSelling($item.product.id, 5, true, $_exclude_ids)}
                             {if $related}
-                                <!-- cross-selling -->
+
                                 <div class="clear-both" data-id="{$item.id}">
                                     <div class="col w1 item-thumb">&nbsp;</div>
                                     <div class="col w15 small related">
@@ -72,9 +125,8 @@
                     {/if}
                     
                 </div>
-                {if !empty($item.error)}<script>alert({json_encode($item.error)});</script>{/if}
-            {/foreach}
-            
+                -->
+
             <!-- discount -->
             <div class="row no-border" {if !shopDiscounts::isEnabled('coupons') && !$discount}style="display:none"{/if} id="discount-row">
                 <div class="col w10 cart-coupon no-border">
@@ -112,6 +164,7 @@
             {/if}
             
             <!-- TOTAL -->
+        <!--
             <div class="row large no-border">
                 <div class="col w12 no-border">
                     [`Total`]
@@ -128,8 +181,9 @@
                 </div>
             </div>
             {/if}
-            
+            -->
             <!-- CHECKOUT -->
+        <!--
             <div class="row no-border">
                 <div class="col w10 no-border featured-shipping-and-payment">
                     {*
@@ -150,7 +204,7 @@
                     <input name="checkout" type="submit" value="[`Proceed to checkout`] &rarr;" class="button large">
                 </div>
             </div>
-            
+            -->
             {$related = $wa->shop->crossSelling($cart.items, 'product_id')}
             {if $theme_settings.cart_crossselling == 'common' && $related}
                 <div class="row no-border">

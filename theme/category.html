@@ -6,6 +6,8 @@
 {* @event frontend_category.%plugin_id% *}
 {foreach $frontend_category as $_}{$_}{/foreach}
 
+{*debug*}
+
 <!-- filtering by product features -->    
 {if !empty($filters)}
 {if waRequest::isXMLHttpRequest() && waRequest::get('page', 1) == 1}
