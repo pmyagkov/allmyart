@@ -191,6 +191,10 @@ input:-ms-input-placeholder {
 /* Misc elements
 ---------------- */
 
+.globalfooter {
+  display: none;
+}
+
 .block {
   padding: 25px 30px;
 }
@@ -522,6 +526,16 @@ ul.tree ul a {
   margin-top: 20px;
 }
 
+.checkout-step__header-link {
+  text-transform: uppercase;
+  letter-spacing: 1.7px;
+}
+
+.checkout-step__header-link .step-number {
+  margin-right: 10px;
+  font-size: 150%;
+}
+
 .wa-form {
   float: left;
   margin: 10px 0;
@@ -535,12 +549,13 @@ ul.tree ul a {
 }
 
 .wa-form .wa-field .wa-name {
-  float: left;
-  width: 155px;
-  padding-top: 0.05em;
-  padding-bottom: 10px;
-  font-size: 0.95em;
-  color: #888;
+  color: black;
+  padding: 0;
+  margin-bottom: 6px;
+}
+
+.wa-form .wa-field .wa-name::after {
+  content: ':';
 }
 
 .wa-form .wa-field.wa-separator {
@@ -548,9 +563,30 @@ ul.tree ul a {
 }
 
 .wa-form .wa-field .wa-value {
-  margin-left: 180px;
   margin-bottom: 5px;
   position: relative;
+}
+
+.wa-form .wa-field .wa-value input[type="text"] {
+  border-radius: 50px;
+  border: 1px rgba(0,0,0,0.2) solid;
+  padding: 9px 0 10px 11px;
+  margin-left: -14px;
+  width: 320px;
+  display: inline-block;
+  outline: 0;
+}
+
+.checkout .wa-form .wa-field .wa-value p {
+  margin: 0;
+}
+
+.wa-form {
+  padding: 6px 0 0 30px;
+}
+
+.wa-form .wa-field {
+  padding: 0 0 10px 0;
 }
 
 .wa-form .wa-field .wa-value input.wa-error {
@@ -561,14 +597,6 @@ ul.tree ul a {
   font-size: 0.9em;
   color: red;
   display: block;
-}
-
-.wa-form .wa-field .wa-value input[type="text"],
-.wa-form .wa-field .wa-value input[type="email"],
-.wa-form .wa-field .wa-value input[type="password"] {
-  width: 30%;
-  min-width: 260px;
-  margin: 0;
 }
 
 .wa-form .wa-field .wa-value textarea {
@@ -630,7 +658,7 @@ ul.tree ul a {
 .wa-form .wa-field .wa-value p input[type="checkbox"] {
   display: inline;
 }
-
+/*
 .wa-form .wa-field .wa-value p .field.wa-required span:after {
   content: " *";
   color: #faa;
@@ -640,7 +668,7 @@ ul.tree ul a {
   content: " *";
   color: #faa;
 }
-
+*/
 .wa-signup-form .wa-form .wa-field.wa-field-email {
   margin-top: 20px;
 }
@@ -1364,7 +1392,7 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
   background-image: url('img/logo_s.png');
   width: 162px;
   height: 48px;
-  margin: 0 0 48px -11px;
+  margin: 15px 0 42px -2px;
   display: block;
 }
 
@@ -1376,12 +1404,14 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
 }
 
 .aside .sidebar-categories__header {
-  margin-bottom: .8em;
+  margin-bottom: 10px;
   font-weight: 800;
+  margin-left: 8px;
 }
 
 .aside .sidebar-categories__item {
-  margin-bottom: .4em;
+  margin-bottom: 4px;
+  margin-left: 8px;
 }
 
 .aside .sidebar-categories,
