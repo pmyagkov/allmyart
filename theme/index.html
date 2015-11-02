@@ -76,7 +76,7 @@
                 </span>
                 <a href="/cart" class="cart">КОРЗИНА
                     {$cart_total = $wa->shop->cart->total()}
-                    <span class="cart__value">{$cart_total}</span>
+                    <span class="cart__value">{shop_currency_html($cart_total, true)}</span>
                 </a>
             </div>
         </div>

@@ -341,20 +341,6 @@ input:-ms-input-placeholder {
   margin: 0 3px;
 }
 
-.tags {
-  line-height: 1.6em;
-}
-
-.tags a {
-  color: green !important;
-  display: inline !important;
-  padding: 0 4px !important;
-}
-
-.tags a:hover {
-  color: red !important;
-}
-
 .welcome {
   text-align: center;
   background: url('img/welcome.png') no-repeat;
@@ -1487,11 +1473,6 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
 .header .wishlist__value,
 .header .cart__value {
   font-weight: 800;
-  margin-left: 2px;
-}
-
-span.cart__value::after {
-  content: '₽';
   margin-left: 2px;
 }
 
