@@ -31,24 +31,18 @@ function openFilesInDir(folderPath) {
     // The filter 'should' have missed out any folder objects
     if (fileList[i] instanceof File && fileList[i].hidden == false) {
       // get a reference to the new document
-      open(fileList[i]);
-    }
-  }
-}
+      var doc = open(fileList[i]);
+      try {
+        var result = processDocument(doc);
+      }
+      catch (e) {
+        alert('С документом ' + doc.name + ' какая-то хуйня! Гра, разберись!\n' + e.toString());
+        result = false;
+      }
 
-/**
- Обрабатывает все открытые документы.
- */
-function processAllDocuments() {
-  var doc;
-
-  for (var i = 0; i < app.documents.length; i++) {
-    doc = app.documents[i];
-    app.activeDocument = doc;
-    try {
-      processDocument(doc);
-    } catch (e) {
-      alert('С документом ' + doc.name + ' какая-то хуйня! Гра, разберись!\n' + e.toString());
+      if (result) {
+        doc.close(SaveOptions.DONOTSAVECHANGES);
+      }
     }
   }
 }
