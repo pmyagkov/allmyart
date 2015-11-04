@@ -93,7 +93,6 @@ function Product(form, options) {
     f.find('.adding2cart').addClass('icon24 loading').show();
 
     $.post(f.attr('action') + '?html=1', f.serialize(), function (response) {
-      debugger;
       f.find('.adding2cart').hide();
       if (response.status == 'ok') {
         var cart_total = $(".cart__value");

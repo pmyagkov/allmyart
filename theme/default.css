@@ -515,6 +515,7 @@ ul.tree ul a {
 .checkout-step__header-link {
   text-transform: uppercase;
   letter-spacing: 1.7px;
+  display: none;
 }
 
 .checkout-step__header-link .step-number {
@@ -524,14 +525,14 @@ ul.tree ul a {
 
 .wa-form {
   float: left;
-  margin: 10px 0;
   overflow: visible;
 }
 
-.wa-form .wa-field {
+.wa-form .wa-field,
+.wa-form p .field {
   clear: left;
-  margin: 0;
-  padding-top: 3px;
+  padding: 3px 0 10px 0;
+  margin: 0 0 0 14px;
 }
 
 .wa-form .wa-field .wa-name {
@@ -568,7 +569,18 @@ ul.tree ul a {
 }
 
 .wa-form {
-  padding: 6px 0 0 30px;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.wa-field-address-shipping {
+  position: absolute;
+  left: 388px;
+  top: 0;
+}
+
+.wa-field-address-shipping .wa-name {
+  display: none;
 }
 
 .wa-form .wa-field {
@@ -623,10 +635,15 @@ ul.tree ul a {
 }
 
 .wa-form .wa-field .wa-value p span {
-  color: #777;
-  font-size: 0.9em;
+  color: black;
+  margin-bottom: 6px;
   display: block;
 }
+
+.wa-form .wa-field .wa-value p span:first-child:not(.field):after {
+  content: ':';
+}
+
 
 .wa-form .wa-field .wa-value p i.icon16 {
   float: left;

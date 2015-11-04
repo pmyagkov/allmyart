@@ -1,8 +1,23 @@
 <div class="checkout-content" data-step-id="shipping">
+<h3>Способы доставки</h3>
 <ul class="checkout-options">
     {$external_methods = []}
-    {foreach $checkout_shipping_methods as $m}
+    {foreach $checkout_shipping_methods as $m name="shipping_methods"}
         <li class="shipping-{$m.id}">
+
+            <label class="shipping__label">
+                <input type="radio" name="shipping_id" value="{$m.id}" {if $smarty.foreach.shipping_methods.first}checked{/if} {if $m.external || !empty($m.error)}disabled{/if}>
+                <div class="shipping__icon"></div>
+            </label>
+            <div class="shipping__description">
+                <span class="shipping__name">
+                    {$m.name|escape}
+                </span>
+                <br>
+                {$m.description}
+            </div>
+
+            <!--
             {if empty($m.error)}
             <div class="rate">
                 <span class="price nowrap">
@@ -37,7 +52,7 @@
             <h3>
                 <label>
                     {if !empty($m.logo)}<img src="{$m.logo}" class="method-logo">{/if}
-                    <input type="radio" name="shipping_id" value="{$m.id}" {if $m.external || !empty($m.error)}disabled{/if} {if $m.id == $shipping.id}checked{/if}>
+
                     {$m.name|escape}
                 </label> 
                     
@@ -59,6 +74,7 @@
                 <div class="clear-both"></div>
                 <div class="wa-form" {if $m.id != $shipping.id}style="display:none"{/if}>{$m.custom_html}</div>
             {/if}
+            -->
         </li>
     {foreachelse}
         <li>
