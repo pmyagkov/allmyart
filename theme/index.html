@@ -59,7 +59,6 @@
     
 </head>
 <body>
-{debug}
     <aside class="aside">
         {include file="`$wa_active_theme_path`/sidebar.html" inline}
     </aside>
@@ -81,87 +80,90 @@
                 </a>
             </div>
         </div>
+        {if !empty($breadcrumbs)}
+        <nav class="breadcrumbs" itemprop="breadcrumb">
+            {foreach $breadcrumbs as $breadcrumb}
+                {if $breadcrumb}
+                    <a href="{$breadcrumb.url}">{$breadcrumb.name|escape}</a> <span class="rarr">&rarr;</span>
+                {/if}
+            {/foreach}
+        </nav>
+        {/if}
+
         <!-- APP CONTENT -->
         <main class="maincontent" role="main">
             <div class="container">
                 {$content}
             </div>
 
-            <!-- FOOTER -->
-            <footer class="globalfooter" role="contentinfo">
-                <div class="container">
-
-                    {*
-                    <div style="float:right">
-                        you might be looking for adding some footer content here
-                    </div>
-                    *}
-
-                    {if $wa->shop}
-                    <div class="footer-block">
-                        <a href="{$wa->getUrl('shop/frontend')}" class="top">[s`Shop`]</a>
-                        <a href="{$wa->getUrl('shop/frontend/cart')}">[s`Cart`]</a>
-                        <a href="{$wa->getUrl('shop/frontend/checkout')}">[s`Checkout`]</a>
-                    </div>
-                    {/if}
-
-                    {if $wa->photos}
-                    <div class="footer-block">
-                        <a href="{$wa->getUrl('photos/frontend')}" class="top">[s`Photos`]</a>
-                        <a href="{$wa->getUrl('photos/frontend')}">[s`Photostream`]</a>
-                        <a href="{$wa->getUrl('photos/frontend')}favorites/">[s`Favorites`]</a>
-                    </div>
-                    {/if}
-
-                    {if $wa->blog}
-                    <div class="footer-block">
-                        <a href="{$wa->getUrl('blog/frontend')}" class="top">[s`Blog`]</a>
-                        <a href="{$wa->getUrl('blog/frontend/rss')}">[s`RSS`]</a>
-                        {$blogs = $wa->blog->blogs()}
-                        {foreach $blogs as $b}
-                        <a href="{$b.link}">{$b.name}</a>
-                        {/foreach}
-                    </div>
-                    {/if}
-
-                    <div class="footer-block">
-                        <a href="#" class="top">[s`Contact us`]</a>
-                        {if $wa->shop}
-                        <span>{$wa->shop->settings('phone')}</span>
-                        <a href="mailto:{$wa->shop->settings('email')}">{$wa->shop->settings('email')}</a>
-                        {/if}
-                    </div>
-
-                    {if $wa->mailer && $wa->getUrl('mailer/frontend/subscribe')}
-                    <div class="footer-block mailer-subscribe">
-                        <a href="#" class="top">[s`Follow us`]</a>
-                        <form action="{$wa->getUrl('mailer/frontend/subscribe')}" id="mailer-subscribe-form" target="mailer-subscribe-iframe">
-                            <input type="email" name="email" placeholder="your@email.here">
-                            <input type="submit" value="[s`Subscribe`]">
-                        </form>
-                        <iframe id="mailer-subscribe-iframe" name="mailer-subscribe-iframe" src="javascript:true" style="width:0;height:0;border:0px solid #666;float:right;background: #666;"></iframe>
-                        <p style="display:none" id="mailer-subscribe-thankyou"><i>[s`Thank you! We’ll keep you posted.`]</i></p>
-                    </div>
-                    {/if}
-
-                    <div class="clear-both"></div>
-
-                </div>
-
-                <div class="container">
-                    <div class="appfooter">
-                        <div class="copyright">
-                            &copy; {time()|wa_datetime:"Y"}
-                            <a href="{$wa_url}">{$wa->accountName()}</a>
-                        </div>
-                        {include file="`$wa_active_theme_path`/footer.html" inline}
-                    </div>
-                </div>
-
-            </footer>
-
         </main>
     </div>
+
+    <!-- FOOTER -->
+    <footer class="globalfooter" role="contentinfo">
+
+        <div class="footer-bumper"></div>
+        <div class="footer-wrapper">
+            <div class="container">
+
+                {*
+                <div style="float:right">
+                    you might be looking for adding some footer content here
+                </div>
+                *}
+
+                {if $wa->shop}
+                <div class="footer-block">
+                    <a href="{$wa->getUrl('shop/frontend')}" class="top">[s`Shop`]</a>
+                    <a href="{$wa->getUrl('shop/frontend/cart')}">[s`Cart`]</a>
+                    <a href="{$wa->getUrl('shop/frontend/checkout')}">[s`Checkout`]</a>
+                </div>
+                {/if}
+
+                {if $wa->photos}
+                <div class="footer-block">
+                    <a href="{$wa->getUrl('photos/frontend')}" class="top">[s`Photos`]</a>
+                    <a href="{$wa->getUrl('photos/frontend')}">[s`Photostream`]</a>
+                    <a href="{$wa->getUrl('photos/frontend')}favorites/">[s`Favorites`]</a>
+                </div>
+                {/if}
+
+                {if $wa->blog}
+                <div class="footer-block">
+                    <a href="{$wa->getUrl('blog/frontend')}" class="top">[s`Blog`]</a>
+                    <a href="{$wa->getUrl('blog/frontend/rss')}">[s`RSS`]</a>
+                    {$blogs = $wa->blog->blogs()}
+                    {foreach $blogs as $b}
+                    <a href="{$b.link}">{$b.name}</a>
+                    {/foreach}
+                </div>
+                {/if}
+
+                <div class="footer-block">
+                    <a href="#" class="top">[s`Contact us`]</a>
+                    {if $wa->shop}
+                    <span>{$wa->shop->settings('phone')}</span>
+                    <a href="mailto:{$wa->shop->settings('email')}">{$wa->shop->settings('email')}</a>
+                    {/if}
+                </div>
+
+                {if $wa->mailer && $wa->getUrl('mailer/frontend/subscribe')}
+                <div class="footer-block mailer-subscribe">
+                    <a href="#" class="top">[s`Follow us`]</a>
+                    <form action="{$wa->getUrl('mailer/frontend/subscribe')}" id="mailer-subscribe-form" target="mailer-subscribe-iframe">
+                        <input type="email" name="email" placeholder="your@email.here">
+                        <input type="submit" value="[s`Subscribe`]">
+                    </form>
+                    <iframe id="mailer-subscribe-iframe" name="mailer-subscribe-iframe" src="javascript:true" style="width:0;height:0;border:0px solid #666;float:right;background: #666;"></iframe>
+                    <p style="display:none" id="mailer-subscribe-thankyou"><i>[s`Thank you! We’ll keep you posted.`]</i></p>
+                </div>
+                {/if}
+
+            </div>
+
+        </div>
+
+    </footer>
 
     
     {* admin-only slideout sidebar for nice and smooth real time theme customizations *}

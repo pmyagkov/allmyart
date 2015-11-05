@@ -196,10 +196,6 @@ input:-ms-input-placeholder {
 /* Misc elements
 ---------------- */
 
-.globalfooter {
-  display: none;
-}
-
 .block {
   padding: 25px 30px;
 }
@@ -1705,14 +1701,16 @@ body {
   white-space: nowrap;
 }
 
-.content-bumper {
+.content-bumper,
+.footer-bumper {
   width: 20%;
   max-width: 288px;
   min-width: 180px;
   display: inline-block;
 }
 
-.content-wrapper {
+.content-wrapper,
+.footer-wrapper {
   display: inline-block;
   margin-left: -4px;
   padding-left: 30px;
@@ -1802,6 +1800,8 @@ footer.globalfooter {
   padding-top: 25px;
   min-height: 40px;
   color: #888;
+
+  margin-top: 50px;
 }
 
 footer a,
