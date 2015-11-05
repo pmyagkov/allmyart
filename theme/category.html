@@ -2,13 +2,17 @@
     {$category.name|escape|upper}
 </h1>
 
+{$category|@print_r}
+
+<h5 class="category-count">
+    <!--{$wa->shop->productsCount($category.id)}-->
+</h5>
+
 <!-- plugin hook: 'frontend_category' -->
 {* @event frontend_category.%plugin_id% *}
 {foreach $frontend_category as $_}{$_}{/foreach}
 
-{*debug*}
-
-<!-- filtering by product features -->    
+<!-- filtering by product features -->
 {if !empty($filters)}
 {if waRequest::isXMLHttpRequest() && waRequest::get('page', 1) == 1}
 <link href="{$wa_static_url}wa-content/css/jquery-ui/base/jquery.ui.slider.css" rel="stylesheet" type="text/css">

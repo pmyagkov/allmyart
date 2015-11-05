@@ -3,7 +3,18 @@
 *}
 
 <div class="content">
-    
+    <h1 class="main-page__header">МОДУЛЬНЫЕ КАРТИНЫ "ALLMYART"</h1>
+    {$categories = $wa->shop->categories(0, null, true)}
+    <div class="pop">
+    {foreach $categories as $cat}
+        <div class="pop__cat pop__cat_{$cat.name}">
+            <a href="{$cat.url}" class="pop__cat-link pop__cat-link_{$cat.name}">{$cat.name|escape|upper}</a>
+        </div>
+    {/foreach}
+    </div>
+
+
+
     {$promocards = $wa->shop->promos()}
     {$bestsellers = $wa->shop->productSet( $theme_settings.homepage_productset_bestsellers )}
     
@@ -100,15 +111,23 @@
     <!-- plugin hook: 'frontend_homepage' -->
     {* @event frontend_homepage.%plugin_id% *}
     {foreach $frontend_homepage as $_}{$_}{/foreach}
-    
+
+    <div class="no-news">
+        <h3 class="no-news__header">НЕНОВОСТИ ПРО НАС</h3>
+        <div class="no-news__text">Сегодня большинство жителей городов предпочитают оформлять в восточном стиле какую-то одну комнату в доме, и чаще всего это бывает спальня. И центральное место здесь занимает кровать, которая сильно отличается от привычной нам мебели. Она должна быть довольно низкой, скорее напоминать матрас, и не иметь изголовья. И, конечно, над ней обязательно должны висеть восточные картины для спальни, которые не только создают уют и особую атмосферу, но и рассказывают об идеальном вкусе хозяина дома.
+            Особое внимание нужно обратить и на другой немаловажный факт, а точнее - на минимальное количество мебели. Привычные для этого помещения шкафы до потолка желательно заменить комодами, или даже сундуками. А можно сделать небольшую гардеробную, которая будет скрыта за плотной шторой красного оттенка.
+            Картины для восточного интерьера нужно подбирать не менее тщательно.
+        </div>
+    </div>
+
     <!-- BESTSELLERS product list -->
     {if $bestsellers}
     
         <section class="bestsellers">
             {if $theme_settings.homepage_bestsellers_title}
-                <h5 class="bestsellers-header">{str_replace('{$date}', $smarty.now|wa_datetime:"humandate", $theme_settings.homepage_bestsellers_title)}</h5>
+                <h5 class="bestsellers-header">{str_replace('{$date}', $smarty.now|wa_datetime:"f", $theme_settings.homepage_bestsellers_title)|upper}</h5>
             {/if}
-            {include file="list-thumbs.html" products=$bestsellers disable_compare=true}
+            {include file="list-thumbs.html" products=$bestsellers disable_compare=true mini=true}
         </section>
         
     {else}

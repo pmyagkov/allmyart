@@ -59,6 +59,7 @@
     
 </head>
 <body>
+{debug}
     <aside class="aside">
         {include file="`$wa_active_theme_path`/sidebar.html" inline}
     </aside>
@@ -66,7 +67,7 @@
     <div class="content-wrapper">
         <div class="header">
             <span class="phone-wrapper">
-                <span class="phone">8-800-263-34-46 | 8-800-263-34-46</span>
+                <span class="phone">{$wa->shop->settings('phone')}</span>
                 <span class="email">order@allmyart.ru</span>
             </span>
 
