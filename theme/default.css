@@ -1567,11 +1567,21 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
   display: block;
 }
 
-.aside .sidebar-categories {
+.aside .sidebar-categories,
+.aside .sidebar-fixed-pages {
   margin: 80px 0 0 0;
   display: inline-block;
   text-align: left;
   position: relative;
+  width: 160px;
+}
+
+.aside .sidebar-fixed-pages {
+  margin-top: 0px;
+}
+
+.sidebar-fixed-pages > .sidebar-categories__item:first-child {
+  margin-top: 30px;
 }
 
 .aside .sidebar-categories__header {
@@ -1588,6 +1598,10 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
 .aside .sidebar-categories,
 .aside .category-link {
   color: white;
+}
+
+.category-link_emphasis {
+  font-weight: 800;
 }
 
 
@@ -1629,6 +1643,7 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
 .header {
   white-space: nowrap;
   padding: 45px 0 15px 0;
+  width: 850px;
 }
 
 .header .phone-wrapper,
@@ -1713,8 +1728,10 @@ body {
 .footer-wrapper {
   display: inline-block;
   margin-left: -4px;
-  padding-left: 30px;
-  max-width: 1045px;
+  padding: 0 30px;
+  box-sizing: border-box;
+  /*max-width: 1045px;*/
+  width: 905px;
 }
 
 .maincontent {

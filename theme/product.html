@@ -1,7 +1,7 @@
 <link href="{$wa_theme_url}swipebox/css/swipebox.min.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="{$wa_theme_url}swipebox/js/jquery.swipebox.js"></script>
 
-<article itemscope itemtype="http://schema.org/Product">
+<article class="product-container" itemscope itemtype="http://schema.org/Product">
     {*$product|@print_r*}
     <h1>
         <span itemprop="name">{$product.name|escape|upper}</span>

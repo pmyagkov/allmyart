@@ -21,6 +21,16 @@
         {/if}-->
     {/foreach}
 </div>
+<div></div>
+<div class="sidebar-fixed-pages">
+    {foreach $wa->shop->pages() as $page}
+        {if $page.sidebar == "true"}
+        <div class="sidebar-categories__item">
+            <a class="category-link category-link_emphasis" href="{$page.url}">{$page.name|upper}</a>
+        </div>
+        {/if}
+    {/foreach}
+</div>
 
 <div class="sidebar-socials">
     <ul class="social-list">
