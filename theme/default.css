@@ -9,6 +9,22 @@
  * @package Webasyst
  */
 
+@font-face {
+  font-family: 'Museo Sans Cyrl';
+  src: url('MuseoSansCyrl-500.eot');
+  src: local('Museo Sans Cyrl'), url('MuseoSansCyrl-500.woff') format('woff'), url('MuseoSansCyrl-500.ttf') format('truetype'), url('MuseoSansCyrl-500.svg') format('svg');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Museo Sans Cyrl';
+  src: url('MuseoSansCyrl-900.eot');
+  src: local('Museo Sans Cyrl'), url('MuseoSansCyrl-900.woff') format('woff'), url('MuseoSansCyrl-900.ttf') format('truetype'), url('MuseoSansCyrl-900.svg') format('svg');
+  font-weight: 800;
+  font-style: normal;
+}
+
 .wishlist {
   display: none;
 }
@@ -316,8 +332,6 @@ input:-ms-input-placeholder {
 }
 
 .container {
-  min-width: 650px;
-  max-width: 970px;
   margin: 0 auto;
   padding: 0;
 }
@@ -1540,9 +1554,8 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
   bottom: 0;
   left: 0;
 
-  width: 20%;
-  max-width: 288px;
-  min-width: 180px;
+  width: 288px;
+  /*min-width: 180px;*/
 
   text-align: center;
 
@@ -1642,8 +1655,8 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
 
 .header {
   white-space: nowrap;
-  padding: 45px 0 15px 0;
-  width: 850px;
+  padding: 45px 47px 15px 47px;
+  margin: 0 -47px;
 }
 
 .header .phone-wrapper,
@@ -1712,26 +1725,38 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
   margin-left: 2px;
 }
 
+
+.category-name {
+  font-size: 3em;
+  letter-spacing: 1.7px;
+}
+
+
 body {
   white-space: nowrap;
+  font-family: "Museo Sans Cyrl", "Helvetica Neue", Verdana, "sans-serif";
 }
 
 .content-bumper,
 .footer-bumper {
-  width: 20%;
-  max-width: 288px;
-  min-width: 180px;
+  width: 288px;
   display: inline-block;
+  min-width: 180px;
 }
 
 .content-wrapper,
 .footer-wrapper {
   display: inline-block;
   margin-left: -4px;
-  padding: 0 30px;
+  padding: 0 47px;
   box-sizing: border-box;
-  /*max-width: 1045px;*/
-  width: 905px;
+}
+
+.content-wrapper,
+.footer-wrapper,
+.header {
+  box-sizing: border-box;
+  width: 940px;
 }
 
 .maincontent {
@@ -2605,17 +2630,6 @@ html.font_size_16 body {
   .wa-signup-form .wa-form .wa-field.wa-field-password_confirm .wa-value input {
     min-width: 160px;
     width: 160px;
-  }
-
-}
-
-/* WIDE
-========= */
-
-@media screen and (min-width: 1300px) {
-
-  .container {
-    max-width: 1200px;
   }
 
 }

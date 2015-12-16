@@ -73,6 +73,7 @@ span.loading { position: relative; top: 4px; left: 10px; }
 
 ul.thumbs {
   padding: 0;
+  margin-right: -40px;
 }
 
 ul.thumbs li {
@@ -84,10 +85,6 @@ ul.thumbs li {
   position: relative;
   text-align: left;
   line-height: 1.3em;
-}
-
-ul.thumbs li:nth-child(2n) {
-  margin-right: 0;
 }
 
 ul.thumbs li .image {
@@ -1261,11 +1258,37 @@ h1 .order-status { font-size: 0.75em; margin-left: 10px; }
     .dialog-window .dialog-close { margin-right: 25px; }
 }
 
-/* WIDE
-======= */
-
-@media screen and (min-width: 1300px) {
-
-    .promos ul li a { padding-top: 25px; height: 83px; }
-
+@media screen and (max-width: 1120px) {
+  .footer-bumper,
+  .content-bumper,
+  .aside {
+    width: 180px;
+  }
 }
+
+@media screen and (min-width: 1120px) and (max-width: 1228px) {
+  .footer-bumper,
+  .content-bumper,
+  .aside {
+    width: 180px;
+    width: calc(100% - 940px);
+  }
+}
+
+@media screen and (min-width: 1680px) {
+  .content-wrapper,
+  .footer-wrapper,
+  .header {
+    width: 1385px;
+  }
+}
+
+@media screen and (min-width: 2120px) {
+  .content-wrapper,
+  .footer-wrapper,
+  .header {
+    width: 1830px;
+  }
+}
+
+
