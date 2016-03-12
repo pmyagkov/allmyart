@@ -7,8 +7,8 @@
     {$categories = $wa->shop->categories(0, null, true)}
     <div class="pop">
     {foreach $categories as $cat}
-        <div class="pop__cat pop__cat_{$cat.name}">
-            <a href="{$cat.url}" class="pop__cat-link pop__cat-link_{$cat.name}">{$cat.name|escape|upper}</a>
+        <div class="pop__cat pop__cat_{$cat.id}">
+            <a href="{$cat.url}" class="pop__cat-link pop__cat-link_{$cat.id}">{$cat.name|escape|upper}</a>
         </div>
     {/foreach}
     </div>

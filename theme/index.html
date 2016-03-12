@@ -93,6 +93,19 @@
         <!-- APP CONTENT -->
         <main class="maincontent" role="main">
             <div class="container">
+
+                {if $page && $page.mainish == "true"}
+                    {$categories = $wa->shop->categories(0, null, true)}
+                    <div class="pop">
+                        {foreach $categories as $cat}
+                        <div class="pop__cat pop__cat_{$cat.id}">
+                            <a href="{$cat.url}" class="pop__cat-link pop__cat-link_{$cat.id}">{$cat.name|escape|upper}</a>
+                        </div>
+                        {/foreach}
+                    </div>
+
+                {/if}
+
                 {$content}
             </div>
 

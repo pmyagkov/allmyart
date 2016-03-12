@@ -11,16 +11,16 @@
 
 @font-face {
   font-family: 'Museo Sans Cyrl';
-  src: url('MuseoSansCyrl-500.eot');
-  src: local('Museo Sans Cyrl'), url('MuseoSansCyrl-500.woff') format('woff'), url('MuseoSansCyrl-500.ttf') format('truetype'), url('MuseoSansCyrl-500.svg') format('svg');
+  src: url('fonts/MuseoSansCyrl-500.eot');
+  src: local('Museo Sans Cyrl'), url('fonts/MuseoSansCyrl-500.woff') format('woff'), url('fonts/MuseoSansCyrl-500.ttf') format('truetype'), url('fonts/MuseoSansCyrl-500.svg') format('svg');
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Museo Sans Cyrl';
-  src: url('MuseoSansCyrl-900.eot');
-  src: local('Museo Sans Cyrl'), url('MuseoSansCyrl-900.woff') format('woff'), url('MuseoSansCyrl-900.ttf') format('truetype'), url('MuseoSansCyrl-900.svg') format('svg');
+  src: url('fonts/MuseoSansCyrl-900.eot');
+  src: local('Museo Sans Cyrl'), url('fonts/MuseoSansCyrl-900.woff') format('woff'), url('fonts/MuseoSansCyrl-900.ttf') format('truetype'), url('fonts/MuseoSansCyrl-900.svg') format('svg');
   font-weight: 800;
   font-style: normal;
 }
@@ -49,6 +49,7 @@ article, aside, credentials, figcaption, figure, footer, header, hgroup, menu, n
 html,
 body {
   width: 100%;
+  height: 100%;
   min-height: 100%;
   font-family: 'Helvetica Neue', Arial, sans-serif;
   font-size: 14px;
@@ -521,7 +522,7 @@ ul.tree ul a {
   width: 100%;
   height: 100%;
   display: block;
-  color: white;
+  color: white !important;
   -webkit-transition: transform .5s;
   -moz-transition: transform .5s;
   -o-transition: transform .5s;
@@ -552,55 +553,61 @@ ul.tree ul a {
   vertical-align: middle;
 }
 
-.pop__cat_Абстракция {
+/* Абстракции */
+.pop__cat_1 {
   border-left: 0;
   border-top: 0;
 }
 
-.pop__cat-link_Абстракция {
+.pop__cat-link_1 {
   background: url('img/cat-abstract.jpg') 50% 10%;
 }
 
-.pop__cat_Животные {
-  border-left: 0;
-  top: 30%;
-}
-
-.pop__cat-link_Животные {
-  background: url('img/cat-animals.jpg') 15% 66%;
-}
-
-.pop__cat_Город {
-  border-left: 0;
-  border-bottom: 0;
-  top: 60%;
-  width: 50%;
-}
-
-.pop__cat-link_Город {
-  background: url('img/cat-city.jpg') 50% 88%;
-}
-
-.pop__cat_Пейзаж {
+/* Пейзажи */
+.pop__cat_11 {
   border-top: 0;
   left: 25%;
   height: 60%;
 }
 
-.pop__cat-link_Пейзаж {
+.pop__cat-link_11 {
   background: url('img/cat-landscape.jpg') 70% 60%;
 }
 
-.pop__cat_Детское {
+/* Для детей */
+.pop__cat_6 {
   border-top: 0;
   left: 50%;
 }
 
-.pop__cat-link_Детское {
+.pop__cat-link_6 {
   background: url('img/cat-child.jpg') 50% 14%;
 }
 
-.pop__cat_Предметы {
+/* Любовь */
+.pop__cat_12 {
+  border-right: 0;
+  border-top: 0;
+  top: 0;
+  left: 75%;
+}
+
+.pop__cat-link_12 {
+  background: url('img/cat-love2.jpg');
+}
+
+/* Животные */
+.pop__cat_7 {
+  border-left: 0;
+  top: 30%;
+}
+
+.pop__cat-link_7 {
+  background: url('img/cat-animals.jpg') 15% 66%;
+}
+
+/* Сюжеты */
+.pop__cat_14 {
   border-bottom: 0;
   height: 60%;
   width: 12.5%;
@@ -608,11 +615,12 @@ ul.tree ul a {
   top: 30%;
 }
 
-.pop__cat-link_Предметы {
-  background: url('img/cat-things.jpg') 10% 70%;
+.pop__cat-link_14 {
+  background: url('img/cat-plots.jpg') 10% 70%;
 }
 
-.pop__cat_Цветы {
+/* Цветы */
+.pop__cat_15 {
   border-bottom: 0;
   left: 62.5%;
   top: 30%;
@@ -620,40 +628,43 @@ ul.tree ul a {
   width: 12.5%;
 }
 
-.pop__cat-link_Цветы {
+.pop__cat-link_15 {
   background: url('img/cat-flowers.jpg') 80% 50%;
 }
 
-.pop__cat_Девушки {
-  border-top: 0;
-  border-right: 0;
-  top: 0;
-  left: 75%;
-}
-
-.pop__cat-link_Девушки {
-  background: url('img/cat-girls.jpg') 30% 20%;
-}
-
-.pop__cat_Любовь {
+/* Люди */
+.pop__cat_8 {
   border-right: 0;
   top: 30%;
   left: 75%;
 }
 
-.pop__cat-link_Любовь {
-  background: url('img/cat-love.jpg');
+.pop__cat-link_8 {
+  background: url('img/cat-people.jpg') 30% 20%;
 }
 
-.pop__cat_Море {
+/* Город */
+.pop__cat_3 {
+  border-left: 0;
+  border-bottom: 0;
+  top: 60%;
+  width: 50%;
+}
+
+.pop__cat-link_3 {
+  background: url('img/cat-city.jpg') 50% 88%;
+}
+
+/* Натюрморты */
+.pop__cat_10 {
   border-right: 0;
   border-bottom: 0;
   top: 60%;
   left: 75%;
 }
 
-.pop__cat-link_Море {
-  background: url('img/cat-sea.jpg') 60% 18%;
+.pop__cat-link_10 {
+  background: url('img/cat-stilllife.jpg') 60% 18%;
 }
 
 
@@ -1737,6 +1748,10 @@ body {
   font-family: "Museo Sans Cyrl", "Helvetica Neue", Verdana, "sans-serif";
 }
 
+.content-wrapper {
+  min-height: calc(100% - 118px);
+}
+
 .content-bumper,
 .footer-bumper {
   width: 288px;
@@ -1843,7 +1858,7 @@ footer.globalfooter {
   min-height: 40px;
   color: #888;
 
-  margin-top: 50px;
+  /*margin-top: 50px;*/
 }
 
 footer a,

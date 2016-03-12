@@ -1,0 +1,33 @@
+<h1 class="category-name">
+    {$title|escape}
+</h1>
+
+<!-- description -->
+{if $collection.description}
+    <p>{$collection.description}</p>
+{/if}
+
+
+{if !$products}
+    [`No products were found.`]
+{else}
+    <div id="product-list">
+    {include file="themes/{$theme}/list-thumbs.html"}    
+    </div>
+{/if}
+{if $collection.likeThis}
+<ul class="product-nav top-padded">
+    {foreach from=$collection.likeThis item=item}
+    {$item|@print_r}
+    <li><a href="{$frontend_url}tags_{$item.url}">{$item.title}</a></li>
+    {/foreach}
+</ul>
+{/if}
+{if $collection.notLikeThis}
+<ul class="product-nav top-padded">
+    {foreach from=$collection.notLikeThis item=item}
+    {$item|@print_r}
+    <li><a href="{$frontend_url}tags_{$item.url}">{$item.title}</a></li>
+    {/foreach}
+</ul>
+{/if}

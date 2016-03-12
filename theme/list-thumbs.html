@@ -52,7 +52,9 @@
         </a>
         <div class="product-stats">
             <div class="product-name-price-wrapper">
-                <div class="product-name" itemprop="name">{$p.name}</div>
+                <div class="product-name-wrapper">
+                    <div class="product-name" itemprop="name">{$p.name}</div>
+                </div>
                 <div class="product-price">от {shop_currency_html($p.price)}</div>
                 <meta itemprop="price" content="{$p.price}">
                 <meta itemprop="priceCurrency" content="{$wa->shop->primaryCurrency()}">

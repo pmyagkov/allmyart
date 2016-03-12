@@ -20,7 +20,7 @@
 
                 <ul class="cart-rows">
                     <li class="cart-row" data-id="{$item.id}">
-                        <div class="cart-row__inner">
+                        <div class="cart-row__inner" style="float: left">
                             <a class="cart-row__link cart-row__element" href="{$wa->shop->productUrl($item.product)}" title="{$item.product.name|escape}">
                                 {$wa->shop->productImgHtml($item.product, '96x96', ['default' => "`$wa_theme_url`img/dummy48.png"])}
                                 <span class="cart-row__name cart-row__element">
@@ -28,6 +28,9 @@
                                     {*if $item.sku_name && $item.sku_name != $item.product.name}{$item.sku_name|escape}{/if*}
                                 </span>
                             </a>
+                        </div>
+
+                        <div class="cart-row__inner-right" style="float: right">
                             <span class="cart-row__sku cart-row__element">
                                 <span class="cart-row__sku-value">{$item.sku_name}</span>
                                 <!--<select class="cart-row__sku-select">
@@ -56,7 +59,6 @@
                             <a href="#" title="Удалить из корзины" class="delete cart-row__delete cart-row__element">
 
                             </a>
-
                         </div>
                     </li>
                 </ul>
