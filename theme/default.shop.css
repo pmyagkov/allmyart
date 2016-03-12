@@ -38,8 +38,8 @@ span.loading { position: relative; top: 4px; left: 10px; }
 }
 
 .thumbs .product-name-wrapper {
-  height: 40px;
   max-width: 220px;
+  height: 18px;
 }
 
 .thumbs .product-name-wrapper:after {
@@ -52,7 +52,6 @@ span.loading { position: relative; top: 4px; left: 10px; }
 
 .thumbs .product-name {
   color: black;
-  margin-bottom: 4px;
 
   display: inline-block;
   vertical-align: middle;
@@ -60,6 +59,7 @@ span.loading { position: relative; top: 4px; left: 10px; }
 
 .thumbs .product-price {
   color: rgba(0, 0, 0, .5);
+  margin-top: 4px;
 }
 
 .thumbs .product-button {
@@ -229,14 +229,17 @@ ul.homepage-bxslider li { list-style: none; margin: 0; padding: 0; max-height: 3
 
 .no-news {
   float: left;
-  width: 50%;
-  padding-right: 49px;
-  text-align: justify;
+  width: 51%;
+  padding-right: 30px;
+  text-align: left;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .no-news__text {
-  font-size: 13px;
-  line-height: 15px;
+  font-size: 11px;
+  line-height: 13px;
 }
 
 .bestsellers .bestsellers-header,
@@ -256,11 +259,7 @@ ul.homepage-bxslider li { list-style: none; margin: 0; padding: 0; max-height: 3
 
 .thumbs.thumbs_mini li {
   max-width: 200px;
-  margin: 0 20px 20px 0;
-}
-
-.thumbs.thumbs_mini li:nth-child(4n+2) {
-  margin-right: 0;
+  margin: 0 13px 20px 0;
 }
 
 .thumbs_mini .product-stats {
