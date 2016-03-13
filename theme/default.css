@@ -527,6 +527,8 @@ ul.tree ul a {
   -moz-transition: transform .5s;
   -o-transition: transform .5s;
   transition: transform .5s;
+
+  background-size: cover !important;
 }
 
 .pop__cat-link:hover {
@@ -666,6 +668,36 @@ ul.tree ul a {
 .pop__cat-link_10 {
   background: url('img/cat-stilllife.jpg') 60% 18%;
 }
+
+
+
+.link-collections__title {
+  font-size: 44px;
+  text-transform: lowercase;
+  border: solid transparent;
+  border-top-width: 40px;
+  border-bottom-width: 28px;
+}
+
+.link-collections_similar {
+  background-color: #eeeeee;
+
+  margin-left: -47px;
+  padding-left: 47px;
+}
+
+.link-collections .thumbs_mini .product-name {
+  max-width: 200px;
+  margin-top: 10px;
+}
+
+.link-collections .image img {
+  height: 150px;
+  max-width: 200px;
+}
+
+
+
 
 
 /* Sign up & Login forms
@@ -2353,6 +2385,7 @@ html.font_size_16 body {
 /* TABLET
 ========= */
 
+/*
 @media screen and (min-width: 760px) and (max-width: 1024px) {
 
   body {
@@ -2375,7 +2408,7 @@ html.font_size_16 body {
     padding: 13px;
   }
 
-  /* @media screen and (orientation : portrait) { */
+  !* @media screen and (orientation : portrait) { *!
   @media screen and (max-width: 850px) {
 
     header .cart a {
@@ -2390,14 +2423,14 @@ html.font_size_16 body {
 
 }
 
-/* MOBILE
-========= */
+!* MOBILE
+========= *!
 
 @media screen and (max-width: 760px) {
 
   body {
     -webkit-text-size-adjust: 100%;
-    padding-top: 55px /* fixed #globalnav */;
+    padding-top: 55px !* fixed #globalnav *!;
   }
 
   #globalnav {
@@ -2449,7 +2482,7 @@ html.font_size_16 body {
   }
 
   .nav-negative {
-    display: block; /* mobile-only slide-out navigation */
+    display: block; !* mobile-only slide-out navigation *!
   }
 
   header h2 {
@@ -2648,3 +2681,4 @@ html.font_size_16 body {
   }
 
 }
+*/
