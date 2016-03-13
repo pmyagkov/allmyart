@@ -16,18 +16,41 @@
     </div>
 {/if}
 {if $collection.likeThis}
-<ul class="product-nav top-padded">
+<div class="link-collections link-collections_similar">
+    <div class="link-collections__title">Похожие коллекции</div>
+
+    <ul class="thumbs thumbs_mini">
     {foreach from=$collection.likeThis item=item}
-    {$item|@print_r}
-    <li><a href="{$frontend_url}tags_{$item.url}">{$item.title}</a></li>
+        <li>
+            <div class="image">
+                <a href="{$frontend_url}tags_{$item.url}" title="{$item.title}">
+                    <img src="{if $item['image']}{$item['image']}{else}{$pr = shopTagsCollectionPlugin::checkCollectionImage($item)}{$pr = $wa->shop->product($pr.id)}{$wa->shop->productImgUrl($pr, 200)}{/if}">
+                    <span class="product-name">{$item.title}</span>
+
+                </a>
+            </div>
+        </li>
     {/foreach}
-</ul>
+    </ul>
+</div>
 {/if}
+
 {if $collection.notLikeThis}
-<ul class="product-nav top-padded">
-    {foreach from=$collection.notLikeThis item=item}
-    {$item|@print_r}
-    <li><a href="{$frontend_url}tags_{$item.url}">{$item.title}</a></li>
-    {/foreach}
-</ul>
+<div class="link-collections link-collections_different">
+    <div class="link-collections__title">Другие коллекции</div>
+
+    <ul class="thumbs thumbs_mini">
+        {foreach from=$collection.notLikeThis item=item}
+        <li>
+            <div class="image">
+                <a href="{$frontend_url}tags_{$item.url}" title="{$item.title}">
+                    <img src="{if $item['image']}{$item['image']}{else}{$pr = shopTagsCollectionPlugin::checkCollectionImage($item)}{$pr = $wa->shop->product($pr.id)}{$wa->shop->productImgUrl($pr, 200)}{/if}">
+                    <span class="product-name">{$item.title}</span>
+
+                </a>
+            </div>
+        </li>
+        {/foreach}
+    </ul>
+</div>
 {/if}
