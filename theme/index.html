@@ -80,11 +80,80 @@
                 </a>
             </div>
         </div>
-        {if !empty($breadcrumbs)}
+        {$breadcrumbs = array()}
+        {$part = (object)array()}
+        {$part['url'] = ""}
+
+        {if is_array($category) or is_array($collection) or is_object($product)}
+            {$part['name'] = "Картины"}
+        {else}
+            {$part['name'] = "Главная"}
+        {/if}
+
+        {$breadcrumbs[0] = $part}
+
+        {$part = array()}
+        {if is_array($category)}
+            {$part.name = $category.name}
+            {$part.url = 'category/'|cat:$category.url}
+
+        {elseif is_array($collection)}
+            {$part.name = $collection.title}
+            {$part.url = $collection.url}
+
+        {elseif is_array($page)}
+            {$part = $page}
+        {/if}
+
+        {if $part.name}
+            {$breadcrumbs[1] = $part}
+        {/if}
+
+
+        {if is_object($product)}
+            {$cat = $wa->shop->category($product.category_id)}
+            {$cat.url = 'category/'|cat:$cat.url}
+            {$breadcrumbs[1] = $cat}
+
+            {$part.name = $product.name}
+            {$part.url = $product.url}
+            {$breadcrumbs[2] = $part}
+        {/if}
+
+<!--
+Диагностическая информация
+        {if is_array($category)}
+            CATEGORY:
+            {$category|@print_r}
+        {/if}
+        {if is_array($collection)}
+            COLLECTION:
+            {$collection|@print_r}
+        {/if}
+        {if is_object($product) && false}
+            PRODUCT:
+            {$product|@print_r}
+        {/if}
+        {if is_array($page)}
+            PAGE:
+            {$page|@print_r}
+        {/if}
+-->
+
+
+
+
+
+        {if !empty($breadcrumbs) and count($breadcrumbs) > 1}
         <nav class="breadcrumbs" itemprop="breadcrumb">
-            {foreach $breadcrumbs as $breadcrumb}
+            {foreach from=$breadcrumbs item=breadcrumb name="breadcrumbs_loop"}
                 {if $breadcrumb}
-                    <a href="{$breadcrumb.url}">{$breadcrumb.name|escape}</a> <span class="rarr">&rarr;</span>
+                    <a href="/{$breadcrumb.url}">{$breadcrumb.name|escape}</a>
+                    {if $smarty.foreach.breadcrumbs_loop.last}
+
+                    {else}
+                        <span class="rarr"> &rarr; </span>
+                    {/if}
                 {/if}
             {/foreach}
         </nav>

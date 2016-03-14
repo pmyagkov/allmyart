@@ -349,11 +349,14 @@ input:-ms-input-placeholder {
 }
 
 .breadcrumbs a {
-  color: #aaa;
+  text-transform: uppercase;
+}
+
+.breadcrumbs a:first-child {
+  text-decoration: underline;
 }
 
 .breadcrumbs span.rarr {
-  color: #ccc;
   margin: 0 3px;
 }
 
@@ -654,7 +657,7 @@ ul.tree ul a {
 }
 
 .pop__cat-link_3 {
-  background: url('img/cat-city.jpg') 50% 88%;
+  background: url('img/cat-city2.jpg') 50% 88%;
 }
 
 /* Натюрморты */
