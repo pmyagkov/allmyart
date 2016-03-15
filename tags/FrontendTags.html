@@ -1,6 +1,20 @@
 <h1 class="category-name">
     {$collection.title|escape}
+
 </h1>
+
+<h5 class="category-count">
+    {$collection.count}&nbsp;
+    {$modulus = $collection.count % 10}
+    {$modulus}
+    {if $modulus == 1}
+        картина
+    {elseif $modulus == 2 or $modulus == 3 or $modulus == 4}
+        картины
+    {else}
+        картин
+    {/if}
+</h5>
 
 <!-- description -->
 {if $collection.description}

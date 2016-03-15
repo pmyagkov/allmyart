@@ -13,7 +13,7 @@
   font-family: 'Museo Sans Cyrl';
   src: url('fonts/MuseoSansCyrl-500.eot');
   src: local('Museo Sans Cyrl'), url('fonts/MuseoSansCyrl-500.woff') format('woff'), url('fonts/MuseoSansCyrl-500.ttf') format('truetype'), url('fonts/MuseoSansCyrl-500.svg') format('svg');
-  font-weight: 500;
+  font-weight: 400;
   font-style: normal;
 }
 
@@ -1775,7 +1775,15 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
 .category-name {
   font-size: 3em;
   letter-spacing: 1.7px;
+  margin-bottom: 4px;
 }
+
+.category-count {
+  text-transform: uppercase;
+  color: #a0a0a0;
+  font-weight: normal;
+}
+
 
 
 body {
@@ -1816,7 +1824,6 @@ body {
 }
 
 .maincontent .container {
-  padding-top: 20px;
   padding-bottom: 20px;
 }
 

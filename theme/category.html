@@ -2,11 +2,20 @@
     {$category.name|escape|upper}
 </h1>
 
-{$category|@print_r}
-
 <h5 class="category-count">
-    <!--{$wa->shop->productsCount($category.id)}-->
+    {$category.count}&nbsp;
+
+    {$modulus = $category.count % 10}
+
+    {if $modulus == 1}
+        картина
+    {elseif $modulus == 2 or $modulus == 3 or $modulus == 4}
+        картины
+    {else}
+        картин
+    {/if}
 </h5>
+
 
 <!-- plugin hook: 'frontend_category' -->
 {* @event frontend_category.%plugin_id% *}

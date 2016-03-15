@@ -4,7 +4,9 @@
   <name locale="en_US">All my art</name>
   <name locale="ru_RU">All my art</name>
   <files>
-    <file path="index.html"/>
+    <file path="index.html" custom="0" modified="1">
+      <description locale="ru_RU"/>
+    </file>
     <file path="default.css"/>
     <file path="default.shop.css"/>
     <file path="default.shop.js"/>
@@ -24,9 +26,9 @@
       <description locale="en_US">App specific footer content</description>
       <description locale="ru_RU">Содержимое футера приложения</description>
     </file>
-    <file path="category.html">
+    <file path="category.html" custom="0" modified="1">
       <description locale="en_US">Wrapper for a category page</description>
-      <description locale="ru_RU">Обертка для страницы категории</description>
+      <description locale="ru_RU"></description>
     </file>
     <file path="list-thumbs.html">
       <description locale="en_US">Product list thumbnail view</description>
@@ -133,7 +135,9 @@
     <file path="login.html"/>
     <file path="signup.html"/>
     <file path="forgotpassword.html"/>
-    <file path="error.html"/>
+    <file path="error.html" custom="0" modified="1">
+      <description locale="ru_RU"/>
+    </file>
     <file path="default.js"/>
     <file path="reviews.js">
       <description locale="en_US">Reviews JS</description>
@@ -147,7 +151,7 @@
       <name locale="ru_RU">Витрина</name>
     </setting>
     <setting var="homepage_bxslider_mode" control_type="radio">
-      <value>promos</value>
+      <value>hidden</value>
       <name locale="ru_RU">Слайдер</name>
       <name locale="en_US">Slider</name>
       <options>
@@ -189,12 +193,11 @@
       <name locale="ru_RU">Показывать маленькие промо-карточки под слайдером</name>
     </setting>
     <setting var="homepage_bestsellers_title" control_type="text">
-      <value locale="en_US">Hot deals for {$date}</value>
-      <value locale="ru_RU">Лучшие предложения на {$date}</value>
+      <value>Лучшие картины {$date}</value>
       <name locale="en_US">Title above the bestseller list</name>
       <name locale="ru_RU">Заголовок над списком бестселлеров</name>
-      <description locale="en_US"><![CDATA[If provided, <b>{$date}</b> will be replaced with the current date]]></description>
-      <description locale="ru_RU"><![CDATA[Переменная <b>{$date}</b> в заголовке (если указана) будет заменена на текущую дату]]></description>
+      <description locale="en_US">If provided, &lt;b&gt;{$date}&lt;/b&gt; will be replaced with the current date</description>
+      <description locale="ru_RU">Переменная &lt;b&gt;{$date}&lt;/b&gt; в заголовке (если указана) будет заменена на текущую дату</description>
     </setting>
     <setting var="divider_storefront_sidebar" control_type="group_divider">
       <value/>
@@ -273,10 +276,10 @@
           <description locale="en_US">For products which are sold in selectable features mode, all feature values will be displayed inline. Great if feature value names are self-explanatory and explicit in context of a product, e.g. XL, 16 GB, 13”.</description>
         </option>
         <option value="select">
-          <name locale="ru_RU"><![CDATA[Выбор из списка &lt;select&gt;]]></name>
-          <name locale="en_US"><![CDATA[&lt;select&gt; HTML control]]></name>
-          <description locale="ru_RU"><![CDATA[Для товаров в режиме продажи «Выбор характеристик» значения характеристик будут предложены на выбор с помощью стандартного выбора &lt;select&gt;. Рекомендуется, если названия значений характеристик содержат более одного-двух слов или по значениям нельзя однозначно понять, о какой характеристике товара идет речь, например, «до 10 часов», «не предусмотрено».]]></description>
-          <description locale="en_US"><![CDATA[For products which are sold in selectable features mode, feature values will be displayed using a &lt;select&gt; HTML control. Recommended if value names are either too long or ambiguous in context of a product, e.g. “up to 10 hours”, “yes”.]]></description>
+          <name locale="ru_RU">Выбор из списка &amp;lt;select&amp;gt;</name>
+          <name locale="en_US">&amp;lt;select&amp;gt; HTML control</name>
+          <description locale="ru_RU">Для товаров в режиме продажи «Выбор характеристик» значения характеристик будут предложены на выбор с помощью стандартного выбора &amp;lt;select&amp;gt;. Рекомендуется, если названия значений характеристик содержат более одного-двух слов или по значениям нельзя однозначно понять, о какой характеристике товара идет речь, например, «до 10 часов», «не предусмотрено».</description>
+          <description locale="en_US">For products which are sold in selectable features mode, feature values will be displayed using a &amp;lt;select&amp;gt; HTML control. Recommended if value names are either too long or ambiguous in context of a product, e.g. “up to 10 hours”, “yes”.</description>
         </option>
       </options>
     </setting>
@@ -314,12 +317,12 @@
     <thumb>750</thumb>
     <thumb>970</thumb>
   </thumbs>
-  <about locale="en_US"><![CDATA[
-<p><b>ALLMYART</b> is a theme for allmyart site.</p>
-]]></about>
-  <about locale="ru_RU"><![CDATA[
-<p><b>ALLMYART</b> – это тема для сайта allmyart.</p>
-]]></about>
+  <about locale="en_US">
+&lt;p&gt;&lt;b&gt;ALLMYART&lt;/b&gt; is a theme for allmyart site.&lt;/p&gt;
+</about>
+  <about locale="ru_RU">
+&lt;p&gt;&lt;b&gt;ALLMYART&lt;/b&gt; – это тема для сайта allmyart.&lt;/p&gt;
+</about>
   <locales>
     <locale>
       <msgid>E.g. %s</msgid>
