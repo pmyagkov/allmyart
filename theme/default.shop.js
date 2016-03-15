@@ -269,7 +269,7 @@ $(document).ready(function () {
             return;
         }
 
-        var times = parseInt(paging.data('times'), 10);
+        var times = 9999;
         var link_text = paging.data('linkText') || 'Load more';
         var loading_str = paging.data('loading-str') || 'Loading...';
 

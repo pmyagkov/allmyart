@@ -1,8 +1,9 @@
 <h1 class="category-name">
-    {$collection.title|escape}
+    {$collection.title|escape|upper}
 
 </h1>
 
+<!--
 <h5 class="category-count">
     {$collection.count}&nbsp;
     {$modulus = $collection.count % 10}
@@ -15,6 +16,7 @@
         картин
     {/if}
 </h5>
+-->
 
 <!-- description -->
 {if $collection.description}
