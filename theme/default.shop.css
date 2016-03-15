@@ -1610,6 +1610,8 @@ input.error, textarea.error {
 .filters {
   width: 100%;
   text-align: center;
+  height: 32px;
+  margin: 10px 0 40px 0;
 }
 
 .filters input[type="text"] {
@@ -1658,12 +1660,12 @@ input.error, textarea.error {
 }
 
 .filters .filter-param_varchar .filter-param__value {
-  margin-right: 40px;
+  margin-right: 38px;
 }
 
 /* КОЛИЧЕСТВО МОДУЛЕЙ */
 .filters .filter-param_modulesnumber .filter-param__value_1 {
-  margin-right: 28px;
+  margin-right: 20px;
 }
 
 .filters .filter-param_modulesnumber .filter-param__value_1 :checked + .filter-param__img {
@@ -1695,6 +1697,10 @@ input.error, textarea.error {
 }
 
 /* ФОТО или ГРАФИКА */
+.filters .filter-param_style {
+  margin-left: 15px;
+}
+
 .filters .filter-param_style .filter-param__value_1 {
   margin-right: 57px;
 }
@@ -1728,6 +1734,10 @@ input.error, textarea.error {
   background-position: 40% 50%;
 }
 
+.filters .filter-param_orientation .filter-param__value_1 .filter-param__text {
+  margin-left: 35px;
+}
+
 .filters .filter-param_orientation .filter-param__value_1 :checked + .filter-param__img {
   background-position: 93.3% 50%;
 }
@@ -1738,6 +1748,10 @@ input.error, textarea.error {
 
 .filters .filter-param_orientation .filter-param__value_2 .filter-param__img {
   background-position: 46.6% 50%;
+}
+
+.filters .filter-param_orientation .filter-param__value_1 .filter-param__text {
+  margin-left: 38px;
 }
 
 .filters .filter-param_orientation .filter-param__value_2 :checked + .filter-param__img {
