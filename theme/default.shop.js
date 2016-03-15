@@ -322,7 +322,7 @@ $(document).ready(function () {
 
                         times -= 1;
 
-                        // check need to stop lazy-loading
+                        // check јneed to stop lazy-loading
                         var current = paging.find('li.selected');
                         var next = current.next();
                         if (next.length) {

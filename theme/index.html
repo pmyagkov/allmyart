@@ -183,49 +183,41 @@
         <div class="footer-bumper"></div>
         <div class="footer-wrapper">
             <div class="container">
+                <a class="footer-logo" href="/">
 
-                {*
-                <div style="float:right">
-                    you might be looking for adding some footer content here
-                </div>
-                *}
+                </a>
 
-                {if $wa->shop}
-                <div class="footer-block">
-                    <a href="{$wa->getUrl('shop/frontend')}" class="top">[s`Shop`]</a>
-                    <a href="{$wa->getUrl('shop/frontend/cart')}">[s`Cart`]</a>
-                    <a href="{$wa->getUrl('shop/frontend/checkout')}">[s`Checkout`]</a>
-                </div>
-                {/if}
-
-                {if $wa->photos}
-                <div class="footer-block">
-                    <a href="{$wa->getUrl('photos/frontend')}" class="top">[s`Photos`]</a>
-                    <a href="{$wa->getUrl('photos/frontend')}">[s`Photostream`]</a>
-                    <a href="{$wa->getUrl('photos/frontend')}favorites/">[s`Favorites`]</a>
-                </div>
-                {/if}
-
-                {if $wa->blog}
-                <div class="footer-block">
-                    <a href="{$wa->getUrl('blog/frontend')}" class="top">[s`Blog`]</a>
-                    <a href="{$wa->getUrl('blog/frontend/rss')}">[s`RSS`]</a>
-                    {$blogs = $wa->blog->blogs()}
-                    {foreach $blogs as $b}
-                    <a href="{$b.link}">{$b.name}</a>
-                    {/foreach}
-                </div>
-                {/if}
-
-                <div class="footer-block">
-                    <a href="#" class="top">[s`Contact us`]</a>
-                    {if $wa->shop}
-                    <span>{$wa->shop->settings('phone')}</span>
-                    <a href="mailto:{$wa->shop->settings('email')}">{$wa->shop->settings('email')}</a>
-                    {/if}
+                <div class="footer-links">
+                    <ul>
+                        <li><a href="/" title="Контакты">Контакты</a></li>
+                        {foreach $wa->shop->pages() as $page}
+                            {if $page.sidebar == "true"}
+                            <li>
+                                <a href="{$page.url}">{$page.name}</a>
+                            </li>
+                            {/if}
+                        {/foreach}
+                    </ul>
                 </div>
 
-                {if $wa->mailer && $wa->getUrl('mailer/frontend/subscribe')}
+                <div class="socials">
+                    <ul class="social-list">
+                        <li class="social social_instagram">
+                            <a href="#" class="social__link"></a>
+                        </li>
+                        <li class="social social_vk">
+                            <a href="#" class="social__link"></a>
+                        </li>
+                        <li class="social social_fb">
+                            <a href="#" class="social__link"></a>
+                        </li>
+                    </ul>
+                </div>
+
+
+
+
+                {*if $wa->mailer && $wa->getUrl('mailer/frontend/subscribe')}
                 <div class="footer-block mailer-subscribe">
                     <a href="#" class="top">[s`Follow us`]</a>
                     <form action="{$wa->getUrl('mailer/frontend/subscribe')}" id="mailer-subscribe-form" target="mailer-subscribe-iframe">
@@ -235,7 +227,7 @@
                     <iframe id="mailer-subscribe-iframe" name="mailer-subscribe-iframe" src="javascript:true" style="width:0;height:0;border:0px solid #666;float:right;background: #666;"></iframe>
                     <p style="display:none" id="mailer-subscribe-thankyou"><i>[s`Thank you! We’ll keep you posted.`]</i></p>
                 </div>
-                {/if}
+                {/if*}
 
             </div>
 
