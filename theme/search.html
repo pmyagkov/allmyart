@@ -1,6 +1,20 @@
 <h1 class="category-name">
-    {$title}
+    Поиск «{$title}»
 </h1>
+
+<h5 class="category-count">
+    {$modulus = $products_count % 10}
+
+    {if $modulus == 1}
+    {$suffix = "картина"}
+    {elseif $modulus == 2 or $modulus == 3 or $modulus == 4}
+    {$suffix = "картины"}
+    {else}
+    {$suffix = "картин"}
+    {/if}
+
+    Найдено&nbsp;{$products_count}&nbsp;{$suffix}
+</h5>
 
 <!-- plugin hook: 'frontend_search' -->
 {* @event frontend_search.%plugin_id% *}
@@ -9,6 +23,6 @@
     [`No products were found.`]
 {else}
     <div id="product-list">
-    {include file='list-thumbs.html'}
+        {include file='list-thumbs.html'}
     </div>
 {/if}

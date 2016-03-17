@@ -1153,7 +1153,9 @@ table.lined tr.service td {
   border: 1px white solid;
   border-radius: 50px;
   width: 130px;
-  padding: 0 0 3px 6px;
+  padding: 2px 0 3px 6px;
+
+  transition: margin-left ease-out .3s, width ease-out .3s;
 }
 
 .search input {
@@ -1163,30 +1165,26 @@ table.lined tr.service td {
   background: transparent;
   border: 0;
   -webkit-appearance: none;
+  -moz-box-sizing: border-box;
   margin-right: 0;
   padding-left: 0;
-  padding-right: 32px;
-  -moz-box-sizing: border-box;
+  padding-right: 5px;
+
+  color: #fff;
+
+  font-weight: 100;
 }
 
 .search input:focus {
   outline: 0;
 }
 
-.search input::-webkit-input-placeholder {
-  color: #aaa;
-  font-weight: normal;
-}
-
+.search input::-webkit-input-placeholder,
 .search input:-moz-placeholder,
-.search input::-moz-placeholder {
-  color: #aaa;
-  font-weight: normal;
-}
-
+.search input::-moz-placeholder,
 .search input:-ms-input-placeholder {
-  color: #aaa;
-  font-weight: normal;
+  color: #fff;
+  font-weight: 300;
 }
 
 .search button {
@@ -1823,13 +1821,16 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
 .category-name {
   font-size: 3em;
   letter-spacing: 1.7px;
-  margin-bottom: 4px;
+  margin-bottom: 10px;
+
+  text-transform: uppercase;
 }
 
 .category-count {
   text-transform: uppercase;
   color: #a0a0a0;
   font-weight: normal;
+  margin-bottom: 25px;
 }
 
 

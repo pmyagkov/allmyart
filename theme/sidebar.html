@@ -37,12 +37,24 @@
 <div class="sidebar-search">
     <form method="get" action="{$wa->getUrl('shop/frontend/search')}" class="search">
         <div class="search-wrapper">
-            <input id="search" type="search" name="query" {if !empty($query)}value="{$query}"{/if} placeholder="[s`Find products`]">
+            <input id="search" type="search" name="query" {if !empty($query)}value="{$query}"{/if} placeholder="ПОИСК">
             <button type="submit"></button>
             {* <span class="search-sample">{sprintf('[`E.g. %s`]', '<a href="'|cat:$wa_app_url:"search/?query=productname":'">productname</a>')} *}
         </div>
     </form>
 </div>
+
+<script type="text/javascript">
+    var $aside = $('.aside');
+    var $searchWrapper = $('.search-wrapper');
+
+    $searchWrapper.find('input').focus(function () {
+        var width = $aside.width();
+        $searchWrapper.css({ width: width - 30, 'margin-left': -width / 4 + 20 });
+    }).blur(function () {
+        $searchWrapper.attr('style', '');
+    });
+</script>
 
 
 <div class="socials">
