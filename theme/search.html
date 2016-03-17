@@ -19,9 +19,7 @@
 <!-- plugin hook: 'frontend_search' -->
 {* @event frontend_search.%plugin_id% *}
 {foreach $frontend_search as $_}{$_}{/foreach}
-{if !$products}
-    [`No products were found.`]
-{else}
+{if $products}
     <div id="product-list">
         {include file='list-thumbs.html'}
     </div>
