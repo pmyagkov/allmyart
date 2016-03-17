@@ -187,6 +187,8 @@ ul.thumbs li {
   line-height: 1.3em;
 }
 
+
+
 ul.thumbs li .image {
   width: 400px;
   display: table-cell;
@@ -195,7 +197,14 @@ ul.thumbs li .image {
 
 ul.thumbs li .image img {
   vertical-align: bottom;
-  width: 500px;
+}
+
+.thumbs.thumbs_mini .image {
+  width: 270px;
+}
+
+.thumbs.thumbs_mini .image img {
+  width: 100%;
 }
 
 ul.thumbs li .image .badge-wrapper {
