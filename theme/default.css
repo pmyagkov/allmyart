@@ -91,6 +91,8 @@ body {
   background: white;
   line-height: 1.4em;
   white-space: nowrap;
+
+  letter-spacing: 0.05em;
 }
 
 a {
@@ -1809,6 +1811,7 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
 
 .header .cart {
   margin-left: 25px;
+  letter-spacing: 0.04em;
 }
 
 .header .wishlist__value,

@@ -97,6 +97,7 @@ span.loading {
   vertical-align: middle;
 
   max-width: 200px;
+  letter-spacing: 0;
 }
 
 .thumbs .product-price {
@@ -111,11 +112,12 @@ span.loading {
   text-transform: uppercase;
   border-radius: 40px;
   border: 2px black solid;
-  font-size: 16px;
-  padding: 9px 19px;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 9px 19px 8px 19px;
   box-sizing: border-box;
 
-  letter-spacing: 0.9px;
+  letter-spacing: 1.1px;
 }
 
 .thumbs .product-image-link {
@@ -967,18 +969,20 @@ i.sort-asc {
   margin-bottom: 26px;
 }
 
-button,
-.hint.back {
+button, .hint.back {
   border: 0;
   border-radius: 30px;
   background: black;
   color: white;
   font-size: 15px;
-  padding: 10px 30px;
+  padding: 11px 35px 12px 35px;
   display: inline-block;
   text-transform: uppercase;
   cursor: pointer;
   outline: none !important;
+
+  letter-spacing: .05em;
+  font-weight: 700;
 }
 
 .product-container {
@@ -1033,6 +1037,8 @@ button,
   box-sizing: border-box;
   border: 1px solid rgba(0, 0, 0, .3);
   color: black;
+
+  font-weight: 300;
 }
 
 .sku__wrapper :checked + .sku__badge {
@@ -1091,6 +1097,12 @@ button,
   text-transform: uppercase;
   margin-bottom: 15px;
   font-size: 20px;
+}
+
+.description__text,
+.disclaimer,
+.no-news__text {
+  letter-spacing: .02em;
 }
 
 .error {
@@ -1621,6 +1633,10 @@ input.error, textarea.error {
   text-align: center;
   height: 32px;
   margin: 10px 0 40px 0;
+
+  letter-spacing: 0.8px;
+  font-size: 11px;
+  font-weight: 500;
 }
 
 .filters input[type="text"] {
@@ -1652,6 +1668,8 @@ input.error, textarea.error {
 
 .filters .filter-param_orientation {
   float: right;
+
+  margin-right: -14px;
 }
 
 .filters .filter-param_varchar .filter-param__text {
@@ -1707,7 +1725,7 @@ input.error, textarea.error {
 
 /* ФОТО или ГРАФИКА */
 .filters .filter-param_style {
-  margin-left: 15px;
+  margin: 0 13px 0 31px;
 }
 
 .filters .filter-param_style .filter-param__value_1 {
@@ -1736,7 +1754,7 @@ input.error, textarea.error {
 
 /* ОРИЕНТАЦИЯ */
 .filters .filter-param_orientation .filter-param__value_1 {
-  margin-right: 128px;
+  margin-right: 116px;
 }
 
 .filters .filter-param_orientation .filter-param__value_1 .filter-param__img {
@@ -1939,19 +1957,22 @@ input.error, textarea.error {
 }
 
 .cart-total__checkout {
-  width: 246px;
   margin-top: 39px;
-  height: 42px;
   color: white;
   text-transform: uppercase;
   background: black;
   text-align: center;
-  line-height: 42px;
   float: right;
   border-radius: 19px;
-  letter-spacing: 1.6px;
-  padding: 0;
   border: 0;
+
+  padding: 11px 35px 12px 35px;
+
+  letter-spacing: .05em;
+  font-weight: 700;
+  font-size: 14px;
+
+  outline: none;
 }
 
 .cart-total__checkout {
