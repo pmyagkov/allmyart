@@ -108,10 +108,10 @@ span.loading {
 .thumbs .product-button {
   display: inline-block;
   text-align: center;
-  color: black;
+  color: #373737;
   text-transform: uppercase;
   border-radius: 40px;
-  border: 2px black solid;
+  border: 2px #373737 solid;
   font-size: 14px;
   font-weight: 700;
   padding: 9px 19px 8px 19px;
@@ -162,7 +162,7 @@ span.loading {
 
 .thumbs_mini .product-button {
   border-radius: 20px;
-  border: 1px black solid;
+  border-width: 1px;
   font-size: 11px;
   padding: 5px 15px 4px 15px;
   letter-spacing: 0.6px;

@@ -1631,10 +1631,63 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
 
   text-align: center;
 
-  background: url('img/side_pic_s.jpg');
+  background-image: url('img/side-main_s.jpg');
+  background-position: 50% 50%;
 
   z-index: 1;
 }
+
+
+/* Абстракции */
+.category_1 .aside {
+  background-image: url('img/side-abstr_s.jpg');
+}
+
+/* Пейзажи */
+.category_11 .aside {
+  background-image: url('img/side-landscape_s.jpg');
+}
+
+/* Для детей */
+.category_6 .aside {
+  background-image: url('img/side-children_s.jpg');
+}
+
+/* Любовь */
+.category_12 .aside {
+  background-image: url('img/side-love_s.jpg');
+}
+
+/* Животные */
+.category_7 .aside {
+  background-image: url('img/side-animals_s.jpg');
+}
+
+/* Сюжеты */
+.category_14 .aside {
+  background-image: url('img/side-plots_s.jpg');
+}
+
+/* Цветы */
+.category_15 .aside {
+  background-image: url('img/side-flowers_s.jpg');
+}
+
+/* Люди */
+.category_8 .aside {
+  background-image: url('img/side-people_s.jpg');
+}
+
+/* Город */
+.category_3 .aside {
+  background-image: url('img/side-people_s.jpg');
+}
+
+/* Натюрморты */
+.category_10 .aside {
+  background-image: url('img/side-stilllife_s.jpg');
+}
+
 
 .aside::before {
   content: ' ';
@@ -1841,6 +1894,7 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
 body {
   white-space: nowrap;
   font-family: "Museo Sans Cyrl1", "Helvetica Neue", Verdana, "sans-serif";
+  color: #373737;
 }
 
 .content-wrapper {

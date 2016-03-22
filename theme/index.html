@@ -8,7 +8,15 @@
 {if $theme_settings.font_family}{$html_class_array[] = $theme_settings.font_family}{/if}
 {if $wa->globals('isMyAccount')}{$html_class_array[] = 'my'}{/if}
 
-<html{if !empty($html_class_array)} class="{join(' ', $html_class_array)}"{/if}>
+{$html_class = ""}
+{if !empty($html_class_array)}
+    {$html_class = "{join(' ', $html_class_array)}"}
+{/if}
+{if is_array($category)}
+    {$cat_class = 'category_'|cat:$category.id}
+{/if}
+
+<html class="{$html_class} {$cat_class}">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
