@@ -168,7 +168,11 @@ $(document).ready(function () {
             }
             var url = '?' + params.join('&');
             $(window).lazyLoad && $(window).lazyLoad('sleep');
-            $('#product-list').html('<img src="' + f.data('loading') + '">');
+
+            $('#product-list').children('*:not(.loader-container)').remove();
+
+            $('.loader-container').show();
+
             $.get(url+'&_=_', function(html) {
                 var tmp = $('<div></div>').html(html);
                 $('#product-list').html(tmp.find('#product-list').html());
@@ -304,10 +308,7 @@ $(document).ready(function () {
                     }
 
                     var product_list = $('#product-list .product-list');
-                    var loading = paging.parent().find('.loading').parent();
-                    if (!loading.length) {
-                        loading = $('<div><i class="icon16 loading"></i>'+loading_str+'</div>').insertBefore(paging);
-                    }
+                    var loading = $('.loader-container');
 
                     loading.show();
                     $.get(url, function (html) {

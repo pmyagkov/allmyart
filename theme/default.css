@@ -745,6 +745,88 @@ ul.tree ul a {
 
 
 
+/** loader -------------------------------------- */
+
+@-webkit-keyframes wave {
+  0%,100% {
+    -webkit-transform: scaleY(1);
+    transform: scaleY(1);
+  }
+  50% {
+    -webkit-transform: scaleY(2);
+    transform: scaleY(2);
+  }
+}
+
+@keyframes wave {
+  0%,100% {
+    -webkit-transform: scaleY(1);
+    transform: scaleY(1);
+  }
+  50% {
+    -webkit-transform: scaleY(2);
+    transform: scaleY(2);
+  }
+}
+.wave-spread {
+  display: none;
+}
+
+.wave-spread .loader {
+  width: 28px;
+  height: 30px;
+
+  display: inline-block;
+
+  margin-left: 2px;
+}
+
+.loader-container.wave-spread:before,
+.loader-container.wave-spread:after {
+  content: '';
+  display: inline-block;
+  width: calc(50% - 22px);
+  border: 1px solid rgba(136,136,136,.5);
+  height: 0;
+  margin-bottom: 21px;
+}
+
+.wave-spread .loader > div {
+  float: left;
+  margin: 0 2px 0 0;
+  width: 4px;
+  height: 16px;
+  background-color: rgba(136,136,136,.5);
+  -webkit-animation: wave 1s cubic-bezier(0.85, 0.25, 0.37, 0.85) infinite;
+  animation: wave 1s cubic-bezier(0.85, 0.25, 0.37, 0.85) infinite;
+}
+
+.wave-spread .loader > div:last-child {
+  margin: 0;
+}
+
+.wave-spread .loader .line-1, .wave-spread .loader .line-5 {
+  -webkit-animation-delay: .4s;
+  animation-delay: .4s;
+}
+.wave-spread .loader .line-2, .wave-spread .loader .line-4 {
+  -webkit-animation-delay: .2s;
+  animation-delay: .2s;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* Sign up & Login forms
 ------------------------ */
 
