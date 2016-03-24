@@ -1159,7 +1159,7 @@ table.lined tr.service td {
 .search-wrapper {
   border: 1px white solid;
   border-radius: 50px;
-  width: 130px;
+  width: 150px;
   padding: 2px 0 3px 6px;
 
   transition: margin-left ease-out .3s, width ease-out .3s;
@@ -1632,7 +1632,7 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
   left: 0;
 
   width: 240px;
-  /*min-width: 180px;*/
+  min-width: 180px;
 
   text-align: center;
 

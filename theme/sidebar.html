@@ -49,9 +49,12 @@
     var $searchWrapper = $('.search-wrapper');
 
     $searchWrapper.find('input').focus(function () {
-
+        var wrapperLeft = $searchWrapper.offset().left;
         var width = $aside.width();
-        $searchWrapper.css({ width: width - 30, 'margin-left': -width / 4 + 20 });
+        var marginLeft = -wrapperLeft + 15;
+        if (marginLeft < 0) {
+            $searchWrapper.css({ width: width - 35, 'margin-left': -wrapperLeft + 15});
+        }
     }).blur(function () {
         $searchWrapper.attr('style', '');
     });
