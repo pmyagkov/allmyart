@@ -786,7 +786,7 @@ ul.tree ul a {
   content: '';
   display: inline-block;
   width: calc(50% - 22px);
-  border: 1px solid rgba(136,136,136,.5);
+  border-bottom: 1px solid rgba(136,136,136,.5);
   height: 0;
   margin-bottom: 21px;
 }
@@ -1717,7 +1717,7 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
   bottom: 0;
   left: 0;
 
-  width: 240px;
+  width: 250px;
   min-width: 180px;
 
   text-align: center;
@@ -1994,7 +1994,7 @@ body {
 
 .content-bumper,
 .footer-bumper {
-  width: 240px;
+  width: 250px;
   display: inline-block;
   min-width: 180px;
 }
