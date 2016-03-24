@@ -13,8 +13,16 @@
     {$html_class = "{join(' ', $html_class_array)}"}
 {/if}
 {if is_array($category)}
-    {$cat_class = 'category_'|cat:$category.id}
+    {$cat_id = $category.id}
+{elseif is_object($product)}
+    {$cat = $wa->shop->category($product.category_id)}
+    {$cat_id = $cat.id}
 {/if}
+
+{if $cat_id}
+    {$cat_class = 'category_'|cat:$cat_id}
+{/if}
+
 
 <html class="{$html_class} {$cat_class}">
 
@@ -75,7 +83,7 @@
         <div class="header">
             <span class="phone-wrapper">
                 <span class="phone">{$wa->shop->settings('phone')}</span>
-                <span class="email">order@allmyart.ru</span>
+                <span class="email">{$wa->shop->settings('email')}</span>
             </span>
 
             <div class="cart-wrapper">

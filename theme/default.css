@@ -81,6 +81,10 @@ article, aside, credentials, figcaption, figure, footer, header, hgroup, menu, n
 
 /* Common HTML elements, fonts, and colors
 ------------------------------------------ */
+strong {
+  font-weight: 900;
+}
+
 html,
 body {
   width: 100%;
@@ -96,9 +100,9 @@ body {
 }
 
 a {
-  color: black;
   outline: 0 none;
   text-decoration: none;
+  color: #373737;
 }
 
 a:focus {
@@ -107,11 +111,11 @@ a:focus {
 }
 
 a:visited {
-  color: black;
+  color: #373737;
 }
 
 a.not-visited:visited {
-  color: black;
+  color: #373737;
 }
 
 a:hover {
@@ -382,7 +386,7 @@ input:-ms-input-placeholder {
 
 .breadcrumbs {
   padding: 5px 0;
-  font-size: 0.9em;
+  font-size: 0.8em;
 }
 
 .breadcrumbs a {
@@ -390,7 +394,8 @@ input:-ms-input-placeholder {
 }
 
 .breadcrumbs a:first-child {
-  text-decoration: underline;
+  border-bottom: 1px solid #373737;
+  padding-bottom: 2px;
 }
 
 .breadcrumbs span.rarr {
@@ -801,7 +806,7 @@ ul.tree ul a {
 }
 
 .wa-form .wa-field .wa-name {
-  color: black;
+  color: #373737;
   padding: 0;
   margin-bottom: 6px;
 }
@@ -900,7 +905,7 @@ ul.tree ul a {
 }
 
 .wa-form .wa-field .wa-value p span {
-  color: black;
+  color: #373737;
   margin-bottom: 6px;
   display: block;
 }
@@ -1626,7 +1631,7 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
   bottom: 0;
   left: 0;
 
-  width: 288px;
+  width: 240px;
   /*min-width: 180px;*/
 
   text-align: center;
@@ -1680,7 +1685,7 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
 
 /* Город */
 .category_3 .aside {
-  background-image: url('img/side-people_s.jpg');
+  background-image: url('img/side-city_s.jpg');
 }
 
 /* Натюрморты */
@@ -1696,21 +1701,21 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0,0,0,.6);
+  background: rgba(0,0,0,.7);
 }
 
 .aside .logo {
   background-image: url('img/logo_s.png');
   width: 162px;
   height: 48px;
-  margin: 15px 0 42px -2px;
+  margin: 0 0 42px -2px;
   display: block;
 }
 
 .aside .sidebar-categories,
 .aside .sidebar-fixed-pages,
 .aside .sidebar-search {
-  margin: 80px 0 0 0;
+  margin: 65px 0 0 0;
   display: inline-block;
   text-align: left;
   position: relative;
@@ -1736,13 +1741,13 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
 }
 
 .aside .sidebar-categories__header {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   font-weight: 500;
   margin-left: 8px;
 }
 
 .aside .sidebar-categories__item {
-  margin-bottom: 5px;
+  margin-bottom: 3px;
   margin-left: 8px;
 
   font-weight: 100;
@@ -1877,16 +1882,16 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
 .category-name {
   font-size: 3em;
   letter-spacing: 1.7px;
-  margin-bottom: 10px;
+  margin-bottom: 0;
 
   text-transform: uppercase;
 }
 
 .category-count {
   text-transform: uppercase;
-  color: #a0a0a0;
+  color: #373737;
   font-weight: normal;
-  margin-bottom: 25px;
+  margin-bottom: 30px;
 }
 
 
@@ -1903,7 +1908,7 @@ body {
 
 .content-bumper,
 .footer-bumper {
-  width: 288px;
+  width: 240px;
   display: inline-block;
   min-width: 180px;
 }

@@ -49,6 +49,7 @@
     var $searchWrapper = $('.search-wrapper');
 
     $searchWrapper.find('input').focus(function () {
+
         var width = $aside.width();
         $searchWrapper.css({ width: width - 30, 'margin-left': -width / 4 + 20 });
     }).blur(function () {
