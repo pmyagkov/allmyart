@@ -1,7 +1,8 @@
 {$categories = $wa->shop->categories(0, null, true)}
+<a class="logo" href="/"></a>
 <div class="scrollable">
     <div class="sidebar-categories">
-        <a class="logo" href="/"></a>
+
         <div class="sidebar-categories__header">{'картины'|upper}</div>
         {foreach $categories as $cat}
         <div class="sidebar-categories__item">
@@ -34,52 +35,6 @@
 
     <div></div>
 
-    <div class="sidebar-search">
-        <form method="get" action="{$wa->getUrl('shop/frontend/search')}" class="search">
-            <div class="search-wrapper">
-                <input type="text" id="search" name="query" {if !empty($query)}value="{$query}"{/if} placeholder="ПОИСК">
-                <button type="submit"></button>
-            </div>
-        </form>
-    </div>
-
-    <script type="text/javascript">
-        /*(function($){
-            $(window).load(function(){
-                $('.scrollable').mCustomScrollbar();
-            });
-        })(jQuery);*/
-
-
-        var $aside = $('.aside');
-        var $searchWrapper = $('.search-wrapper');
-
-        $searchWrapper.find('input').focus(function () {
-            var wrapperLeft = $searchWrapper.offset().left;
-            var width = $aside.width();
-            var marginLeft = -wrapperLeft + 15;
-            if (marginLeft < 0) {
-                $searchWrapper.css({ width: width - 35, 'margin-left': -wrapperLeft + 15});
-            }
-        }).blur(function () {
-            $searchWrapper.attr('style', '');
-        });
-    </script>
-
-
-    <div class="socials">
-        <ul class="social-list">
-            <li class="social social_instagram">
-                <a href="#" class="social__link"></a>
-            </li>
-            <li class="social social_vk">
-                <a href="#" class="social__link"></a>
-            </li>
-            <li class="social social_fb">
-                <a href="#" class="social__link"></a>
-            </li>
-        </ul>
-    </div>
     <!--
 
 
@@ -206,4 +161,53 @@
     {/if}
     -->
 
+</div>
+
+<div class="sidebar-search">
+    <form method="get" action="{$wa->getUrl('shop/frontend/search')}" class="search">
+        <div class="search-wrapper">
+            <input type="text" autocomplete="off" id="search" name="query" {if !empty($query)}value="{$query}"{/if} placeholder="ПОИСК">
+            <button type="submit"></button>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    (function($){
+        $(window).load(function(){
+            $('.scrollable').mCustomScrollbar({
+                autoHideScrollbar: true
+            });
+        });
+    })(jQuery);
+
+
+    var $aside = $('.aside');
+    var $searchWrapper = $('.search-wrapper');
+
+    $searchWrapper.find('input').focus(function () {
+        var wrapperLeft = $searchWrapper.offset().left;
+        var width = $aside.width();
+        var marginLeft = -wrapperLeft + 15;
+        if (marginLeft < 0) {
+            $searchWrapper.css({ width: width - 35, 'margin-left': -wrapperLeft + 15});
+        }
+    }).blur(function () {
+        $searchWrapper.attr('style', '');
+    });
+</script>
+
+
+<div class="socials">
+    <ul class="social-list">
+        <li class="social social_instagram">
+            <a href="#" class="social__link"></a>
+        </li>
+        <li class="social social_vk">
+            <a href="#" class="social__link"></a>
+        </li>
+        <li class="social social_fb">
+            <a href="#" class="social__link"></a>
+        </li>
+    </ul>
 </div>

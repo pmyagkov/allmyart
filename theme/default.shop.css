@@ -1656,12 +1656,11 @@ input.error, textarea.error {
 }
 
 .filters .filter-param:first-child {
-  margin-left: -6px;
+  margin-left: -3px;
 }
 
 .filters .filter-param_varchar .filter-param__img {
-  background-image: url('img/up_modul_icons_s.png');
-  background-repeat: no-repeat;
+  background: url('img/up_modul_icons_s2.png') no-repeat;
   width: 32px;
   height: 32px;
   display: inline-block;

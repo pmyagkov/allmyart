@@ -1236,17 +1236,20 @@ table.lined tr.service td {
 ------------------------------- */
 
 .search {
+  margin-left: 8px;
 }
 
 .search-wrapper {
-  border: 1px white solid;
+  border: 1px rgba(255,255,255,.5) solid;
   border-radius: 50px;
-  width: 150px;
   padding: 2px 30px 3px 11px;
 
   transition: margin-left ease-out .3s, width ease-out .3s;
 
   position: relative;
+
+  margin-right: 0;
+  width: 144px;
 
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -1255,7 +1258,7 @@ table.lined tr.service td {
 
 .search input {
   width: 100%;
-  height: 27px;
+  height: 23px;
   padding-top: 0;
   background: transparent;
   border: 0;
@@ -1268,6 +1271,8 @@ table.lined tr.service td {
   color: #fff;
 
   font-weight: 100;
+
+  font-size: 12px;
 }
 
 .search input:focus {
@@ -1283,12 +1288,12 @@ table.lined tr.service td {
 }
 
 .search button {
-  height: 29px;
-  width: 29px;
+  height: 25px;
+  width: 27px;
 
   overflow: visible;
   position: absolute;
-  right: 0px;
+  right: 0;
   float: left;
   border: none;
   padding: 0;
@@ -1296,7 +1301,9 @@ table.lined tr.service td {
 
   color: #fff;
   background: transparent url(img/search_icon.png) no-repeat 1px 50%;
-  background-size: 20px;
+
+  background-size: 14px;
+
   font-size: 1.0em;
 }
 
@@ -1794,8 +1801,10 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
   background-image: url('img/logo_s.png');
   width: 162px;
   height: 48px;
-  margin: 0 0 42px -2px;
-  display: block;
+  margin: 65px 0 21px -2px;
+  display: inline-block;
+
+  position: relative;
 }
 
 .aside .sidebar-categories,
@@ -1806,6 +1815,10 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
   text-align: left;
   position: relative;
   width: 160px;
+}
+
+.aside .sidebar-categories {
+  margin: 0;
 }
 
 .aside .sidebar-categories,
@@ -1819,7 +1832,11 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
 }
 
 .aside .sidebar-search {
-  margin-top: 20px;
+  margin-top: 22px;
+}
+
+.aside .scrollable {
+ height: calc(100% - 289px);
 }
 
 .sidebar-fixed-pages > .sidebar-categories__item:first-child {
@@ -1827,9 +1844,8 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
 }
 
 .aside .sidebar-categories__header {
-  margin-bottom: 15px;
+  margin: 21px 0 15px 8px;
   font-weight: 500;
-  margin-left: 8px;
 }
 
 .aside .sidebar-categories__item {
@@ -1857,14 +1873,13 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
 
 
 .aside .socials {
-  margin: 50px 0 0 0;
+  margin: 22px 0 0 0;
   padding: 0;
   position: relative;
 }
 
 .socials .social-list {
   padding: 0;
-  margin: 0 0 0 20px;
 }
 
 .socials .social {
@@ -1872,8 +1887,8 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
 
   display: inline-block;
   margin-right: 20px;
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
 }
 
 .socials .social__link {
@@ -1881,6 +1896,7 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
   height: 100%;
   width: 100%;
   background: url('img/social_s.png') no-repeat;
+  background-size: cover;
 }
 
 .socials .social_vk .social__link {
@@ -1889,6 +1905,10 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
 
 .socials .social_fb .social__link {
   background-position: 100% 0;
+}
+
+.socials .social_fb {
+  margin-right: 0;
 }
 
 .header {
