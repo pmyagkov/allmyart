@@ -1113,6 +1113,10 @@ button, .hint.back {
   margin-top: -10px;
 }
 
+.disclaimer strong {
+  white-space: nowrap;
+}
+
 .error {
   color: red;
 }
