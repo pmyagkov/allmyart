@@ -141,8 +141,8 @@ span.loading {
 }
 
 .thumbs.thumbs_mini li {
-  max-width: 270px;
-  margin: 0 13px 20px 0;
+  width: 252px;
+  margin: 0 40px 20px 0;
 }
 
 .thumbs_mini .product-stats {
@@ -154,10 +154,17 @@ span.loading {
   font-size: 14px;
   line-height: 1.1;
   margin-left: 7px;
+  margin-right: 7px;
 }
 
 .thumbs_mini .product-name {
   max-width: 270px;
+
+  font-size: 14px;
+}
+
+.thumbs_mini .product-price {
+  font-size: 16px;
 }
 
 .thumbs_mini .product-button {
@@ -193,21 +200,13 @@ ul.thumbs li {
 
 
 ul.thumbs li .image {
-  width: 400px;
+  width: 100%;
   display: table-cell;
   vertical-align: bottom;
 }
 
 ul.thumbs li .image img {
   vertical-align: bottom;
-}
-
-.thumbs.thumbs_mini .image {
-  width: 270px;
-}
-
-.thumbs.thumbs_mini .image img {
-  width: 100%;
 }
 
 ul.thumbs li .image .badge-wrapper {
@@ -667,7 +666,7 @@ ul.homepage-bxslider li {
   float: left;
   /* фолбек */
   width: 66%;
-  width: calc(100% - 270px);
+  width: calc(100% - 253px);
   padding-right: 30px;
   text-align: left;
   -webkit-box-sizing: border-box;
@@ -2880,7 +2879,7 @@ h1 .order-status {
 
 @media screen and (min-width: 1680px) {
   .no-news {
-    width: calc(100% - 609px);
+    width: calc(100% - 622px);
   }
 
   .thumbs.thumbs_mini {
@@ -2888,6 +2887,6 @@ h1 .order-status {
   }
 
   .thumbs.thumbs_mini li {
-    margin: 0 68px 20px 0;
+    width: 290px;
   }
 }

@@ -82,7 +82,7 @@
     <div class="content-wrapper">
         <div class="header">
             <span class="phone-wrapper">
-                <span class="phone">{$wa->shop->settings('phone')}</span>
+                <span class="phone">{$wa->shop->settings('phone')|replace:' | ':'&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;'}</span>
                 <span class="email">{$wa->shop->settings('email')}</span>
             </span>
 

@@ -886,6 +886,10 @@ ul.tree ul a {
   font-size: 150%;
 }
 
+.checkout-content {
+  margin-top: 20px;
+}
+
 .wa-form {
   float: left;
   overflow: visible;

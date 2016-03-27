@@ -1,5 +1,8 @@
+<h1 class="category-name">
+    Ваши контакты
+</h1>
+
 <div class="checkout-content" data-step-id="contactinfo">
-    <h3>Ваши контакты</h3>
     <div id="checkout-contact-form">
         {if $wa->isAuthEnabled() && !$wa->user()->isAuth()}
             {$wa->authAdapters()}

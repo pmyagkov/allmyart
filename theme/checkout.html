@@ -1,14 +1,4 @@
 <!-- following CSS hides top navigation menu; remove <style>…</style> to unhide -->
-<style>
-    .currency-toggle,
-    .followus,
-    .appnav,
-    .apps,
-    .globalfooter { display: none; }
-    .float-right { float: right; }
-    .container { max-width: 800px; }
-    #mobile-nav-toggle { display: none !important; }
-</style>
 
 <div class="checkout">
 
@@ -33,7 +23,7 @@
                             <div id="login-form"{if !$wa->post('wa_auth_login')} style="display:none"{/if}>
                                 {include file="`$wa_parent_theme_path`/login.html" without_form=true}
                             </div>
-                            <script type="text/javascript">
+                            <!--<script type="text/javascript">
                                 $(function () {
                                     $("#login-form input").attr('disabled', 'disabled');
                                     $("input[name='user_type']").change(function () {
@@ -53,7 +43,7 @@
                                         $("input[name='user_type']").change();
                                     {/if}
                                 });
-                            </script>
+                            </script>-->
                             <div class="clear-both"></div>
                         {else}
                         <!-- authorized -->

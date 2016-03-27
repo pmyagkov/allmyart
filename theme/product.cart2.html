@@ -222,8 +222,10 @@
 </form>
 
 <div class="disclaimer">
+    {$phone = $wa->shop->settings('phone')}
+    {$phones = '|'|explode:$phone}
     Если вы хотите заказать картину нестандартного размера, свяжитесь с нами по телефону
-    <strong>{$wa->shop->settings('phone')}</strong> или напишите нам на <strong>{$wa->shop->settings('email')}</strong>.
+    <strong>{$phones[0]}</strong> и <strong>{$phones[1]}</strong> или напишите нам на <strong>{$wa->shop->settings('email')}</strong>.
 </div>
 
 
