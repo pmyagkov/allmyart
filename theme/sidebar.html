@@ -179,22 +179,38 @@
                 autoHideScrollbar: true
             });
         });
+
+        var $aside = $('.aside');
+        var $searchWrapper = $('.search-wrapper');
+        var clientX;
+
+        // запрещаем скролл для window, если позиция мыши — над .aside
+        $(document).on('mousemove', function (e) {
+            clientX = e.clientX;
+        });
+
+        $(window).on('wheel mousewheel', function(e) {
+            if (clientX < $aside.width()) {
+                return false;
+            }
+        });
+
+        $searchWrapper.find('input').focus(function () {
+            var wrapperLeft = $searchWrapper.offset().left;
+            var width = $aside.width();
+            var marginLeft = -wrapperLeft + 15;
+            if (marginLeft < 0) {
+                $searchWrapper.css({ width: width - 35, 'margin-left': -wrapperLeft + 15});
+            }
+        }).blur(function () {
+            $searchWrapper.attr('style', '');
+        });
+
     })(jQuery);
 
 
-    var $aside = $('.aside');
-    var $searchWrapper = $('.search-wrapper');
 
-    $searchWrapper.find('input').focus(function () {
-        var wrapperLeft = $searchWrapper.offset().left;
-        var width = $aside.width();
-        var marginLeft = -wrapperLeft + 15;
-        if (marginLeft < 0) {
-            $searchWrapper.css({ width: width - 35, 'margin-left': -wrapperLeft + 15});
-        }
-    }).blur(function () {
-        $searchWrapper.attr('style', '');
-    });
+
 </script>
 
 
