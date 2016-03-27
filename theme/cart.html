@@ -16,13 +16,13 @@
         <!-- sixteen-column cart layout -->
         <div class="cart cart-summary-page">
 
-            {foreach $cart.items as $item}
-
-                <ul class="cart-rows">
+            {if !empty($cart.items)}
+            <ul class="cart-rows">
+                {foreach $cart.items as $item}
                     <li class="cart-row" data-id="{$item.id}">
                         <div class="cart-row__inner" style="float: left">
                             <a class="cart-row__link cart-row__element" href="{$wa->shop->productUrl($item.product)}" title="{$item.product.name|escape}">
-                                {$wa->shop->productImgHtml($item.product, '96x96', ['default' => "`$wa_theme_url`img/dummy48.png"])}
+                                {$wa->shop->productImgHtml($item.product, '96', ['default' => "`$wa_theme_url`img/dummy48.png"])}
                                 <span class="cart-row__name cart-row__element">
                                     {$item.product.name|escape|upper}
                                     {*if $item.sku_name && $item.sku_name != $item.product.name}{$item.sku_name|escape}{/if*}
@@ -61,10 +61,13 @@
                             </a>
                         </div>
                     </li>
-                </ul>
-                {if !empty($item.error)}<script>alert({json_encode($item.error)});</script>{/if}
 
-            {/foreach}
+                {if !empty($item.error)}<script>alert({json_encode($item.error)});</script>{/if}
+                {/foreach}
+
+            </ul>
+
+            {/if}
 
             <div class="cart-total">
                 <span class="cart-total__label">Итого:</span>

@@ -153,6 +153,7 @@ span.loading {
   float: initial;
   font-size: 14px;
   line-height: 1.1;
+  margin-left: 7px;
 }
 
 .thumbs_mini .product-name {
@@ -165,6 +166,7 @@ span.loading {
   font-size: 11px;
   padding: 5px 15px 4px 15px;
   letter-spacing: 0.6px;
+  margin-left: 7px;
 }
 
 .thumbs_mini .product-button-wrapper {
@@ -1021,7 +1023,7 @@ button, .hint.back {
 
 .sku__wrapper .price {
   font-size: 20px;
-  color: black;
+  color: #373737;
   font-weight: normal;
 }
 
@@ -1889,7 +1891,7 @@ input.error, textarea.error {
 
 .cart-row img {
   vertical-align: middle;
-  width: 66px;
+  width: 96px;
 }
 
 .cart-row__name {
@@ -1901,7 +1903,7 @@ input.error, textarea.error {
 }
 
 .cart-row__sku-select:hover {
-  color: black;
+  color: #373737;
 }
 
 .cart-row__sku-arrow {
@@ -1939,18 +1941,23 @@ input.error, textarea.error {
 }
 
 .cart-row__delete {
-  background-image: url('img/cart_delete_s.png');
-  width: 17px;
-  height: 17px;
+  background: url('img/cart_delete_s.png') no-repeat;
+  -webkit-background-size: contain;
+  background-size: contain;
+
+  width: 14px;
+  height: 14px;
   margin-left: 16px;
 }
 
 .cart-total {
   width: 384px;
-  border-top: 4px solid black;
+  border-top: 2px solid #373737;
   text-align: right;
   padding-top: 26px;
   float: right;
+
+  margin-bottom: 40px;
 }
 
 .cart-total__label {
