@@ -385,7 +385,7 @@ input:-ms-input-placeholder {
 }
 
 .breadcrumbs {
-  padding: 5px 0;
+  padding: 20px 0 0 0;
   font-size: 0.8em;
 }
 
@@ -875,10 +875,6 @@ ul.tree ul a {
   font-size: 150%;
 }
 
-.checkout-content {
-  margin-top: 20px;
-}
-
 .wa-form {
   float: left;
   overflow: visible;
@@ -910,7 +906,8 @@ ul.tree ul a {
   position: relative;
 }
 
-.wa-form .wa-field .wa-value input[type="text"] {
+.wa-form .wa-field .wa-value input[type="text"],
+textarea {
   border-radius: 50px;
   border: 1px rgba(0,0,0,0.2) solid;
   padding: 9px 0 10px 11px;
@@ -918,6 +915,16 @@ ul.tree ul a {
   width: 320px;
   display: inline-block;
   outline: 0;
+}
+
+textarea {
+  width: auto;
+  border-radius: 15px;
+}
+
+.comment-caption {
+  margin-bottom: 9px;
+  line-height: 1;
 }
 
 .checkout .wa-form .wa-field .wa-value p {
@@ -940,7 +947,7 @@ ul.tree ul a {
 }
 
 .wa-form .wa-field {
-  padding: 0 0 10px 0;
+  padding: 0 0 13px 0;
 }
 
 .wa-form .wa-field .wa-value input.wa-error {
@@ -1992,7 +1999,7 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
 .category-name {
   font-size: 3em;
   letter-spacing: 1.7px;
-  margin-bottom: 0;
+  margin: 15px 0 0 0;
 
   text-transform: uppercase;
 }

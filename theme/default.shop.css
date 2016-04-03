@@ -1647,7 +1647,7 @@ input.error, textarea.error {
   width: 100%;
   text-align: center;
   height: 32px;
-  margin: 10px 0 40px 0;
+  margin: 10px 0 20px 0;
 
   letter-spacing: 0.8px;
   font-size: 11px;
@@ -1901,6 +1901,10 @@ input.error, textarea.error {
   margin-left: 26px;
 }
 
+.cart-row__name:first-child {
+  margin-left: 0;
+}
+
 .cart-row__sku {
   width: 124px;
 }
@@ -1971,8 +1975,13 @@ input.error, textarea.error {
 .cart-total__price {
   width: 183px;
   display: inline-block;
-  font-size: 31px;
+
   vertical-align: middle;
+  font-size: 150%;
+}
+
+.cart-total__section_total .cart-total__price {
+  font-size: 31px;
 }
 
 .cart-total__checkout {
@@ -1992,6 +2001,8 @@ input.error, textarea.error {
   font-size: 14px;
 
   outline: none;
+
+  font-size: 14px;
 }
 
 .cart-total__checkout {
@@ -2001,52 +2012,90 @@ input.error, textarea.error {
 /* Checkout
 ----------- */
 
-.shipping__icon {
+.shipping__icon, .payment__icon {
   background: url('img/delivery+payment_s.png') no-repeat;
   width: 84px;
   height: 83px;
   display: inline-block;
+  vertical-align: middle;
+  margin-right: 20px;
 }
 
-.shipping-1 .shipping__icon {
+.checkout-options .shipping__icon {
   background-position: 0 0;
 }
 
-.shipping-1 :checked ~ .shipping__icon {
+.checkout-options :checked ~ .shipping__icon {
   background-position: 55.5% 0;
 }
 
-.shipping-3 .shipping__icon {
+.shipping-5 .shipping__icon {
   background-position: 11.1% 0;
 }
 
-.shipping-3 :checked ~ .shipping__icon {
+.shipping-5 :checked ~ .shipping__icon {
   background-position: 66.7% 0;
 }
 
-.shipping__label {
+.payment-1 .payment__icon {
+  background-position: 22.2% 0;
+}
+
+.payment-1 :checked ~ .payment__icon {
+  background-position: 77.8% 0;
+}
+
+.payment-2 .payment__icon {
+  background-position: 33.3% 0;
+}
+
+.payment-2 :checked ~ .payment__icon {
+  background-position: 88.9% 0;
+}
+
+.payment-3 .payment__icon {
+  background-position: 44.4% 0;
+}
+
+.payment-3 :checked ~ .payment__icon {
+  background-position: 100% 0;
+}
+
+.shipping__label, .payment__label {
   cursor: pointer;
   display: inline-block;
-  margin-right: 30px;
   vertical-align: middle;
 }
 
-.shipping__label input {
+.shipping__label input, .payment__label input {
   position: absolute;
   opacity: 0;
 }
 
-.shipping__description {
-  width: 200px;
+.shipping__description, .payment__description {
+  width: 277px;
   white-space: normal;
   display: inline-block;
   vertical-align: middle;
+
+  font-size: 13px;
 }
 
-.shipping__name {
+.shipping__name, .payment__name {
   font-weight: 800;
   text-transform: uppercase;
 }
+
+.shipping__details, .payment__details {
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+
+
+
+
+
 
 .checkout {
   margin: 0;
@@ -2180,6 +2229,8 @@ input.error, textarea.error {
   padding: 0;
 }
 
+/*
+
 .checkout h2 {
   padding: 15px 20px 18px;
   border-top: 10px solid #fff;
@@ -2212,16 +2263,12 @@ input.error, textarea.error {
 .checkout h2 a.hint strong {
   text-decoration: underline;
 }
+*/
 
 .checkout ul {
   list-style: none;
   padding-left: 0;
   margin-top: 0;
-}
-
-.checkout ul li {
-  font-size: 1.1em;
-  margin-bottom: 5px;
 }
 
 .checkout ul li input[type="radio"] {

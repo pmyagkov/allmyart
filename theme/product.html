@@ -3,16 +3,6 @@
 
 <article class="product-container" itemscope itemtype="http://schema.org/Product">
     {*$product|@print_r*}
-    <h1>
-        <span itemprop="name">{$product.name|escape|upper}</span>
-        {if !empty($product.rating) && $product.rating > 0}
-            <span class="rating nowrap" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating" title="{sprintf('[`Average user rating: %s / 5`]', $product.rating)}">
-                {$wa->shop->ratingHtml($product.rating, 16)}
-                <span itemprop="ratingValue" style="display: none;">{$product.rating}</span>
-                <span itemprop="reviewCount" style="display: none;">{$reviews_total_count}</span>
-            </span>
-        {/if}
-    </h1>
 
     <!-- product internal nav -->
     <!--<nav>

@@ -1,0 +1,54 @@
+<div class="header">
+            <span class="phone-wrapper">
+                <span class="phone">{$wa->shop->settings('phone')|replace:' | ':'&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;'}</span>
+                <span class="email">{$wa->shop->settings('email')}</span>
+            </span>
+
+    <div class="cart-wrapper">
+                <span class="wishlist">ВИШЛИСТ
+                    <span class="wishlist__value">10</span>
+                </span>
+        <a href="/cart" class="cart">КОРЗИНА
+            {$cart_total = $wa->shop->cart->total()}
+            <span class="cart__value">{shop_currency_html($cart_total, true)}</span>
+        </a>
+    </div>
+
+    {include file="breadcrumbs.html"}
+
+
+    {if is_array($category)}
+    {$page_name = $category.name}
+    {elseif is_array($page)}
+    {$page_name = $page.name}
+    {elseif is_array($collection)}
+    {$page_name = $collection.title}
+    {elseif is_object($product)}
+    {$page_name = $product.name}
+    {elseif is_array($cart)}
+    {$page_name = "Корзина"}
+    {else}
+    {$page_name = "МОДУЛЬНЫЕ КАРТИНЫ \"ALLMYART\""}
+    {/if}
+
+    <h1 class="category-name">{$page_name|escape|upper}</h1>
+
+    {if is_array($category) && $category.count}
+    <h5 class="category-count">
+        {$category.count}&nbsp;
+
+        {$modulus = $category.count % 10}
+
+        {if $modulus == 1}
+        картина
+        {elseif $modulus == 2 or $modulus == 3 or $modulus == 4}
+        картины
+        {else}
+        картин
+        {/if}
+    </h5>
+    {/if}
+
+    {include file="`$wa_active_theme_path`/category_filters.html"}
+
+</div>
