@@ -119,7 +119,7 @@ a.not-visited:visited {
 }
 
 a:hover {
-  color: red;
+  color: #A7A7A7;
 }
 
 input[type="button"]::-moz-focus-inner {
@@ -909,7 +909,7 @@ ul.tree ul a {
 .wa-form .wa-field .wa-value input[type="text"],
 textarea {
   border-radius: 50px;
-  border: 1px rgba(0,0,0,0.2) solid;
+  border: 1px #373737 solid;
   padding: 9px 0 10px 11px;
   margin-left: -14px;
   width: 320px;
@@ -2142,7 +2142,7 @@ footer a:visited {
 }
 
 footer a:hover {
-  color: red !important;
+  color: #A7A7A7 !important;
 }
 
 .globalfooter.submenu-is-shown {
