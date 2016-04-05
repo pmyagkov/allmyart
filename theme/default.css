@@ -1926,7 +1926,31 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
   white-space: nowrap;
   padding: 45px 47px 15px 47px;
   margin: 0 -47px;
+  position: fixed;
+  top: 0;
+  z-index: 5;
+  background-color: white;
 }
+
+.header-sticky-bumper {
+  display: block;
+}
+
+.small-header .header .sticky-to-hide {
+  display: none;
+}
+
+.small-header .header .sticky-to-hide.filters {
+  display: block;
+}
+
+.small-header .category-name {
+  float: left;
+  font-size: 1.7em;
+  margin-top: 8px;
+  font-weight: 900;
+}
+
 
 .header .phone-wrapper,
 .header .cart-wrapper {
@@ -1974,6 +1998,11 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
   height: 19px;
   vertical-align: text-bottom;
   margin-right: 9px;
+}
+
+.small-header .header {
+  padding-top: 30px;
+  padding-bottom: 23px;
 }
 
 .header .wishlist:before {

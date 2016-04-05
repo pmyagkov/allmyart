@@ -1652,6 +1652,32 @@ input.error, textarea.error {
   letter-spacing: 0.8px;
   font-size: 11px;
   font-weight: 500;
+
+  position: relative;
+}
+
+.small-header .filters {
+  float: right;
+  width: 224px;
+  margin: 14px 36px -10px 0;
+}
+
+.filter-param-sep {
+  position: absolute;
+  border-left: 2px #373737 solid;
+  height: 21px;
+  top: -2px;
+  left: 114px;
+
+  display: none;
+}
+
+.small-header .filter-param-sep {
+  display: block;
+}
+
+.filter-param-sep_2 {
+  left: 184px;
 }
 
 .filters input[type="text"] {
@@ -1674,6 +1700,12 @@ input.error, textarea.error {
   width: 32px;
   height: 32px;
   display: inline-block;
+  background-size: cover;
+}
+
+.small-header .filters .filter-param_varchar .filter-param__img {
+  width: 18px;
+  height: 18px;
 }
 
 .filters .filter-param_modulesnumber {
@@ -1686,9 +1718,17 @@ input.error, textarea.error {
   margin-right: -14px;
 }
 
+.filters .filter-param_orientation .filter-param__value_2 {
+  margin-left: 1px !important;
+}
+
 .filters .filter-param_varchar .filter-param__text {
   margin-left: 38px;
   line-height: 32px;
+}
+
+.small-header .filters .filter-param_varchar .filter-param__text {
+  display: none;
 }
 
 .filters .filter-param_modulesnumber .filter-param__value_1 .filter-param__text {
@@ -1740,6 +1780,14 @@ input.error, textarea.error {
 /* ФОТО или ГРАФИКА */
 .filters .filter-param_style {
   margin: 0 13px 0 31px;
+}
+
+.small-header .filters .filter-param_style {
+  margin-top: 2px;
+}
+
+.small-header .filters .filter-param_style {
+  margin-left: 22px;
 }
 
 .filters .filter-param_style  .filter-param__text {
@@ -1797,6 +1845,11 @@ input.error, textarea.error {
 
 .filters .filter-param_orientation .filter-param__value_2 :checked + .filter-param__img {
   background-position: 100% 50%;
+}
+
+
+.small-header .filters .filter-param__value {
+  margin: 0 0 0 5px !important;
 }
 
 .filters label {

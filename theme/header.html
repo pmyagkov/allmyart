@@ -1,8 +1,8 @@
 <div class="header">
-            <span class="phone-wrapper">
-                <span class="phone">{$wa->shop->settings('phone')|replace:' | ':'&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;'}</span>
-                <span class="email">{$wa->shop->settings('email')}</span>
-            </span>
+    <span class="phone-wrapper">
+        <span class="phone">{$wa->shop->settings('phone')|replace:' | ':'&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;'}</span>
+        <span class="email">{$wa->shop->settings('email')}</span>
+    </span>
 
     <div class="cart-wrapper">
                 <span class="wishlist">ВИШЛИСТ
@@ -34,7 +34,7 @@
     <h1 class="category-name">{$page_name|escape|upper}</h1>
 
     {if is_array($category) && $category.count}
-    <h5 class="category-count">
+    <h5 class="category-count sticky-to-hide">
         {$category.count}&nbsp;
 
         {$modulus = $category.count % 10}
@@ -51,4 +51,28 @@
 
     {include file="`$wa_active_theme_path`/category_filters.html"}
 
+    <script type="text/javascript">
+        jQuery(function ($) {
+            var $header = $('.header');
+            var $headerBumper = $('.header-sticky-bumper');
+            var headerHeight;
+            $headerBumper.height($header.outerHeight());
+            var heightElementsToHide = 0;
+            $('.header .sticky-to-hide').each(function () {
+                heightElementsToHide += $(this).outerHeight(true);
+            });
+
+            function onScroll() {
+                $(document.body).toggleClass('small-header', $(window).scrollTop() > heightElementsToHide);
+            }
+
+            onScroll();
+
+            var scrollFunc = $.throttle(50, onScroll);
+
+            $(window).scroll(scrollFunc);
+        });
+    </script>
+    <div style="clear: both"></div>
 </div>
+<div class="header-sticky-bumper"></div>

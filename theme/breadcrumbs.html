@@ -39,7 +39,7 @@
 {/if}
 
 {if !empty($breadcrumbs) and count($breadcrumbs) > 1}
-<nav class="breadcrumbs" itemprop="breadcrumb">
+<nav class="breadcrumbs sticky-to-hide" itemprop="breadcrumb">
     {foreach from=$breadcrumbs item=breadcrumb name="breadcrumbs_loop"}
     {if $breadcrumb}
     <a href="/{$breadcrumb.url}">{$breadcrumb.name|escape}</a>
