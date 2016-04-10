@@ -137,10 +137,9 @@
 
                 <div class="footer-links">
                     <ul>
-                        <li><a href="/" title="Контакты">Контакты</a></li>
                         {foreach $wa->shop->pages() as $page}
                             {if $page.sidebar == "true"}
-                            <li>
+                            <li class="footer-link footer-link_{$page.id}">
                                 <a href="{$page.url}">{$page.name}</a>
                             </li>
                             {/if}

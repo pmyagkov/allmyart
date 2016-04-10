@@ -72,9 +72,11 @@ span.loading {
 /* Product list
 --------------- */
 .thumbs .product-stats {
-  margin-top: 20px;
+  margin: 20px 15px 0 15px;
   font-size: 18px;
   overflow: hidden;
+
+  position: relative;
 }
 
 .thumbs .product-name-wrapper {
@@ -100,7 +102,6 @@ span.loading {
 }
 
 .thumbs .product-price {
-  color: rgba(0, 0, 0, .5);
   margin-top: 6px;
 
   font-size: 19px;
@@ -119,25 +120,23 @@ span.loading {
   box-sizing: border-box;
 
   letter-spacing: 1.1px;
+
+  line-height: 1.7;
 }
 
 .thumbs .product-image-link {
   display: block;
 }
 
-.product-name-price-wrapper {
-  float: left;
-  margin-left: 15px;
-}
-
 .product-button-wrapper {
-  float: right;
-  margin-right: 15px;
-  margin-top: 4px;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 .thumbs.thumbs_mini {
   margin-top: 10px;
+  margin-bottom: 11px;
 }
 
 .thumbs.thumbs_mini li {
@@ -146,15 +145,12 @@ span.loading {
 }
 
 .thumbs_mini .product-stats {
-  margin-top: 12px;
-}
-
-.thumbs_mini .product-name-price-wrapper {
-  float: initial;
+  margin: 14px 7px 0 8px;
   font-size: 14px;
   line-height: 1.1;
-  margin-left: 7px;
-  margin-right: 7px;
+}
+
+.thumbs_mini .product-name-wrapper {
 }
 
 .thumbs_mini .product-name {
@@ -164,7 +160,13 @@ span.loading {
 }
 
 .thumbs_mini .product-price {
-  font-size: 16px;
+  font-size: 21px;
+
+  display: inline-block;
+
+  margin-top: 9px;
+
+  vertical-align: middle;
 }
 
 .thumbs_mini .product-button {
@@ -173,12 +175,15 @@ span.loading {
   font-size: 11px;
   padding: 5px 15px 4px 15px;
   letter-spacing: 0.6px;
-  margin-left: 7px;
 }
 
 .thumbs_mini .product-button-wrapper {
-  float: left;
-  margin-top: 8px;
+  position: static;
+  float: initial;
+  display: inline-block;
+  margin: 6px 0 0 11px;
+
+  vertical-align: middle;
 }
 
 ul.thumbs {
@@ -679,15 +684,15 @@ ul.homepage-bxslider li {
   line-height: 16px;
 }
 
-.bestsellers .bestsellers-header,
+.bestsellers-header {
+  font-weight: 500;
+  font-size: 1.6em;
+  margin: 24px 0 23px 6px;
+  letter-spacing: 0.02em;
+}
+
 .no-news__header {
   text-align: left;
-  margin-bottom: 2px;
-  padding-bottom: 0;
-  color: #999;
-  font-weight: normal;
-  font-size: 1.5em;
-  padding-top: 20px;
 }
 
 /* Product page
@@ -985,6 +990,14 @@ button, .hint.back {
   font-weight: 700;
 }
 
+.sku__badge:hover,
+.product-button:hover,
+button:hover,
+.cart-total__checkout:hover {
+  background-color: #7e7e7e;
+  border-color: #7e7e7e;
+  color: white;
+}
 .product-container {
   width: 850px;
 }
@@ -1046,6 +1059,7 @@ button, .hint.back {
   background: #373737;
   color: white;
   border-color: #373737;
+  cursor: default;
 }
 
 .sku__wrapper :checked + .sku__badge ~ .price {
@@ -1659,15 +1673,15 @@ input.error, textarea.error {
 .small-header .filters {
   float: right;
   width: 224px;
-  margin: 14px 36px -10px 0;
+  margin: 14px 15px -10px 0;
 }
 
 .filter-param-sep {
   position: absolute;
-  border-left: 2px #373737 solid;
+  border-left: 1px #373737 solid;
   height: 21px;
   top: -2px;
-  left: 114px;
+  left: 115px;
 
   display: none;
 }
@@ -2072,13 +2086,29 @@ input.error, textarea.error {
   display: inline-block;
   vertical-align: middle;
   margin-right: 20px;
+
+  position: relative;
+}
+
+.shipping__label:hover :not(:checked) ~ .shipping__icon:after,
+.payment__label:hover :not(:checked) ~ .payment__icon:after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  background-color: rgba(0,0,0,.2);
+  border-radius: 19px;
 }
 
 .checkout-options .shipping__icon {
   background-position: 0 0;
 }
 
-.checkout-options :checked ~ .shipping__icon {
+.checkout-options :checked ~ .shipping__icon,
+.checkout-options :checked ~ .payment__icon {
+  cursor: default;
   background-position: 55.5% 0;
 }
 
@@ -2964,26 +2994,11 @@ h1 .order-status {
   }
 }
 
-@media screen and (min-width: 1680px) {
+@media screen and (min-width: 1600px) {
   .content-wrapper,
   .footer-wrapper,
   .header {
     width: 1385px;
-  }
-}
-
-@media screen and (min-width: 2120px) {
-  .content-wrapper,
-  .footer-wrapper,
-  .header {
-    width: 1830px;
-  }
-}
-
-
-@media screen and (min-width: 1680px) {
-  .no-news {
-    width: calc(100% - 622px);
   }
 
   .thumbs.thumbs_mini {
@@ -2992,5 +3007,17 @@ h1 .order-status {
 
   .thumbs.thumbs_mini li {
     width: 290px;
+  }
+}
+
+@media screen and (min-width: 2040px) {
+  .content-wrapper,
+  .footer-wrapper,
+  .header {
+    width: 1830px;
+  }
+
+  .thumbs.thumbs_mini li {
+    width: 312px;
   }
 }

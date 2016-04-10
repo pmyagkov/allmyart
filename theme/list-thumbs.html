@@ -51,20 +51,19 @@
             {if $p.summary}<span itemprop="description" class="summary">{strip_tags($p.summary)|truncate:100}</span>{/if}
         </a>
         <div class="product-stats">
-            <div class="product-name-price-wrapper">
-                <div class="product-name-wrapper">
-                    <div class="product-name" itemprop="name">{$p.name}</div>
-                </div>
-                <div class="product-price">от {shop_currency_html($p.price)}</div>
-                <meta itemprop="price" content="{$p.price}">
-                <meta itemprop="priceCurrency" content="{$wa->shop->primaryCurrency()}">
+            <div class="product-name-wrapper">
+                <div class="product-name" itemprop="name">{$p.name}</div>
             </div>
-
+            <div class="product-price">от {shop_currency_html($p.price)}</div>
+            <meta itemprop="price" content="{$p.price}">
+            <meta itemprop="priceCurrency" content="{$wa->shop->primaryCurrency()}">
             <div class="product-button-wrapper">
                 <a href="{$p.frontend_url}" class="product-button">
                     Купить
                 </a>
             </div>
+
+
             {if $p.summary}<span itemprop="description" class="summary">{strip_tags($p.summary)|truncate:100}</span>{/if}
         </div>
         {if !empty($p.features)}

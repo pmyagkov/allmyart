@@ -1908,6 +1908,22 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
   width: 100%;
   background: url('img/social_s.png') no-repeat;
   background-size: cover;
+
+  position: relative;
+}
+
+.socials .social__link:hover:after {
+  content: '';
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: rgba(0,0,0,.2);
+  z-index: 5;
+  position: absolute;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
 }
 
 .socials .social_vk .social__link {
@@ -1940,6 +1956,25 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
   display: none;
 }
 
+.header-shadow {
+  opacity: 0;
+  -webkit-transition: opacity .5s;
+  -moz-transition: opacity .5s;
+  -ms-transition: opacity .5s;
+  -o-transition: opacity .5s;
+  transition: opacity .5s;
+}
+
+.small-header .header-shadow {
+  position: absolute;
+  width: 200%;
+  height: 20px;
+  bottom: 0;
+  left: -10px;
+  box-shadow: rgba(0,0,0,.2) 10px 10px 10px;
+  opacity: 1;
+}
+
 .small-header .header .sticky-to-hide.filters {
   display: block;
 }
@@ -1948,7 +1983,8 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
   float: left;
   font-size: 1.7em;
   margin-top: 8px;
-  font-weight: 900;
+
+  font-weight: 500;
 }
 
 
@@ -2024,6 +2060,10 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
   margin-left: 2px;
 }
 
+.cart__value .ruble {
+  margin-left: -6px;
+}
+
 
 .category-name {
   font-size: 3em;
@@ -2042,10 +2082,47 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
 
 
 
+.maintext {
+  margin-left: -47px;
+  padding-left: 47px;
+
+  padding-top: 46px;
+
+  position: relative;
+}
+
+.maintext::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: -1000px;
+  bottom: 0;
+  top: 0;
+
+  background-color: #f4f4f4;
+}
+
+.maintext__caption {
+  text-transform: uppercase;
+  font-size: 22px;
+  margin-bottom: 17px;
+  position: relative;
+}
+
+.maintext__text {
+  padding-bottom: 64px;
+  position: relative;
+}
+
+
+
+
 body {
   white-space: nowrap;
   font-family: "Museo Sans Cyrl1", "Helvetica Neue", Verdana, "sans-serif";
   color: #373737;
+
+  overflow-x: hidden;
 }
 
 .content-wrapper {
@@ -2081,7 +2158,6 @@ body {
 }
 
 .maincontent .container {
-  padding-bottom: 20px;
 }
 
 .maincontent.submenu-is-shown {
@@ -2151,10 +2227,10 @@ body {
 
 footer.globalfooter {
   clear: both;
-  background: #eee;
+  background: #e5e5e5;
   z-index: 0;
-  padding-top: 36px;
-  height: 82px;
+  padding-top: 31px;
+  height: 81px;
 
   color: #888;
 
@@ -2204,11 +2280,12 @@ footer a:hover {
   display: inline-block;
   position: relative;
 
-  height: 48px;
+  height: 45px;
 
   text-transform: uppercase;
 
   font-size: 13px;
+  top: -2px;
 }
 
 .footer-links ul {
@@ -2219,59 +2296,47 @@ footer a:hover {
   position: absolute;
 }
 
-.footer-links li:nth-child(2n+1) {
-  top: 0
-}
-
-.footer-links li:nth-child(2n) {
-  bottom: 0
-}
-
-.footer-links li:nth-child(1), .footer-links li:nth-child(2) {
+/* Аксессуары */
+.footer-link_1 {
+  bottom: 0;
   left: 0;
 }
 
-.footer-links li:nth-child(3), .footer-links li:nth-child(4) {
+/* Контакты */
+.footer-link_7 {
+  top: 0;
+  left: 0;
+}
+
+/* Интересное */
+.footer-link_2 {
+  top: 0;
   left: 150px;
 }
 
-.footer-links li:nth-child(5), .footer-links li:nth-child(6) {
-  left: 300px;
+/* О компании */
+.footer-link_4 {
+  bottom: 0;
 }
 
-.footer-links li:nth-child(7), .footer-links li:nth-child(8) {
-  left: 500px;
-}
-
-.footer-links li:nth-child(9), .footer-links li:nth-child(10) {
-  left: 650px;
+.footer-link_2, .footer-link_4 {
+  left: 121px;
 }
 
 
-/* при сужении окна расстояние между ссылками схлопывается */
-@media screen and (max-width: 1370px) {
-
-  .footer-links li:nth-child(1), .footer-links li:nth-child(2) {
-    left: 0;
-  }
-
-  .footer-links li:nth-child(3), .footer-links li:nth-child(4) {
-    left: 112px;
-  }
-
-  .footer-links li:nth-child(5), .footer-links li:nth-child(6) {
-    left: 230px;
-  }
-
-  .footer-links li:nth-child(7), .footer-links li:nth-child(8) {
-    left: 380px;
-  }
-
-  .footer-links li:nth-child(9), .footer-links li:nth-child(10) {
-    left: 500px;
-  }
+/* Оплата/доставка */
+.footer-link_5 {
+  top: 0;
 }
 
+/* Гарантия/возврат */
+.footer-link_6 {
+  bottom: 0;
+}
+
+.footer-link_5, .footer-link_6 {
+  left: 242px;
+}
 
 .footer-wrapper .socials {
   position: absolute;
