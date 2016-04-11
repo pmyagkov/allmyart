@@ -177,9 +177,27 @@
         background-position: 0 0;
     }
 
-    .onestep-cart.cart-embed .cart-form::after {
+    .onestep-cart.cart-embed .cart-form {
+        position: relative;
+    }
+
+    .onestep-cart.cart-embed .cart-form::before {
         position: absolute;
-        content: ''
+        content: '';
+        left: -47px;
+        top: 0;
+        right: -10000px;
+        bottom: 0;
+
+        background-color: #f4f4f4;
+    }
+
+    .onestep-cart.cart-embed .cart-form > * {
+        position: relative;
+    }
+
+    .onestep-cart .step-confirmation .cart-total__checkout {
+        margin-bottom: 30px;
     }
 
 

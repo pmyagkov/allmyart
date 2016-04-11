@@ -47,7 +47,7 @@
     {/if}
 
 </div>
-
+<!--
 <script type="text/javascript">
     $(function () {
     
@@ -55,7 +55,6 @@
         $('header .banner h3').show();
     
         function checkoutStep(step_id) {
-            debugger;
             $.get("{$wa->getUrl('/frontend/checkout')}" + step_id + '/', function (response) {
                 debugger;
                 var current = $(".checkout-step .checkout-step-content:visible");
@@ -82,7 +81,6 @@
             });
         }
         $(".checkout a").click(function () {
-            debugger;
             if ($(this).hasClass('hint')) {
                 if ($(this).hasClass('back')) {
                     checkoutStep($(this).closest('.checkout-step').prev().find('.checkout-content').data('step-id'));
@@ -97,7 +95,6 @@
             return false;
         });
         $("form.checkout-form").on('submit', function () {
-            debugger;
             var $form = $(this);
             var step = $form.find('.checkout-content').data('step-id');
             if (step == 'payment' || step == 'shipping') {
@@ -117,10 +114,8 @@
             }
             $('<span class="loading"> <i class="icon24 loading"></i></span>').insertAfter($form.find('input:submit:last').attr('disabled', 'disabled'));
 
-            debugger;
 
             $.post($form.attr('action') || window.location, $form.serialize(), function (response) {
-                debugger;
                 var content = $(response);
                 var step_id = content.data('step-id');
                 if (!step_id) {
@@ -151,7 +146,6 @@
                     $(this).find('h2').removeClass('upcoming');
                 });
             }).always(function () {
-                debugger;
                 $form.find('span.loading').remove();
                 $form.find('input:submit:last').removeAttr('disabled');
             });
@@ -159,3 +153,4 @@
         });
     });
 </script>
+-->

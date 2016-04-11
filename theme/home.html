@@ -131,20 +131,24 @@
 
                 $lis.each(function (i, e) {
                     var $elem = $(this);
-                    var height = $elem.find('.product-name').height();
+                    var $productName = $elem.find('.product-name');
+                    $productName.css('height', 'auto');
+
+                    var height = $productName.height();
                     var modulo = i % columnsCount;
                     // значит, название продукта занимает 2 строчки
-                    var next, prev;
-                    var elems;
+                    var traverse;
+                    var elems = [], i;
                     if (height > 20) {
-                        if (modulo === 0) {
-                            elems = [next = $elem.next(), next.next()];
+                        i = modulo;
+                        traverse = $elem;
+                        while (++i < columnsCount) {
+                            elems.push(traverse = traverse.next());
                         }
-                        if (modulo === 1) {
-                            elems = [$elem.prev(), $elem.next()];
-                        }
-                        if (modulo === 2) {
-                            elems = [prev = $elem.prev(), prev.prev()];
+                        i = modulo;
+                        traverse = $elem;
+                        while (--i >= 0) {
+                            elems.push(traverse = traverse.prev());
                         }
                     }
 

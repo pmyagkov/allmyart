@@ -144,6 +144,10 @@ span.loading {
   margin: 0 40px 20px 0;
 }
 
+.thumbs.thumbs_mini li .image img {
+  height: 189px;
+}
+
 .thumbs_mini .product-stats {
   margin: 14px 7px 0 8px;
   font-size: 14px;
@@ -165,8 +169,14 @@ span.loading {
   display: inline-block;
 
   margin-top: 9px;
-
   vertical-align: middle;
+
+  letter-spacing: 0.01em;
+}
+
+.thumbs_mini .product-price .ruble {
+  margin-left: -6px;
+  font-size: 20px;
 }
 
 .thumbs_mini .product-button {
@@ -187,6 +197,7 @@ span.loading {
 }
 
 ul.thumbs {
+  margin-top: 0;
   padding: 0;
   margin-right: -40px;
 }
@@ -1661,7 +1672,7 @@ input.error, textarea.error {
   width: 100%;
   text-align: center;
   height: 32px;
-  margin: 10px 0 20px 0;
+  margin: 42px 0 20px 0;
 
   letter-spacing: 0.8px;
   font-size: 11px;
@@ -1672,8 +1683,8 @@ input.error, textarea.error {
 
 .small-header .filters {
   float: right;
-  width: 224px;
-  margin: 14px 15px -10px 0;
+  width: 235px;
+  margin: 14px 0 -10px 0;
 }
 
 .filter-param-sep {
@@ -1681,7 +1692,7 @@ input.error, textarea.error {
   border-left: 1px #373737 solid;
   height: 21px;
   top: -2px;
-  left: 115px;
+  left: 113px;
 
   display: none;
 }
@@ -1691,7 +1702,7 @@ input.error, textarea.error {
 }
 
 .filter-param-sep_2 {
-  left: 184px;
+  left: 185px;
 }
 
 .filters input[type="text"] {
@@ -1711,8 +1722,8 @@ input.error, textarea.error {
 
 .filters .filter-param_varchar .filter-param__img {
   background: url('img/up_modul_icons_s2.png') no-repeat;
-  width: 32px;
-  height: 32px;
+  width: 25px;
+  height: 25px;
   display: inline-block;
   background-size: cover;
 }
@@ -1724,16 +1735,6 @@ input.error, textarea.error {
 
 .filters .filter-param_modulesnumber {
   float: left;
-}
-
-.filters .filter-param_orientation {
-  float: right;
-
-  margin-right: -14px;
-}
-
-.filters .filter-param_orientation .filter-param__value_2 {
-  margin-left: 1px !important;
 }
 
 .filters .filter-param_varchar .filter-param__text {
@@ -1754,21 +1755,65 @@ input.error, textarea.error {
   position: absolute;
 }
 
+.filters .filter-param__text {
+  position: relative;
+  top: -2px;
+
+  font-size: 11px;
+
+  letter-spacing: 0.01em;
+}
+
 .filters .filter-param_varchar .filter-param__value {
   margin-right: 23px;
 }
 
+.small-header .filters .filter-param .filter-param__value {
+  margin: 0 0 0 5px;
+}
+
 /* КОЛИЧЕСТВО МОДУЛЕЙ */
 .filters .filter-param_modulesnumber .filter-param__value_1 {
-  margin-right: 15px;
+  margin-right: 12px;
 }
+
+.filters .filter-param_modulesnumber .filter-param__value_1 .filter-param__text {
+  margin-left: 25px;
+}
+
+.filters .filter-param_modulesnumber .filter-param__value_2 {
+  margin-right: 17px;
+}
+
+.small-header .filters .filter-param_modulesnumber .filter-param__value_2 {
+  margin-left: 3px !important;
+}
+
+
+.filters .filter-param_modulesnumber .filter-param__value_2 .filter-param__text {
+  margin-left: 28px;
+}
+
+.filters .filter-param_modulesnumber .filter-param__value_3 {
+  margin-right: 18px;
+}
+
+.filters .filter-param_modulesnumber .filter-param__value_3 .filter-param__text {
+  margin-left: 30px;
+}
+
+.filters .filter-param_modulesnumber .filter-param__value_4 .filter-param__text {
+  margin-left: 32px;
+}
+
+
 
 .filters .filter-param_modulesnumber .filter-param__value_1 :checked + .filter-param__img {
   background-position: 53.3% 50%;
 }
 
 .filters .filter-param_modulesnumber .filter-param__value_2 .filter-param__img {
-  background-position: 6.65% 50%;
+  background-position: 6.55% 50%;
 }
 
 .filters .filter-param_modulesnumber .filter-param__value_2 :checked + .filter-param__img {
@@ -1776,7 +1821,7 @@ input.error, textarea.error {
 }
 
 .filters .filter-param_modulesnumber .filter-param__value_3 .filter-param__img {
-  background-position: 13.3% 50%;
+  background-position: 13.2% 50%;
 }
 
 .filters .filter-param_modulesnumber .filter-param__value_3 :checked + .filter-param__img {
@@ -1793,15 +1838,15 @@ input.error, textarea.error {
 
 /* ФОТО или ГРАФИКА */
 .filters .filter-param_style {
-  margin: 0 13px 0 31px;
+  position: absolute;
+  left: 232px;
 }
 
 .small-header .filters .filter-param_style {
-  margin-top: 2px;
-}
+  position: static;
 
-.small-header .filters .filter-param_style {
-  margin-left: 22px;
+  margin-left: 7px;
+  margin-top: 3px;
 }
 
 .filters .filter-param_style  .filter-param__text {
@@ -1809,8 +1854,22 @@ input.error, textarea.error {
 }
 
 .filters .filter-param_style .filter-param__value_1 {
-  margin-right: 46px;
+  margin-right: 45px;
 }
+
+.filters .filter-param_style .filter-param__value_1 .filter-param__text {
+  margin-left: 30px;
+}
+
+
+.filters .filter-param_style .filter-param__value_2 .filter-param__text {
+  margin-left: 28px;
+}
+
+.small-header .filters .filter-param_style .filter-param__value_2 {
+  margin-left: 6px;
+}
+
 
 .filters .filter-param_style .filter-param__value_1 .filter-param__img {
   background-position: 26.7% -3px;
@@ -1833,8 +1892,18 @@ input.error, textarea.error {
 }
 
 /* ОРИЕНТАЦИЯ */
+.filters .filter-param_orientation {
+  position: absolute;
+  left: 437px;
+}
+
+.small-header .filters .filter-param_orientation {
+  position: static;
+  float: right;
+}
+
 .filters .filter-param_orientation .filter-param__value_1 {
-  margin-right: 108px;
+  margin-right: 98px;
 }
 
 .filters .filter-param_orientation .filter-param__value_1 .filter-param__img {
@@ -1842,7 +1911,7 @@ input.error, textarea.error {
 }
 
 .filters .filter-param_orientation .filter-param__value_1 .filter-param__text {
-  margin-left: 35px;
+  margin-left: 26px;
 }
 
 .filters .filter-param_orientation .filter-param__value_1 :checked + .filter-param__img {
@@ -1850,7 +1919,16 @@ input.error, textarea.error {
 }
 
 .filters .filter-param_orientation .filter-param__value_2 {
-  margin-right: 137px;
+  margin-right: 112px;
+}
+
+.small-header .filters .filter-param_orientation .filter-param__value_2 {
+  margin-left: 0;
+}
+
+.filters .filter-param_orientation .filter-param__value_2 .filter-param__text {
+  margin-left: 30px;
+  letter-spacing: .02em;
 }
 
 .filters .filter-param_orientation .filter-param__value_2 .filter-param__img {
@@ -1861,10 +1939,6 @@ input.error, textarea.error {
   background-position: 100% 50%;
 }
 
-
-.small-header .filters .filter-param__value {
-  margin: 0 0 0 5px !important;
-}
 
 .filters label {
   cursor: pointer;
@@ -2112,6 +2186,7 @@ input.error, textarea.error {
   background-position: 55.5% 0;
 }
 
+/* Самовывоз */
 .shipping-5 .shipping__icon {
   background-position: 11.1% 0;
 }
@@ -3006,7 +3081,12 @@ h1 .order-status {
   }
 
   .thumbs.thumbs_mini li {
-    width: 290px;
+    width: 289px;
+    width: 289.5px;
+  }
+
+  .thumbs.thumbs_mini li .image img {
+    height: 218px;
   }
 }
 
@@ -3019,5 +3099,9 @@ h1 .order-status {
 
   .thumbs.thumbs_mini li {
     width: 312px;
+  }
+
+  .thumbs.thumbs_mini li .image img {
+    height: 234px;
   }
 }

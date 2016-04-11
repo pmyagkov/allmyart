@@ -312,6 +312,8 @@ $(document).ready(function () {
 
                     loading.show();
                     $.get(url, function (html) {
+                        return;
+
                         var tmp = $('<div></div>').html(html);
                         if ($.Retina) {
                             tmp.find('#product-list .product-list img').retina();
@@ -347,7 +349,7 @@ $(document).ready(function () {
                             $('.lazyloading-load-more').hide();
                         }
 
-                        loading.hide();
+                        //loading.hide();
                         tmp.remove();
                     });
                 }
