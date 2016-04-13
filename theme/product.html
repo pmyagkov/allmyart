@@ -23,6 +23,19 @@
         </ul>
     </nav>-->
 
+    {foreach $product.skus as $sku name="sku"}
+        {if $sku.sku}
+            {$sku_number = $sku.sku}
+            {break}
+        {/if}
+    {/foreach}
+
+    {if $sku_number}
+    <div class="sku-number">
+        Артикул: {$sku_number}
+    </div>
+    {/if}
+
     <!-- purchase -->
     <div class="product-sidebar">
     
@@ -103,13 +116,13 @@
         {/if}
 
 
-        {if $product.description}
+        <!--{if $product.description}
             <div class="description">
                 <div class="description__label">Описание</div>
                 <div class="description__text" itemprop="description">{$product.description}</div>
             </div>
             <div class="description" id="product-description" itemprop="description"></div>
-        {/if}
+        {/if}-->
 
         <!-- product reviews -->
         <!--<section class="reviews">
@@ -175,7 +188,7 @@
 {$upselling = $product->upSelling(12)}
 {$crossselling = $product->crossSelling(12)}
 
-{if $upselling || $crossselling}
+{*if $upselling || $crossselling}
     <div class="product-info">
 
         {if $crossselling}
@@ -198,4 +211,12 @@
         {/if}  
 
     </div>
+{/if*}
+
+{if $upselling}
+<div class="upselling">
+    <div class="upselling__title">Посмотрите также:</div>
+    {include file="`$wa_active_theme_path`/list-thumbs-micro.html" products=$upselling limit=10}
+
+</div>
 {/if}

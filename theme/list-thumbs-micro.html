@@ -1,0 +1,14 @@
+<ul class="thumbs-micro">
+    {foreach $products as $p}
+
+        {* Выводим только $limit штук *}
+        {if $p@iteration > $limit}{break}{/if}
+
+    <li>
+        <a href="{$p.frontend_url}" title="{$p.name}">
+            {$wa->shop->productImgHtml($p, '148', ['itemprop' => 'image', 'alt' => $p.name, 'default' => "`$wa_theme_url`img/dummy96.png"])}
+            <div class="product-name" itemprop="name">{$p.name}</div>
+        </a>
+    </li>
+    {/foreach}
+</ul>

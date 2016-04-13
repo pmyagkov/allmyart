@@ -116,10 +116,13 @@
                         </div>
                         {/foreach}
                     </div>
-
+                    {* Сюда еще вставляются бестселлеры *}
+                    <div class="maintext">
+                        {$content}
+                    </div>
+                {else}
+                    {$content}
                 {/if}
-
-                {$content}
             </div>
 
         </main>

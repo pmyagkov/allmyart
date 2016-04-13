@@ -118,7 +118,8 @@ a.not-visited:visited {
   color: #373737;
 }
 
-a:hover {
+a:hover,
+.aside .category-link:hover {
   color: #A7A7A7;
 }
 
@@ -544,6 +545,7 @@ ul.tree ul a {
   position: relative;
 
   margin-bottom: -20px;
+  margin-top: 15px;
 }
 
 .pop__cat {
@@ -713,35 +715,6 @@ ul.tree ul a {
 .pop__cat-link_10 {
   background: url('img/cat-stilllife.jpg') 60% 18%;
 }
-
-
-
-.link-collections__title {
-  font-size: 44px;
-  text-transform: lowercase;
-  border: solid transparent;
-  border-top-width: 40px;
-  border-bottom-width: 28px;
-}
-
-.link-collections_similar {
-  background-color: #eeeeee;
-
-  margin-left: -47px;
-  padding-left: 47px;
-}
-
-.link-collections .thumbs_mini .product-name {
-  max-width: 200px;
-  margin-top: 10px;
-}
-
-.link-collections .image img {
-  height: 150px;
-  max-width: 200px;
-}
-
-
 
 
 
@@ -1927,7 +1900,7 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
 
 .header {
   white-space: nowrap;
-  padding: 45px 47px 5px 47px;
+  padding: 45px 47px 0 47px;
   margin: 0 -47px;
   position: fixed;
   top: 0;
@@ -1958,7 +1931,9 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
   height: 20px;
   bottom: 0;
   left: -10px;
-  box-shadow: rgba(0,0,0,0.1) 2px 8px 24px;
+  -webkit-box-shadow: rgba(82, 82, 82, 0.1) 2px 11px 12px;
+  -moz-box-shadow: rgba(82, 82, 82, 0.1) 2px 11px 12px;
+  box-shadow: rgba(82, 82, 82, 0.1) 2px 11px 12px;
   opacity: 1;
 }
 
@@ -1970,6 +1945,8 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
   float: left;
   font-size: 1.7em;
   margin-top: 8px;
+
+  letter-spacing: .06em;
 
   font-weight: 500;
 }
@@ -1984,26 +1961,64 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
   width: 60%;
 }
 
-.header .phone:before,
-.header .email:before {
+.phone:before,
+.email:before {
   content: ' ';
   display: inline-block;
-  width: 15px;
+  width: 14px;
   height: 15px;
   vertical-align: middle;
   margin-right: 6px;
 }
 
-.header .phone:before {
+.phone:before {
   background: url('img/phone+mail_s.png') no-repeat 0 0;
 }
 
-.header .email:before {
+.email:before {
   background: url('img/phone+mail_s.png') no-repeat 100% 0;
 }
 
 .header .email {
   margin-left: 25px;
+}
+
+.disclaimer {
+  line-height: 1.3;
+  font-size: 13px;
+  letter-spacing: 0;
+}
+
+.disclaimer .phone-email-wrapper {
+  white-space: nowrap;
+  padding-top: 2px;
+  display: inline-block;
+}
+
+.disclaimer .phone,
+.disclaimer .email{
+  font-weight: 900;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+
+  margin-top: 2px;
+}
+
+.disclaimer .phone {
+  margin-right: -3px;
+}
+
+.disclaimer .email {
+  margin-left: 7px;
+}
+
+#product-core-image {
+  width: 530px;
+  height: 398px;
+}
+
+#product-core-image img {
+  height: 100%;
 }
 
 
@@ -2024,8 +2039,8 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
 }
 
 .small-header .header {
-  padding-top: 30px;
-  padding-bottom: 23px;
+  padding-top: 21px;
+  padding-bottom: 11px;
 }
 
 .small-header .header::before {
@@ -2067,11 +2082,11 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
   margin-left: -6px;
 }
 
-
 .category-name {
   font-size: 3em;
   letter-spacing: 2.2px;
   margin: 15px 0 0 0;
+  white-space: normal;
 
   font-weight: 500;
 
@@ -2094,6 +2109,10 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
   position: relative;
 }
 
+.maintext > * {
+  position: relative;
+}
+
 .maintext::before {
   content: '';
   position: absolute;
@@ -2105,7 +2124,8 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
   background-color: #f4f4f4;
 }
 
-.maintext__caption {
+.maintext__caption,
+.maintext h1 {
   text-transform: uppercase;
   font-size: 22px;
   margin-bottom: 17px;
@@ -2129,7 +2149,7 @@ body {
 }
 
 .content-wrapper {
-  min-height: calc(100% - 118px);
+  min-height: calc(100% - 106px);
 }
 
 .content-bumper,

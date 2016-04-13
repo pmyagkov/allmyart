@@ -1,8 +1,6 @@
-<!--
 <h5 class="category-count">
-    {$collection.count}&nbsp;
-    {$modulus = $collection.count % 10}
-    {$modulus}
+    {$collection.productCount}&nbsp;
+    {$modulus = $collection.productCount % 10}
     {if $modulus == 1}
         картина
     {elseif $modulus == 2 or $modulus == 3 or $modulus == 4}
@@ -11,7 +9,6 @@
         картин
     {/if}
 </h5>
--->
 
 <!-- description -->
 {if $collection.description}
@@ -30,7 +27,9 @@
 <div class="link-collections link-collections_similar">
     <div class="link-collections__title">Похожие коллекции</div>
 
-    <ul class="thumbs thumbs_mini">
+    {include file="/home/allmyart/allmyart.ru/docs/wa-data/public/shop/themes/allmyart/list-thumbs-micro-collection.html"
+        products=$collection.likeThis limit=10}
+    <!--<ul class="thumbs thumbs_mini">
     {foreach from=$collection.likeThis item=item}
         <li>
             <div class="image">
@@ -41,7 +40,7 @@
             </div>
         </li>
     {/foreach}
-    </ul>
+    </ul>-->
 </div>
 {/if}
 

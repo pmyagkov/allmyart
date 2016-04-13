@@ -180,6 +180,8 @@ $(document).ready(function () {
                     window.history.pushState({}, '', url);
                 }
                 $(window).lazyLoad && $(window).lazyLoad('reload');
+
+                $(document).trigger('equalize');
             });
         };
 
@@ -312,8 +314,6 @@ $(document).ready(function () {
 
                     loading.show();
                     $.get(url, function (html) {
-                        return;
-
                         var tmp = $('<div></div>').html(html);
                         if ($.Retina) {
                             tmp.find('#product-list .product-list img').retina();
@@ -351,6 +351,8 @@ $(document).ready(function () {
 
                         //loading.hide();
                         tmp.remove();
+
+                        $(document).trigger('equalize');
                     });
                 }
             });

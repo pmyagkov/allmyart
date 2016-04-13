@@ -1,0 +1,15 @@
+<ul class="thumbs-micro">
+    {foreach from=$products item=item}
+
+        {* Выводим только $limit штук *}
+        {if $p@iteration > $limit}{break}{/if}
+
+    <li>
+        <a href="{$frontend_url}tags_{$item.url}" title="{$item.title}">
+            <img src="{if $item['image']}{$item['image']}{else}{$pr = shopTagsCollectionPlugin::checkCollectionImage($item)}{$pr = $wa->shop->product($pr.id)}{$wa->shop->productImgUrl($pr, 200)}{/if}">
+            <div class="product-name">{$item.title}</div>
+
+        </a>
+    </li>
+    {/foreach}
+</ul>
