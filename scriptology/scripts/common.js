@@ -4,7 +4,13 @@ var FILENAME_REPLACE_EXT_RE = /\.[^.]+$/;
 var LAYER_NAME_RE = /^\d+$/ig;
 var PSD_FILENAME_PATTERN_RE = /\.(psd)$/i;
 
-var PSD_FOLDER_PATH = '~/Documents/Photoshop TZ/';
+var PSD_FOLDER_PATH = '/Users/p.myagkov/Projects/allmyart/scriptology/samples/';
+
+var TEXTURES_PATH = "/Users/p.myagkov/Projects/allmyart/scriptology/textures/";
+
+var PATH_TO_BACKGROUND = TEXTURES_PATH + "bricks.jpg";
+var PATH_TO_CANVAS = TEXTURES_PATH + "canvas.jpg";
+
 var OUT_SUBFOLDER = '_/';
 var JPG_QUALITY = 10;
 
