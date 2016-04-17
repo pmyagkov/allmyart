@@ -116,7 +116,32 @@
                         </div>
                         {/foreach}
                     </div>
-                    {* Сюда еще вставляются бестселлеры *}
+
+                <!-- BESTSELLERS product list -->
+                {$productSetName = $page.list}
+                {$productSetTitle = $page.list_title}
+
+                {if !$productSetName}
+                    {$productSetName = "bestsellers"}
+                {/if}
+
+                {if !$productSetTitle}
+                    {$productSetTitle = $page.title}
+                {/if}
+
+                {$products = $wa->shop->productSet("`$productSetName`")}
+                {if $products}
+
+                <section class="bestsellers">
+                    <h5 class="bestsellers-header">{$productSetTitle|upper}</h5>
+                {include file="list-thumbs.html" products=$products disable_compare=true mini=true}
+                </section>
+                <script type="text/javascript" src="{$wa_active_theme_url}equalizeProductName.js"></script>
+
+                {else}
+                <p class="hint align-center"><br><em>{sprintf('[`In your store backend, drag some products into <strong>%s</strong> product list (which is in the left sidebar of the Products screen), and these products will be automatically published here — right on your storefront homepage.`]', $theme_settings.homepage_productset_bestsellers|escape|default:'()' )}</em></p>
+                {/if}
+
                     <div class="maintext">
                         {$content}
                     </div>
@@ -128,63 +153,8 @@
         </main>
     </div>
 
-    <!-- FOOTER -->
-    <footer class="globalfooter" role="contentinfo">
 
-        <div class="footer-bumper"></div>
-        <div class="footer-wrapper">
-            <div class="container">
-                <a class="footer-logo" href="/">
-
-                </a>
-
-                <div class="footer-links">
-                    <ul>
-                        {foreach $wa->shop->pages() as $page}
-                            {if $page.sidebar == "true"}
-                            <li class="footer-link footer-link_{$page.id}">
-                                <a href="{$page.url}">{$page.name}</a>
-                            </li>
-                            {/if}
-                        {/foreach}
-                    </ul>
-                </div>
-
-                <div class="socials">
-                    <ul class="social-list">
-                        <li class="social social_instagram">
-                            <a href="#" class="social__link"></a>
-                        </li>
-                        <li class="social social_vk">
-                            <a href="#" class="social__link"></a>
-                        </li>
-                        <li class="social social_fb">
-                            <a href="#" class="social__link"></a>
-                        </li>
-                    </ul>
-                </div>
-
-
-
-
-                {*if $wa->mailer && $wa->getUrl('mailer/frontend/subscribe')}
-                <div class="footer-block mailer-subscribe">
-                    <a href="#" class="top">[s`Follow us`]</a>
-                    <form action="{$wa->getUrl('mailer/frontend/subscribe')}" id="mailer-subscribe-form" target="mailer-subscribe-iframe">
-                        <input type="email" name="email" placeholder="your@email.here">
-                        <input type="submit" value="[s`Subscribe`]">
-                    </form>
-                    <iframe id="mailer-subscribe-iframe" name="mailer-subscribe-iframe" src="javascript:true" style="width:0;height:0;border:0px solid #666;float:right;background: #666;"></iframe>
-                    <p style="display:none" id="mailer-subscribe-thankyou"><i>[s`Thank you! We’ll keep you posted.`]</i></p>
-                </div>
-                {/if*}
-
-            </div>
-
-        </div>
-
-    </footer>
-
+    {include file="`$wa_active_theme_path`/footer.html"}
     
     {* admin-only slideout sidebar for nice and smooth real time theme customizations *}
     {* if $wa->user()->isAdmin()}{include file="admin-sidebar.html" inline *}{* /if *}

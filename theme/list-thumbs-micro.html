@@ -7,7 +7,7 @@
     <li>
         <a href="{$p.frontend_url}" title="{$p.name}">
             {$wa->shop->productImgHtml($p, '148', ['itemprop' => 'image', 'alt' => $p.name, 'default' => "`$wa_theme_url`img/dummy96.png"])}
-            <div class="product-name" itemprop="name">{$p.name}</div>
+            <div class="product-name" itemprop="name">{$p.name|capitalize}</div>
         </a>
     </li>
     {/foreach}

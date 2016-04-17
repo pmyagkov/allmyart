@@ -1,13 +1,21 @@
 <style>
-    .cart,
-    .checkout-header { display: none; }
+    .category-name {
+        visibility: hidden;
+    }
 </style>
+
+<script type="text/javascript">
+    $(function () {
+        // не знаю, как сделать это через smarty
+       $('.category-name').text('Заказ оформлен').css('visibility', 'visible');
+    });
+</script>
 
 <div class="checkout-result success">
     <div class="welcome">
-        <h1>[`Thank you!`]</h1>
-        <p>[`We successfully accepted your order, and will contact you asap.`]<br />
-        [`Your order number is `] <strong>{$order.id}</strong>.</p>
+        <p class="thanks">Спасибо! Номер вашего заказа:</p>
+        <div class="order-number">{$order.id|substr:1}</div>
+        <p class="keepintouch">В ближайшее время мы свяжемся с вами</p>
     </div>
     
     {if !empty($payment)}
@@ -21,7 +29,7 @@
     {/if}
     
     <p class="back">
-        &larr; <a href="{$wa_app_url}">[`Back to the store`]</a>
+        <a href="{$wa_app_url}">[`Back to the store`]</a>
     </p>
     
     <!-- plugin hook: 'frontend_checkout' -->

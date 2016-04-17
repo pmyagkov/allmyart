@@ -414,10 +414,6 @@ ul.related-bxslider li {
 /* Homepage
 ----------- */
 
-.welcome {
-  margin: 0 80px 30px;
-}
-
 ul.homepage-bxslider {
   padding: 0;
   margin: 0;
@@ -1107,6 +1103,8 @@ button:hover,
 
 .upselling {
   overflow: hidden;
+
+  width: 846px;
 }
 
 .upselling__title {
@@ -1119,9 +1117,11 @@ button:hover,
   list-style: none;
   padding: 0;
 
-  margin: 0 -28px 0 0;
-
   max-width: 871px;
+
+  margin: 0 -28px 33px 0;
+
+  overflow: hidden;
 }
 
 .link-collections .thumbs-micro {
@@ -1137,10 +1137,9 @@ button:hover,
 }
 
 .link-collections .thumbs-micro li {
-  margin-right: 17px;
-  width: 198px;
+  margin-right: 30px;
+  width: 184px;
 }
-
 
 
 .thumbs-micro img {
@@ -1150,8 +1149,8 @@ button:hover,
 }
 
 .link-collections .thumbs-micro img {
-  width: 198px;
-  height: 148px;
+  width: 184px;
+  height: 140px;
 }
 
 .link-collections {
@@ -1162,22 +1161,10 @@ button:hover,
 .link-collections__title {
   font-size: 23px;
 
-  padding-top: 27px;
-  letter-spacing: .02em;
+  padding-top: 14px;
+  letter-spacing: .0em;
   text-transform: uppercase;
-  padding-bottom: 23px;
-}
-
-.link-collections_similar {
-  background-color: #eeeeee;
-
-  margin-left: -47px;
-  padding-left: 47px;
-}
-
-.link-collections .thumbs_mini .product-name {
-  max-width: 200px;
-  margin-top: 10px;
+  padding-bottom: 28px;
 }
 
 .link-collections .image img {
@@ -1194,12 +1181,18 @@ button:hover,
 
 
 .thumbs-micro .product-name {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   line-height: 1.1;
   font-size: 12px;
-  text-align: center;
   height: 26px;
 
-  margin-top: 5px;
+  width: 100%;
+  white-space: normal;
+
+  letter-spacing: 0.01em;
+  margin: 10px 6px 0 6px;
 }
 
 
@@ -1794,7 +1787,7 @@ input.error, textarea.error {
   border-left: 1px #373737 solid;
   height: 21px;
   top: -2px;
-  left: 115px;
+  left: 117px;
 
   display: none;
 }
@@ -1823,14 +1816,16 @@ input.error, textarea.error {
 }
 
 .filters .filter-param_varchar .filter-param__img {
-  background: url('img/up_modul_icons_s2.png') no-repeat;
+  background: url('img/up_modul_icons_s3.png') no-repeat;
   width: 25px;
   height: 25px;
   display: inline-block;
+
   background-size: cover;
 }
 
 .small-header .filters .filter-param_varchar .filter-param__img {
+  background: url('img/up_modul_icons_small_s.png') no-repeat;
   width: 18px;
   height: 18px;
 }
@@ -1951,7 +1946,7 @@ input.error, textarea.error {
 .small-header .filters .filter-param_style {
   position: static;
 
-  margin: 3px 0 0 12px;
+  margin: 3px 0 0 9px;
 }
 
 .filters .filter-param_style  .filter-param__text {
@@ -2032,7 +2027,7 @@ input.error, textarea.error {
 }
 
 .small-header .filters .filter-param_orientation .filter-param__value_2 {
-  margin: 0 3px 0 6px;
+  margin: 0 3px 0 5px;
 }
 
 .filters .filter-param_orientation .filter-param__value_2 .filter-param__text {
@@ -2142,6 +2137,11 @@ input.error, textarea.error {
   vertical-align: middle;
 }
 
+.cart-row__total {
+  height: 30px;
+  display: table-cell;
+}
+
 .cart-row img {
   vertical-align: middle;
   width: 96px;
@@ -2214,12 +2214,18 @@ input.error, textarea.error {
   padding-top: 26px;
   float: right;
 
-  margin-bottom: 40px;
+  margin-bottom: 19px;
+}
+
+.cart-total.cart-total_1 {
+  width: 100%;
 }
 
 .cart-total__label {
   color: rgba(0, 0, 0, .5);
   vertical-align: middle;
+
+  letter-spacing: .03em;
 }
 
 .cart-total__price {
@@ -2244,15 +2250,13 @@ input.error, textarea.error {
   border-radius: 19px;
   border: 0;
 
-  padding: 11px 35px 12px 35px;
+  padding: 11px 18px 12px 18px;
 
   letter-spacing: .05em;
   font-weight: 700;
   font-size: 14px;
 
   outline: none;
-
-  font-size: 14px;
 }
 
 .cart-total__checkout {
@@ -2263,8 +2267,8 @@ input.error, textarea.error {
 ----------- */
 
 .shipping__icon, .payment__icon {
-  background: url('img/delivery+payment_s.png') no-repeat;
-  width: 84px;
+  background: url('img/delivery+payment_s_08.png') no-repeat;
+  width: 86px;
   height: 83px;
   display: inline-block;
   vertical-align: middle;
@@ -2273,16 +2277,9 @@ input.error, textarea.error {
   position: relative;
 }
 
-.shipping__label:hover :not(:checked) ~ .shipping__icon:after,
-.payment__label:hover :not(:checked) ~ .payment__icon:after {
-  content: '';
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  right: 2px;
-  bottom: 2px;
-  background-color: rgba(0,0,0,.2);
-  border-radius: 19px;
+.shipping__label:hover :not(:checked) ~ .shipping__icon,
+.payment__label:hover :not(:checked) ~ .payment__icon {
+  background: url('img/delivery+payment_hover_s.png') no-repeat;
 }
 
 .checkout-options .shipping__icon {
@@ -2297,36 +2294,118 @@ input.error, textarea.error {
 
 /* Самовывоз */
 .shipping-5 .shipping__icon {
-  background-position: 11.1% 0;
+  background-position: 0% 0;
 }
 
 .shipping-5 :checked ~ .shipping__icon {
-  background-position: 66.7% 0;
+  background-position: 53.4% 0;
 }
 
-.payment-1 .payment__icon {
-  background-position: 22.2% 0;
+/* Курьер */
+.shipping-11 .shipping__icon,
+.shipping-12 .shipping__icon {
+  background-position: 6.7% 0;
+}
+.shipping-11 :checked ~ .shipping__icon,
+.shipping-12 :checked ~ .shipping__icon {
+  background-position: 60% 0;
 }
 
-.payment-1 :checked ~ .payment__icon {
-  background-position: 77.8% 0;
+.shipping-11 .shipping__label:hover :not(:checked) ~ .shipping__icon,
+.shipping-12 .shipping__label:hover :not(:checked) ~ .shipping__icon {
+  background-position: 14.3% 0;
 }
 
-.payment-2 .payment__icon {
+/* Почта */
+.shipping-7 .shipping__icon {
   background-position: 33.3% 0;
 }
 
-.payment-2 :checked ~ .payment__icon {
-  background-position: 88.9% 0;
+.shipping-7 :checked ~ .shipping__icon {
+  background-position: 86.7% 0;
 }
 
+.shipping-7 .shipping__label:hover :not(:checked) ~ .shipping__icon {
+  background-position: 71.5% 0;
+}
+
+/* EMS */
+.shipping-14 .shipping__icon {
+  background-position: 40% 0;
+}
+
+.shipping-14 :checked ~ .shipping__icon {
+  background-position: 93.4% 0;
+}
+
+.shipping-14 .shipping__label:hover :not(:checked) ~ .shipping__icon {
+  background-position: 85.7% 0;
+}
+
+
+
+/* Наличными */
+/* Наличными или картой при получении */
+/* Наложенный платёж */
+.payment-1 .payment__icon,
+.payment-6 .payment__icon,
+.payment-9 .payment__icon {
+  background-position: 13.3% 0;
+}
+
+.payment-1 :checked ~ .payment__icon,
+.payment-6 :checked ~ .payment__icon,
+.payment-9 :checked ~ .payment__icon {
+  background-position: 66.7% 0;
+}
+
+.payment-1 .payment__label:hover :not(:checked) ~ .payment__icon,
+.payment-6 .payment__label:hover :not(:checked) ~ .payment__icon,
+.payment-9 .payment__label:hover :not(:checked) ~ .payment__icon {
+  background-position: 28.6% 0;
+}
+
+/* Картой */
+.payment-2 .payment__icon {
+  background-position: 20% 0;
+}
+
+.payment-2 :checked ~ .payment__icon {
+  background-position: 73.3% 0;
+}
+
+.payment-2 .payment__label:hover :not(:checked) ~ .payment__icon {
+  background-position: 42.9% 0;
+}
+
+/* Картой онлайн */
 .payment-3 .payment__icon {
-  background-position: 44.4% 0;
+  background-position: 26.7% 0;
 }
 
 .payment-3 :checked ~ .payment__icon {
+  background-position: 80% 0;
+}
+
+.payment-3 .payment__label:hover :not(:checked) ~ .payment__icon {
+  background-position: 57.2% 0;
+}
+
+
+/* Счет */
+.payment-10 .payment__icon {
+  background-position: 46.7% 0;
+}
+
+.payment-10 :checked ~ .payment__icon {
   background-position: 100% 0;
 }
+
+.payment-10 .payment__label:hover :not(:checked) ~ .payment__icon {
+  background-position: 100% 0;
+}
+
+
 
 .shipping__label, .payment__label {
   cursor: pointer;
@@ -2472,11 +2551,6 @@ input.error, textarea.error {
   font-weight: bold;
 }
 
-.checkout .checkout-result .welcome {
-  margin-top: -80px;
-  padding-top: 280px;
-}
-
 .checkout .checkout-result.error h1 {
   color: red;
 }
@@ -2488,8 +2562,34 @@ input.error, textarea.error {
   text-align: left;
 }
 
+.checkout .thanks {
+  letter-spacing: .03em;
+}
+
+.checkout .order-number {
+  font-size: 53px;
+  font-weight: 500;
+  letter-spacing: .03em;
+  margin: 37px 0 36px 3px;
+
+}
+
+.checkout .keepintouch {
+  letter-spacing: .04em;
+  margin-left: -4px;
+}
+
 .checkout .checkout-result .back {
-  margin-top: 50px;
+  margin-top: 154px;
+
+  margin-bottom: 50px;
+}
+
+.checkout .checkout-result .back a {
+  text-transform: uppercase;
+  padding-bottom: 5px;
+  border-bottom: 1px #373737 solid;
+  text-decoration: none;
 }
 
 .checkout {
@@ -3185,6 +3285,10 @@ h1 .order-status {
     width: 1385px;
   }
 
+  .thumbs-micro {
+    max-width: 1295px;
+  }
+
   .thumbs.thumbs_mini {
     margin-right: -72px;
   }
@@ -3199,7 +3303,7 @@ h1 .order-status {
   }
 
   .link-collections .thumbs-micro li {
-    margin-right: 16px;
+    margin-right: 33px;
   }
 }
 
@@ -3216,5 +3320,9 @@ h1 .order-status {
 
   .thumbs.thumbs_mini li .image img {
     height: 234px;
+  }
+
+  .thumbs-micro {
+    max-width: 1760px;
   }
 }

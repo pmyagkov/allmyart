@@ -2,20 +2,44 @@ $(function () {
   function onShippingChange() {
     var val = $('[name=shipping_id]:checked').val();
 
+    /**
+     *
+     Самовывоз: ФИО, Тел, Мыло
+     Доставка по москве: ФИО, Тел, Мыло, Адрес (улица - дом - ...) (edited)
+     Доставка по МО: ФИО, Тел, Мыло, Населенный пункт, Адрес (улица - дом - ...)
+     Доставка Почтой России, Доставка EMS - ФИО, Тел, Мыло, Индекс, Населенный пункт, Адрес (улица - дом - ...)
+     */
+    var INDEX_FIELD = 'indeks';
+    var CITY_FIELD = 'gorod';
+    var ADDRESS_FIELD = 'ulitsa-dom-kvar';
+
     var fieldsToHide = [];
     switch (val) {
-      //
-      case '11':
-        fieldsToHide = ['wa-field-indeks'];
+      // самовывоз
+      case '5':
+        fieldsToHide = [INDEX_FIELD, CITY_FIELD, ADDRESS_FIELD];
         break;
 
-      case '5':
-        fieldsToHide = ['wa-field-indeks', 'wa-field-ulitsa-dom-kvar'];
+      // Доставка по Москве
+      case '11':
+        fieldsToHide = [INDEX_FIELD, CITY_FIELD];
         break;
+
+      // Доставка по МО
+      case '12':
+        fieldsToHide = [INDEX_FIELD];
+        break;
+
+      // Почта
+      // EMS
+      case '7':
+      case '14':
+        break;
+
     }
 
     var fieldsToHideSelector = fieldsToHide.map(function (field) {
-      return '.' + field;
+      return '.wa-field-' + field;
     }).join(',');
 
     $('.wa-field').each(function () {
@@ -23,51 +47,52 @@ $(function () {
     });
   }
 
-  $('[name=shipping_id]').change(onShippingChange);
+  $('body').on('change', '[name=shipping_id]', onShippingChange);
 
   onShippingChange();
 
-  $.fn.scrollTo = function( target, options, callback ){
-    if(typeof options == 'function' && arguments.length == 2){ callback = options; options = target; }
-    var settings = $.extend({
-      scrollTarget  : target,
-      offsetTop     : 50,
-      duration      : 500,
-      easing        : 'swing'
-    }, options);
-    return this.each(function(){
-      var scrollPane = $(this);
-      var scrollTarget = (typeof settings.scrollTarget == "number") ? settings.scrollTarget : $(settings.scrollTarget);
-      var scrollY = (typeof scrollTarget == "number") ? scrollTarget : scrollTarget.offset().top + scrollPane.scrollTop() - parseInt(settings.offsetTop);
-      scrollPane.animate({scrollTop : scrollY }, parseInt(settings.duration), settings.easing, function(){
-        if (typeof callback == 'function') { callback.call(this); }
-      });
-    });
-  }
+  var prevScrollTop;
+  /*$(window).scroll(function (evt) {
+    console.log('SCROLL');
+
+    var $window = $(window);
+    if ($('.onestep-cart').is('.cart-embed')) {
+      console.log('EMBED');
+      if ($window.scrollTop() < $('.checkout').offset().top - 100) {
+        console.log('BLOCK', prevScrollTop);
+        $window.scrollTop(prevScrollTop);
+      } else {
+        prevScrollTop = $window.scrollTop();
+      }
+    } else {
+      prevScrollTop = $window.scrollTop();
+    }
+  });*/
 
   $('.cart .cart-total__checkout').click(function () {
     $('.checkout').show();
-    $('body').scrollTo('.checkout', { offsetTop: '200' });
 
-    $('.onestep-cart').addClass('cart-embed');
+    $('html,body').animate({
+      scrollTop: $('.checkout').offset().top - 100
+    }, 600, function () {
+      $('.onestep-cart').addClass('cart-embed');
+    });
+
+    return false;
+  });
+
+  $('body').on('click', '.back-to-cart', function () {
+    //$('.checkout').show();
+    $('html,body').animate({
+      scrollTop: 0
+    }, 1100);
+
+    $('.onestep-cart').removeClass('cart-embed');
 
     return false;
   });
 
 
-
-  function updateCart(data) {
-    $(".cart-total").html(data.total);
-    if (data.discount_numeric) {
-      $(".cart-discount").closest('tr').show();
-    }
-    $(".cart-discount").html('&minus; ' + data.discount);
-    if (data.add_affiliate_bonus) {
-      $(".affiliate").show().html(data.add_affiliate_bonus);
-    } else {
-      $(".affiliate").hide();
-    }
-  }
 
 // add to cart block: services
   $(".services input:checkbox").click(function () {
@@ -80,17 +105,26 @@ $(function () {
       }
     }
   });
-  $(".cart a.delete").click(function () {
-    var tr = $(this).closest('tr');
-    $.post('delete/', {html: 1, id: tr.data('id')}, function (response) {
+
+  function updateCart(data) {
+    $(".cart-total__price").html(data.total);
+  }
+
+  $(".cart .delete").click(function () {
+    var row = $(this).closest('.cart-row');
+    $.post('delete/', {html: 1, id: row.data('id')}, function (response) {
       if (response.data.count == 0) {
         location.reload();
+        return;
       }
-      tr.remove();
+      row.remove();
       updateCart(response.data);
     }, "json");
+
     return false;
   });
+
+
   $(".cart input.qty").change(function () {
     var that = $(this);
     if (that.val() > 0) {
@@ -350,18 +384,23 @@ $(function () {
       });
     },
     formSubmit: function () {
+      var _this = this;
+
       $("form.checkout-form").on('submit', function () {
+        _this.valide();
+
         var f = $(this);
         if (f.hasClass('last') || ($("#login-form").length && !$("#login-form input:submit").attr('disabled'))) {
           return true;
         }
 
-        if ($("form.checkout-form").find('input[name="shipping_id"]').length && !$("form.checkout-form").find('input[name="shipping_id"]:checked').not(':disabled').length) {
+        var $checkoutForm = $("form.checkout-form");
+        if ($checkoutForm.find('input[name="shipping_id"]').length && !$checkoutForm.find('input[name="shipping_id"]:checked').not(':disabled').length) {
           if (!f.find('em.errormsg').length) {
             $('<em class="errormsg inline">' + ('[`Please select shipping option`]') + '</em>').insertBefore(f.find('input:submit:last'));
           }
           return false;
-        } else if ($("form.checkout-form").find('input[name="payment_id"]').length && !$("form.checkout-form").find('input[name="payment_id"]:checked').not(':disabled').length) {
+        } else if ($checkoutForm.find('input[name="payment_id"]').length && !$checkoutForm.find('input[name="payment_id"]:checked').not(':disabled').length) {
           if (!f.find('em.errormsg').length) {
             $('<em class="errormsg inline">' + ('[`Please select payment option`]') + '</em>').insertBefore(f.find('input:submit:last'));
           }

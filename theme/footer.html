@@ -1,29 +1,80 @@
-{if count($currencies) > 1}
-    <aside class="currency-toggle">
-        <select id="currency">
-            {$currency = $wa->shop->currency()}
-            {foreach $currencies as $c_code => $c}
-                <option value="{$c_code}" {if $c_code == $currency} selected{/if}>{$c.title}</option>
-            {/foreach}
-        </select>
-        <script>
-            $("#currency").change(function () {
-                var url = location.href;
-                if (url.indexOf('?') == -1) {
-                    url += '?';
-                } else {
-                    url += '&';
-                }
-                location.href = url + 'currency=' + $(this).val();
-            });
-        </script>
-    </aside>
-{/if}
+<!-- FOOTER -->
+<footer class="globalfooter" role="contentinfo">
 
-<!-- plugin hook: 'frontend_footer' -->
-{* @event frontend_footer.%plugin_id% *}
-{foreach $frontend_footer as $_}{$_}{/foreach}
+    <div class="footer-bumper"></div>
+    <div class="footer-wrapper">
+        <div class="container">
+            <a class="footer-logo" href="/">
 
-<div{if count($currencies) == 1} class="poweredby"{/if} role="complementary">
-    [`<a href="http://www.shop-script.com/">Ecommerce software</a> by Webasyst`]
-</div>
+            </a>
+
+            <div class="footer-links">
+
+
+                    {$pages = $wa->shop->pages()}
+                    {*foreach $sorted_ids as $id}
+                        {$page = array_filter($pages, function($e) { return $e.id == $id })
+                        {if $page}
+                            {if $page.footer != "false"}
+
+                            <li class="footer-link footer-link_{$page.id}">
+                                <a href="{$page.url}">{$page.name}</a>
+                            </li>
+                            {/if}
+                            {$pages = array_filter($pages, function($e) { return $e.id != $id }}
+                        {/if}
+                    {/foreach*}
+
+                    {*foreach from=$pages|@sortby:"#order" as page=page*}
+
+                    {foreach $pages as $page}
+                    {if $page.footer != "false"}
+                        {$modulus = $page@iteration % 2}
+                        {if $modulus == 1}
+                            <div class="footer-section">
+                        {/if}
+
+                        <div class="footer-link footer-link_{$page.id}">
+                            <a href="{$page.url}">{$page.name}</a>
+                        </div>
+
+                        {if $modulus == 0}
+                            </div>
+                        {/if}
+                    {/if}
+                    {/foreach}
+
+            </div>
+
+            <div class="socials">
+                <ul class="social-list">
+                    <li class="social social_instagram">
+                        <a href="#" class="social__link"></a>
+                    </li>
+                    <li class="social social_vk">
+                        <a href="#" class="social__link"></a>
+                    </li>
+                    <li class="social social_fb">
+                        <a href="#" class="social__link"></a>
+                    </li>
+                </ul>
+            </div>
+
+
+            {*if $wa->mailer && $wa->getUrl('mailer/frontend/subscribe')}
+            <div class="footer-block mailer-subscribe">
+                <a href="#" class="top">[s`Follow us`]</a>
+                <form action="{$wa->getUrl('mailer/frontend/subscribe')}" id="mailer-subscribe-form" target="mailer-subscribe-iframe">
+                    <input type="email" name="email" placeholder="your@email.here">
+                    <input type="submit" value="[s`Subscribe`]">
+                </form>
+                <iframe id="mailer-subscribe-iframe" name="mailer-subscribe-iframe" src="javascript:true" style="width:0;height:0;border:0px solid #666;float:right;background: #666;"></iframe>
+                <p style="display:none" id="mailer-subscribe-thankyou"><i>[s`Thank you! We’ll keep you posted.`]</i></p>
+            </div>
+            {/if*}
+
+        </div>
+
+    </div>
+
+</footer>

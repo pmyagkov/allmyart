@@ -1,4 +1,11 @@
 <div class="checkout-content" data-step-id="confirmation">
+    <div class="comment-caption">
+        Комментарий к заказу:
+    </div>
+    <textarea class="comment" name="comment"></textarea>
+
+    <div class="checkout__caption">Итого</div>
+
     {if !empty($error)}
     <div class="checkout-result error">{$error}</div>
     {/if}
@@ -19,7 +26,7 @@
         {foreach $items as $item}
         <li class="cart-row" data-id="{$item.id}">
             <div class="cart-row__inner" style="float: left">
-                <span class="cart-row__name cart-row__element">
+                <span class="cart-row__name cart-row__element cart-row__total">
                     {$item.product.name|escape|upper}
                     {*if $item.sku_name && $item.sku_name != $item.product.name}{$item.sku_name|escape}{/if*}
                 </span>
@@ -27,11 +34,11 @@
             </div>
 
             <div class="cart-row__inner-right" style="float: right">
-                <span class="cart-row__sku cart-row__element">
+                <span class="cart-row__sku cart-row__element cart-row__total">
                     <span class="cart-row__sku-value">{$item.sku_name}</span>
                 </span>
 
-                <span class="cart-row__price cart-row__element">
+                <span class="cart-row__price cart-row__element cart-row__total">
                     {shop_currency_html($item.price * $item.quantity, $item.currency)}
                 </span>
 
@@ -47,7 +54,7 @@
 
     </ul>
 
-    <div class="cart-total">
+    <div class="cart-total cart-total_{count($items)}">
         <div class="cart-total__section cart-total__section_subtotal">
             <span class="cart-total__label">Подытог:</span>
             <span class="cart-total__price">{shop_currency_html($subtotal, true)}</span>
@@ -64,16 +71,13 @@
             <span class="cart-total__price">{shop_currency_html($shipping, true)}</span>
         </div>
         <div class="cart-total__section cart-total__section_total">
-            <span class="cart-total__label">Итого:</span>
+            <span class="cart-total__label">Общая сумма:</span>
             <span class="cart-total__price">{shop_currency_html($cart.total, true)}</span>
         </div>
     </div>
     <div style="clear: both""></div>
 
-    <div class="comment-caption">
-        [`Comment`]
-    </div>
-    <textarea class="comment" name="comment"></textarea>
+    <a href="#" class="back-to-cart">Вернуться в корзину</a>
 
     {if !empty($terms)}
     <br>

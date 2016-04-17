@@ -405,16 +405,8 @@ input:-ms-input-placeholder {
 
 .welcome {
   text-align: center;
-  background: url('img/welcome.png') no-repeat;
-  background-position: top center;
-  padding-top: 300px;
-  background-size: 256px 256px;
+  padding-top: 120px;
   margin-bottom: 30px;
-}
-
-.welcome h1 {
-  font-weight: normal;
-  font-size: 2em;
 }
 
 .staff {
@@ -904,12 +896,28 @@ textarea {
 }
 
 .comment-caption {
-  margin-bottom: 9px;
+  margin: -9px 0 9px 16px;
   line-height: 1;
 }
 
 .checkout .wa-form .wa-field .wa-value p {
   margin: 0;
+}
+
+[data-step-id="confirmation"] .checkout__caption {
+  margin-left: -18px;
+  margin-bottom: 13px;
+}
+
+.back-to-cart {
+  border-bottom: 1px solid #373737;
+  padding-bottom: 1px;
+  font-size: 14px;
+  text-transform: uppercase;
+  position: relative;
+  top: 15px;
+  left: 21px;
+  letter-spacing: 0.01em;
 }
 
 .wa-form {
@@ -2102,9 +2110,7 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
 
 .maintext {
   margin-left: -47px;
-  padding-left: 47px;
-
-  padding-top: 46px;
+  padding: 46px 0 64px 47px;
 
   position: relative;
 }
@@ -2130,10 +2136,18 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
   font-size: 22px;
   margin-bottom: 17px;
   position: relative;
+  font-weight: 500;
+}
+
+.maintext h2 {
+  text-transform: uppercase;
+  font-size: 20px;
+  margin-bottom: 15px;
+  position: relative;
+  font-weight: 500;
 }
 
 .maintext__text {
-  padding-bottom: 64px;
   position: relative;
 }
 
@@ -2313,57 +2327,19 @@ footer a:hover {
   text-transform: uppercase;
 
   font-size: 13px;
-  top: -2px;
+  top: -6px;
+
+  white-space: nowrap;
 }
 
-.footer-links ul {
-  list-style: none;
+.footer-section {
+  display: inline-block;
+  height: 100%;
+  margin-right: 30px;
 }
 
-.footer-links li {
-  position: absolute;
-}
-
-/* Аксессуары */
-.footer-link_1 {
-  bottom: 0;
-  left: 0;
-}
-
-/* Контакты */
-.footer-link_7 {
-  top: 0;
-  left: 0;
-}
-
-/* Интересное */
-.footer-link_2 {
-  top: 0;
-  left: 150px;
-}
-
-/* О компании */
-.footer-link_4 {
-  bottom: 0;
-}
-
-.footer-link_2, .footer-link_4 {
-  left: 121px;
-}
-
-
-/* Оплата/доставка */
-.footer-link_5 {
-  top: 0;
-}
-
-/* Гарантия/возврат */
-.footer-link_6 {
-  bottom: 0;
-}
-
-.footer-link_5, .footer-link_6 {
-  left: 242px;
+.footer-link {
+  height: 25px;
 }
 
 .footer-wrapper .socials {

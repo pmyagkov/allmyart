@@ -113,7 +113,6 @@
 
     <!-- BESTSELLERS product list -->
     {if $bestsellers}
-    
         <section class="bestsellers">
             {if $theme_settings.homepage_bestsellers_title}
                 <h5 class="bestsellers-header">{str_replace('{$date}', $smarty.now|wa_datetime:"f", $theme_settings.homepage_bestsellers_title)|upper}</h5>

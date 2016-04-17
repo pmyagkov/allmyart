@@ -10,12 +10,6 @@
     {/if}
 </h5>
 
-<!-- description -->
-{if $collection.description}
-    <p>{$collection.description}</p>
-{/if}
-
-
 {if !$products}
     [`No products were found.`]
 {else}
@@ -29,18 +23,6 @@
 
     {include file="/home/allmyart/allmyart.ru/docs/wa-data/public/shop/themes/allmyart/list-thumbs-micro-collection.html"
         products=$collection.likeThis limit=10}
-    <!--<ul class="thumbs thumbs_mini">
-    {foreach from=$collection.likeThis item=item}
-        <li>
-            <div class="image">
-                <a href="{$frontend_url}tags_{$item.url}" title="{$item.title}">
-                    <img src="{if $item['image']}{$item['image']}{else}{$pr = shopTagsCollectionPlugin::checkCollectionImage($item)}{$pr = $wa->shop->product($pr.id)}{$wa->shop->productImgUrl($pr, 200)}{/if}">
-                    <span class="product-name">{$item.title}</span>
-                </a>
-            </div>
-        </li>
-    {/foreach}
-    </ul>-->
 </div>
 {/if}
 
@@ -48,19 +30,17 @@
 <div class="link-collections link-collections_different">
     <div class="link-collections__title">Другие коллекции</div>
 
-    <ul class="thumbs thumbs_mini">
-        {foreach from=$collection.notLikeThis item=item}
-        <li>
-            <div class="image">
-                <a href="{$frontend_url}tags_{$item.url}" title="{$item.title}">
-                    <img src="{if $item['image']}{$item['image']}{else}{$pr = shopTagsCollectionPlugin::checkCollectionImage($item)}{$pr = $wa->shop->product($pr.id)}{$wa->shop->productImgUrl($pr, 200)}{/if}">
-                    <span class="product-name">{$item.title}</span>
+    {include file="/home/allmyart/allmyart.ru/docs/wa-data/public/shop/themes/allmyart/list-thumbs-micro-collection.html"
+        products=$collection.notLikeThis limit=10}
+</div>
+{/if}
 
-                </a>
-            </div>
-        </li>
-        {/foreach}
-    </ul>
+<!-- description -->
+{if $collection.description}
+<div class="maintext">
+    <div class="maintext__text">
+        {$collection.description}
+    </div>
 </div>
 {/if}
 

@@ -3,7 +3,7 @@
 </p>
 
 <div class="checkout" style="display:none;">
-
+    <div class="checkout__caption">Оформление</div>
     {if isset($checkout_steps)}
         <form class="checkout-form" method="post" action="">
             {if shopDiscounts::isEnabled('coupons')}
@@ -14,7 +14,7 @@
                 <div class="checkout-step step-{$step_id}" data-step="{$step_id}">
 
                     <h2 class="{if isset($_upcoming_flag)}upcoming{/if}">
-                        <span class="checkout-step-number">{$s@iteration}</span> {$s.name}<span class="loading"></span>
+                        <span class="checkout-step-number">{$s@iteration}.</span> {$s.name}<span class="loading"></span>
                     </h2>
 
                     {*if $s@first}

@@ -8,10 +8,12 @@
                 <span class="wishlist">ВИШЛИСТ
                     <span class="wishlist__value">10</span>
                 </span>
+        {if !$cart}
         <a href="/cart" class="cart">КОРЗИНА
             {$cart_total = $wa->shop->cart->total()}
             <span class="cart__value">{shop_currency_html($cart_total, true)}</span>
         </a>
+        {/if}
     </div>
 
     {include file="breadcrumbs.html"}
@@ -26,7 +28,11 @@
     {elseif is_object($product)}
     {$page_name = $product.name}
     {elseif is_array($cart)}
-    {$page_name = "Корзина"}
+    {$page_name = "Ваш заказ"}
+    {elseif is_array($frontend_search)}
+    {$page_name = "«`$title`»"}
+    {elseif is_array($order)}
+    {$page_name = "Заказ оформлен"}
     {else}
     {$page_name = "МОДУЛЬНЫЕ КАРТИНЫ \"ALLMYART\""}
     {/if}
@@ -46,6 +52,22 @@
         {else}
         картин
         {/if}
+    </h5>
+    {/if}
+
+    {if is_array($frontend_search)}
+    <h5 class="category-count sticky-to-hide">
+        {$modulus = $products_count % 10}
+
+        {if $modulus == 1}
+        {$suffix = "картина"}
+        {elseif $modulus == 2 or $modulus == 3 or $modulus == 4}
+        {$suffix = "картины"}
+        {else}
+        {$suffix = "картин"}
+        {/if}
+
+        Найдено&nbsp;{$products_count}&nbsp;{$suffix}
     </h5>
     {/if}
 
