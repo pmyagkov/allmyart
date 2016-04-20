@@ -11,12 +11,18 @@
 </h5>
 
 {if !$products}
+    <div class="no-products-found">
     [`No products were found.`]
+    </div>
 {else}
     <div id="product-list">
     {include file="themes/{$theme}/list-thumbs.html"}    
     </div>
 {/if}
+
+{*$collection|@print_r*}
+
+
 {if $collection.likeThis}
 <div class="link-collections link-collections_similar">
     <div class="link-collections__title">Похожие коллекции</div>

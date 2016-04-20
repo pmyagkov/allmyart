@@ -24,7 +24,7 @@
     {elseif is_array($page)}
     {$page_name = $page.name}
     {elseif is_array($collection)}
-    {$page_name = $collection.title}
+    {$page_name = $collection.h1_title}
     {elseif is_object($product)}
     {$page_name = $product.name}
     {elseif is_array($cart)}
