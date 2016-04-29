@@ -313,7 +313,10 @@ $(document).ready(function () {
                     var loading = $('.loader-container');
 
                     loading.show();
+                    //console.group('Pagination');
+                    //console.log('Requesting url', url);
                     $.get(url, function (html) {
+                        //console.log('Got response');
                         var tmp = $('<div></div>').html(html);
                         if ($.Retina) {
                             tmp.find('#product-list .product-list img').retina();
@@ -323,11 +326,16 @@ $(document).ready(function () {
                         paging.replaceWith(tmp_paging);
                         paging = tmp_paging;
 
-                        times -= 1;
+                        times--;
+                        //console.log('Times counter decremented', times);
+
 
                         // check јneed to stop lazy-loading
                         var current = paging.find('li.selected');
                         var next = current.next();
+
+                        ////console.log('Next length', next.length, current, current.next());
+
                         if (next.length) {
                             if (!isNaN(times) && times <= 0) {
                                 win.lazyLoad('sleep');
@@ -345,11 +353,12 @@ $(document).ready(function () {
                                 win.lazyLoad('wake');
                             }
                         } else {
-                            win.lazyLoad('stop');
-                            $('.lazyloading-load-more').hide();
+
                         }
 
-                        //loading.hide();
+                        //console.groupEnd();
+
+                        loading.hide();
                         tmp.remove();
 
                         $(document).trigger('equalize');

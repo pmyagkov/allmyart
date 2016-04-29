@@ -37,7 +37,12 @@
     {$page_name = "МОДУЛЬНЫЕ КАРТИНЫ \"ALLMYART\""}
     {/if}
 
+    {if $page && $page.mainish == "true"}
+    <div class="category-name">{$page_name|escape|upper}</div>
+    {else}
     <h1 class="category-name">{$page_name|escape|upper}</h1>
+    {/if}
+
 
     {if is_array($category) && $category.count}
     <h5 class="category-count sticky-to-hide">

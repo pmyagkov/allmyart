@@ -2098,6 +2098,8 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
   font-weight: 500;
 
   text-transform: uppercase;
+
+  line-height: 1.2em;
 }
 
 .category-count {

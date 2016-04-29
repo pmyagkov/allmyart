@@ -31,9 +31,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1{if $wa->isMobile()}, maximum-scale=1, user-scalable=0{/if}" />
 
     <title>{$wa->title()|escape}</title>
-    <meta name="Keywords" content="{$wa->meta('keywords')|escape}" />
-    <meta name="Description" content="{$wa->meta('description')|escape}" />
-    
+    {$meta = $wa->meta('keywords')|escape}
+    {if $meta}
+        <meta name="Keywords" content="{$meta}" />
+    {/if}
+    {$meta = $wa->meta('description')|escape}
+    {if $meta}
+        <meta name="Description" content="{$meta}" />
+    {/if}
+
+    {$currentUrl = $wa->currentUrl(true)}
+    {if $currentUrl|strstr:'tags_' || $currentUrl|strstr:'category/'}
+        {$split = '?'|explode:$currentUrl}
+        {$canonical = $split[0]}
+    {/if}
+
     {if !empty($canonical)}<link rel="canonical" href="{$canonical}"/>{/if}
     <link rel="shortcut icon" href="/favicon.ico"/>
     {if $wa->blog}
@@ -71,9 +83,41 @@
     document.createElement('menu');
     </script>
     <![endif]-->
-    
+
 </head>
 <body>
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter26711982 = new Ya.Metrika({
+                    id:26711982,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true,
+                    webvisor:true,
+                    ecommerce:"dataLayer"
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+                s = d.createElement("script"),
+                f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/26711982" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
     <aside class="aside">
         {include file="`$wa_active_theme_path`/sidebar.html" inline}
     </aside>

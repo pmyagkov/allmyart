@@ -88,14 +88,19 @@
 <script type="text/javascript" src="{$wa_active_theme_url}scrollbar.min.js?v{$wa_theme_version}"></script>
 
 {if !empty($filters)}
-    <link href="{$wa_static_url}wa-content/css/jquery-ui/base/jquery.ui.slider.css" rel="stylesheet" type="text/css">
+    <!--<link href="{$wa_static_url}wa-content/css/jquery-ui/base/jquery.ui.slider.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="{$wa_static_url}wa-content/js/jquery-ui/jquery.ui.core.min.js?v{$wa->version(true)}"></script>
     <script type="text/javascript" src="{$wa_static_url}wa-content/js/jquery-ui/jquery.ui.widget.min.js?v{$wa->version(true)}"></script>
     <script type="text/javascript" src="{$wa_static_url}wa-content/js/jquery-ui/jquery.ui.mouse.min.js?v{$wa->version(true)}"></script>
-    <script type="text/javascript" src="{$wa_static_url}wa-content/js/jquery-ui/jquery.ui.slider.min.js?v{$wa->version(true)}"></script>
+    <script type="text/javascript" src="{$wa_static_url}wa-content/js/jquery-ui/jquery.ui.slider.min.js?v{$wa->version(true)}"></script>-->
 {/if}
 
-{if !empty($nofollow)}
+{if empty($nofollow)}
+    {* закрывает страницу поиска от роботов *}
+    {$nofollow = is_array($frontend_search)}
+{/if}
+
+{if !empty($nofollow) && $nofollow}
     <!-- "nofollow" for pages not to be indexed, e.g. customer account -->
     <meta name="robots" content="noindex,nofollow" />
 {/if}

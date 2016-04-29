@@ -220,7 +220,6 @@ ul.thumbs li {
 
 ul.thumbs li .image {
   width: 100%;
-  display: table-cell;
   vertical-align: bottom;
 }
 
