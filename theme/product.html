@@ -4,24 +4,7 @@
 <article class="product-container" itemscope itemtype="http://schema.org/Product">
     {*$product|@print_r*}
 
-    <!-- product internal nav -->
-    <!--<nav>
-        <ul class="product-nav top-padded">
-            <li class="selected"><a href="{$wa->shop->productUrl($product)}">[`Overview`]</a></li>
-            <li>
-                <a href="{$wa->shop->productUrl($product, 'reviews')}">[`Reviews`]</a>
-                <span class="hint">{$reviews_total_count}</span>
-            </li>
-            {foreach $product.pages as $page}
-                <li><a href="{$wa->shop->productUrl($product, 'page', ['page_url' => $page.url])}">{$page.name|escape}</a></li>
-            {/foreach}
-            
-            &lt;!&ndash; plugin hook: 'frontend_product.menu' &ndash;&gt;
-            {* @event frontend_product.%plugin_id%.menu *}
-            {foreach $frontend_product as $_}{$_.menu}{/foreach}
-        
-        </ul>
-    </nav>-->
+    {* include file="`$wa_active_theme_path`/product-nav.html" inline *}
 
     {foreach $product.skus as $sku name="sku"}
         {if $sku.sku}
@@ -115,69 +98,7 @@
         </ul>
         {/if}
 
-
-        <!--{if $product.description}
-            <div class="description">
-                <div class="description__label">Описание</div>
-                <div class="description__text" itemprop="description">{$product.description}</div>
-            </div>
-            <div class="description" id="product-description" itemprop="description"></div>
-        {/if}-->
-
-        <!-- product reviews -->
-        <!--<section class="reviews">
-            <h2>{sprintf('[`%s reviews`]', $product.name|escape)}</h2>
-            
-            {if !empty($rates)}
-                <p class="rating">
-                    [`Average customer rating:`]
-                    {$wa->shop->ratingHtml($product.rating, 16)} (<a href="reviews/">{$reviews_total_count}</a>)
-                    {if $product.rating > 0}<span class="hint">{sprintf('[`%s out of 5 stars`]', $product.rating)}</span>{/if}
-                </p>
-                
-                <table class="rating-distribution">
-                    {$_total_count = 0}
-                    {foreach $rates as $_rate => $_count}
-                        {$_total_count = $_total_count + $_count}
-                    {/foreach}
-                    {* foreach $rates as $_rate => $_count *}
-                    {for $i = 5 to 0 step -1}
-                        {if empty($rates[$i]) || !$rates[$i]}{$_count = 0}{else}{$_count = $rates[$i]}{/if}
-                        {if $i || $_count}
-                            <tr>
-                                <td class="min-width hint">{$_count}</td>
-                                <td>
-                                    <div class="bar">
-                                        <div class="filling" style="width: {if $_total_count > 0}{str_replace(',','.', 100*$_count/$_total_count)}{else}0{/if}%;{if !$i} background: #ddd;{/if}"></div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <span class="rating">{for $j=1 to $i}<i class="icon10 star"></i>{forelse}<span class="hint">[`no rate`]</span>{/for}</span>
-                                </td>
-                            </tr>
-                        {/if}
-                    {/for}
-                </table>
-            {/if}
-            
-            <ul>
-                {foreach $reviews as $review}
-                    <li data-id={$review.id} data-parent-id="0">
-                        {include file="review.html" reply_allowed=false inline}
-                    </li>
-                {/foreach}
-            </ul>
-            {if !$reviews}
-                <p>{sprintf('[`Be the first to <a href="%s">write a review</a> of this product!`]', 'reviews/')}</p>
-            {else}
-                {sprintf(_w(
-                        'Read <a href="%s">all %d review</a> on %s', 
-                        'Read <a href="%s">all %d reviews</a> on %s', 
-                        $reviews_total_count, false
-                    ), 'reviews/', $reviews_total_count, $product.name|escape)
-                }
-            {/if}
-        </section>-->
+        {* include file="`$wa_active_theme_path`/product-bottom.html" inline *}
 
     </div>
 

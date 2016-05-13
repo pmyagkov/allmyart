@@ -147,8 +147,9 @@
         {/if}
 -->
 
+
         <!-- APP CONTENT -->
-        <main class="maincontent" role="main">
+        <main class="maincontent {if is_array($page)}page{/if}" role="main">
             <div class="container">
 
                 {if $page && $page.mainish == "true"}

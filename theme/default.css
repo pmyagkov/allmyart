@@ -2089,7 +2089,8 @@ header ul.flyout-nav li .flyout ul.menu-v.brands a {
   margin-left: -6px;
 }
 
-.category-name {
+.category-name,
+.maincontent.page h1 {
   font-size: 3em;
   letter-spacing: 2.2px;
   margin: 15px 0 0 0;
