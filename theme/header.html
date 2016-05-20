@@ -21,6 +21,9 @@
 
     {if is_array($category)}
         {$page_name = $category.name}
+        {if isset($category.params.alt_title)}
+            {$page_name = $category.params.alt_title}
+        {/if}
     {elseif is_array($page)}
         {if $page.mainish}
             {$page_name = $page.name}
