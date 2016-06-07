@@ -10,6 +10,12 @@
     {/if}
 </h5>
 
+{if $collection.description}
+{$descriptions = '~'|explode:$collection.description}
+    <p>{$descriptions[0]}</p>
+{/if}
+
+
 {if !$products}
     <div class="no-products-found">
     [`No products were found.`]
@@ -19,8 +25,6 @@
     {include file="themes/{$theme}/list-thumbs.html"}    
     </div>
 {/if}
-
-{*$collection|@print_r*}
 
 
 {if $collection.likeThis}
@@ -42,10 +46,10 @@
 {/if}
 
 <!-- description -->
-{if $collection.description}
+{if $descriptions[1]}
 <div class="maintext">
     <div class="maintext__text">
-        {$collection.description}
+        {$descriptions[1]}
     </div>
 </div>
 {/if}

@@ -4,7 +4,9 @@
 
 <!-- description -->
 {if $category.description}
-    <p>{$category.description}</p>
+    {$descriptions = '~'|explode:$category.description}
+
+    <p>{$descriptions[0]}</p>
 {/if}
 
 <!-- subcategories -->
@@ -31,3 +33,11 @@
 </div>
 
 <div class="clear-both"></div>
+
+{if $descriptions[1]}
+<div class="maintext">
+    <div class="maintext__text">
+        {$descriptions[1]}
+    </div>
+</div>
+{/if}
