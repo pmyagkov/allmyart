@@ -197,14 +197,14 @@ function processRightSide(layer) {
 
   var bounds = _getLayerBounds(layer);
 
-  var rightSideCoords = [
+  var rightSideCords = [
     [bounds.right - RIGHT_SIDE_WIDTH, bounds.top],
     [bounds.right, bounds.top],
     [bounds.right, bounds.bottom],
     [bounds.right - RIGHT_SIDE_WIDTH, bounds.bottom]
   ];
 
-  _select(rightSideCoords);
+  _select(rightSideCords);
 
   // вырезаем слой из выделения и переназываем его
   var rightLayer = createLayerVia(LAYER_VIA_OPERATION.cut, '_right');
@@ -271,6 +271,39 @@ function _featherAndDelete(layer, radius) {
     _feather(radius);
     _deleteSelection();
   }
+}
+
+function _transformRightEdge () {
+  var desc8 = new ActionDescriptor();
+  var idnull = charIDToTypeID( "null" );
+      var ref5 = new ActionReference();
+      var idLyr = charIDToTypeID( "Lyr " );
+      var idOrdn = charIDToTypeID( "Ordn" );
+      var idTrgt = charIDToTypeID( "Trgt" );
+      ref5.putEnumerated( idLyr, idOrdn, idTrgt );
+  desc8.putReference( idnull, ref5 );
+  var idFTcs = charIDToTypeID( "FTcs" );
+  var idQCSt = charIDToTypeID( "QCSt" );
+  var idQcsa = charIDToTypeID( "Qcsa" );
+  desc8.putEnumerated( idFTcs, idQCSt, idQcsa );
+  var idOfst = charIDToTypeID( "Ofst" );
+      var desc9 = new ActionDescriptor();
+      var idHrzn = charIDToTypeID( "Hrzn" );
+      var idPxl = charIDToTypeID( "#Pxl" );
+      desc9.putUnitDouble( idHrzn, idPxl, 214.500000 );
+      var idVrtc = charIDToTypeID( "Vrtc" );
+      var idPxl = charIDToTypeID( "#Pxl" );
+      desc9.putUnitDouble( idVrtc, idPxl, -0.000000 );
+  var idOfst = charIDToTypeID( "Ofst" );
+  desc8.putObject( idOfst, idOfst, desc9 );
+  var idWdth = charIDToTypeID( "Wdth" );
+  var idPrc = charIDToTypeID( "#Prc" );
+  desc8.putUnitDouble( idWdth, idPrc, 410.869565 );
+  var idIntr = charIDToTypeID( "Intr" );
+  var idIntp = charIDToTypeID( "Intp" );
+  var idBcbc = charIDToTypeID( "Bcbc" );
+  desc8.putEnumerated( idIntr, idIntp, idBcbc );
+  executeAction( charIDToTypeID( "Trnf" ), desc8, DialogModes.NO );
 }
 
 function _skewSelection() {
