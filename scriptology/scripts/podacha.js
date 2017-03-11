@@ -63,7 +63,7 @@ var ORIENTATION = {
 // величина обрезки угла слоя
 /*var LAYER_CORNER_CROP = 10;*/
 
-function processBottomSide(mainLayer, rightLayer) {
+function processBottomSide (mainLayer, rightLayer) {
   activeDocument.activeLayer = mainLayer;
   /*
    (x, y) верхнего левого угла
@@ -140,7 +140,7 @@ function processBottomSide(mainLayer, rightLayer) {
  * @param brightness
  * @param contrast
  */
-function _adjustBrightness(layer, brightness, contrast) {
+function _adjustBrightness (layer, brightness, contrast) {
   var prevActiveLayer = activeDocument.activeLayer;
   activeDocument.activeLayer = layer;
   // уменьшаем яркость
@@ -149,7 +149,7 @@ function _adjustBrightness(layer, brightness, contrast) {
   activeDocument.activeLayer = prevActiveLayer;
 }
 
-function processTopSide(options) {
+function processTopSide (options) {
   var mainLayer = options.mainLayer;
   var mergedLayer = options.mergedLayer;
 
@@ -157,14 +157,14 @@ function processTopSide(options) {
 
   var mainBounds = _getLayerBounds(mainLayer);
 
-  var topSideCoords = [
+  var topSideCords = [
     [mainBounds.right + TOP_SIDE_MARGIN, mainBounds.top],
     [mainBounds.left, mainBounds.top],
     [mainBounds.left, mainBounds.top + TOP_SIDE_HEIGHT],
     [mainBounds.right + TOP_SIDE_MARGIN, mainBounds.top + TOP_SIDE_HEIGHT]
   ];
 
-  _select(topSideCoords);
+  _select(topSideCords);
 
   // вырезаем слой из выделения и переназываем его
   var newLayer = createLayerVia(LAYER_VIA_OPERATION.cut, '_top');
@@ -176,7 +176,7 @@ function processTopSide(options) {
   return newLayer;
 }
 
-function _getLayerBounds(layer) {
+function _getLayerBounds (layer) {
   var bounds = layer.boundsNoEffects;
 
   var boundsObj = {
@@ -192,7 +192,7 @@ function _getLayerBounds(layer) {
   return boundsObj;
 }
 
-function processRightSide(layer) {
+function processRightSide (layer) {
   activeDocument.activeLayer = layer;
 
   var bounds = _getLayerBounds(layer);
@@ -209,10 +209,13 @@ function processRightSide(layer) {
   // вырезаем слой из выделения и переназываем его
   var rightLayer = createLayerVia(LAYER_VIA_OPERATION.cut, '_right');
   // искажаем выделение
+  _transformRightEdge(2);
+  return;
+
   _skewSelection();
   _deselect();
 
-  var rightSideCoordsWithSkew = [
+  var rightSideCordsWithSkew = [
     [bounds.right - RIGHT_SIDE_WIDTH, bounds.top],
     [bounds.right, bounds.top],
     [bounds.right, bounds.bottom + 15],
@@ -242,7 +245,7 @@ function processRightSide(layer) {
   return rightLayer;
 }
 
-function _feather(radius) {
+function _feather (radius) {
   // =======================================================
   var idFthr = charIDToTypeID( "Fthr" );
   var desc177 = new ActionDescriptor();
@@ -253,19 +256,19 @@ function _feather(radius) {
   // =======================================================
 }
 
-function _featherAndDelete(layer, radius) {
+function _featherAndDelete (layer, radius) {
   activeDocument.activeLayer = layer;
 
   var bounds = _getLayerBounds(layer);
 
-  var rightSideCoords = [
+  var rightSideCords = [
     [bounds.left - 30, bounds.top - 10],
     [bounds.left, bounds.top - 10],
     [bounds.left, bounds.bottom + 10],
     [bounds.left - 30, bounds.bottom + 10]
   ];
 
-  _select(rightSideCoords);
+  _select(rightSideCords);
 
   for (var i = 0; i < 2; i++) {
     _feather(radius);
@@ -273,40 +276,27 @@ function _featherAndDelete(layer, radius) {
   }
 }
 
-function _transformRightEdge () {
+function _transformRightEdge (widthMultiplier) {
+  const bounds = _getLayerBounds(activeDocument.activeLayer);
+
+  const horizontalOffset = widthMultiplier / 2 * bounds.width;
+  const finalPercentageWidth = widthMultiplier * 100;
+
   var desc8 = new ActionDescriptor();
-  var idnull = charIDToTypeID( "null" );
-      var ref5 = new ActionReference();
-      var idLyr = charIDToTypeID( "Lyr " );
-      var idOrdn = charIDToTypeID( "Ordn" );
-      var idTrgt = charIDToTypeID( "Trgt" );
-      ref5.putEnumerated( idLyr, idOrdn, idTrgt );
-  desc8.putReference( idnull, ref5 );
-  var idFTcs = charIDToTypeID( "FTcs" );
-  var idQCSt = charIDToTypeID( "QCSt" );
-  var idQcsa = charIDToTypeID( "Qcsa" );
-  desc8.putEnumerated( idFTcs, idQCSt, idQcsa );
-  var idOfst = charIDToTypeID( "Ofst" );
-      var desc9 = new ActionDescriptor();
-      var idHrzn = charIDToTypeID( "Hrzn" );
-      var idPxl = charIDToTypeID( "#Pxl" );
-      desc9.putUnitDouble( idHrzn, idPxl, 214.500000 );
-      var idVrtc = charIDToTypeID( "Vrtc" );
-      var idPxl = charIDToTypeID( "#Pxl" );
-      desc9.putUnitDouble( idVrtc, idPxl, -0.000000 );
-  var idOfst = charIDToTypeID( "Ofst" );
-  desc8.putObject( idOfst, idOfst, desc9 );
-  var idWdth = charIDToTypeID( "Wdth" );
-  var idPrc = charIDToTypeID( "#Prc" );
-  desc8.putUnitDouble( idWdth, idPrc, 410.869565 );
-  var idIntr = charIDToTypeID( "Intr" );
-  var idIntp = charIDToTypeID( "Intp" );
-  var idBcbc = charIDToTypeID( "Bcbc" );
-  desc8.putEnumerated( idIntr, idIntp, idBcbc );
+  var ref5 = new ActionReference();
+  ref5.putEnumerated( charIDToTypeID( "Lyr " ), charIDToTypeID( "Ordn" ), charIDToTypeID( "Trgt" ) );
+  desc8.putReference( charIDToTypeID( "null" ), ref5 );
+  desc8.putEnumerated( charIDToTypeID( "FTcs" ), charIDToTypeID( "QCSt" ), charIDToTypeID( "Qcs7" ) );
+  var desc9 = new ActionDescriptor();
+  desc9.putUnitDouble( charIDToTypeID( "Hrzn" ), charIDToTypeID( "#Pxl" ), 0 );
+  desc9.putUnitDouble( charIDToTypeID( "Vrtc" ), charIDToTypeID( "#Pxl" ), 0 );
+  desc8.putObject( charIDToTypeID( "Ofst" ), charIDToTypeID( "Ofst" ), desc9 );
+  desc8.putUnitDouble( charIDToTypeID( "Wdth" ), charIDToTypeID( "#Prc" ), finalPercentageWidth );
+  desc8.putEnumerated( charIDToTypeID( "Intr" ), charIDToTypeID( "Intp" ), charIDToTypeID( "Bcbc" ) );
   executeAction( charIDToTypeID( "Trnf" ), desc8, DialogModes.NO );
 }
 
-function _skewSelection() {
+function _skewSelection () {
 
   var idTrnf = charIDToTypeID( "Trnf" );
   var desc22 = new ActionDescriptor();
@@ -351,7 +341,7 @@ function _skewSelection() {
   executeAction( idTrnf, desc22, DialogModes.NO );
 }
 
-function _selectAdditionalLayer(layer) {
+function _selectAdditionalLayer (layer) {
   var idslct = charIDToTypeID( "slct" );
   var desc2 = new ActionDescriptor();
   var idnull = charIDToTypeID( "null" );
@@ -368,7 +358,7 @@ function _selectAdditionalLayer(layer) {
   executeAction( idslct, desc2, DialogModes.NO );
 }
 
-function _duplicateAndMerge() {
+function _duplicateAndMerge () {
   // =======================================================
   var idDplc = charIDToTypeID( "Dplc" );
   var desc11 = new ActionDescriptor();
@@ -389,7 +379,7 @@ function _duplicateAndMerge() {
   executeAction( idMrgtwo, desc12, DialogModes.NO );
 }
 
-function createVinietkaShadow(layer) {
+function createVinietkaShadow (layer) {
   activeDocument.activeLayer = layer;
 
   var copiedLayer = createLayerVia(LAYER_VIA_OPERATION.copy, '_vinietka');
@@ -422,7 +412,7 @@ function createVinietkaShadow(layer) {
  * @param {ArtLayer} layer
  * @returns {ArtLayers[]} созданные в процессе слои
  */
-function processModularLayer(layer) {
+function processModularLayer (layer) {
   var rightLayer = processRightSide(layer);
 
   var mergedLayer = processBottomSide(layer, rightLayer);
@@ -448,7 +438,7 @@ function processModularLayer(layer) {
   shadowLayer.move(bgLayer, ElementPlacement.PLACEBEFORE);
 }
 
-function createBoxShadow(options) {
+function createBoxShadow (options) {
   var mergedLayer = options.mergedLayer;
   var moduleLayer = options.moduleLayer;
 
@@ -490,14 +480,14 @@ function createBoxShadow(options) {
   return shadowLayer;
 }
 
-function _applyGaussianBlur(layer, value) {
+function _applyGaussianBlur (layer, value) {
   activeDocument.activeLayer = layer;
 
   activeDocument.selection.selectAll();
   activeDocument.activeLayer.applyGaussianBlur(value);
 }
 
-function createLayerVia(method, layerSuffix) {
+function createLayerVia (method, layerSuffix) {
   var operation = method === 'copy' ? "CpTL" : "CtTL";
 
   var layerName = activeDocument.activeLayer.name;
@@ -514,7 +504,7 @@ function createLayerVia(method, layerSuffix) {
 /**
  Заливает область выделения черным.
  */
-function _createRectAndFillWithBlack(layer, coords) {
+function _createRectAndFillWithBlack (layer, coords) {
   activeDocument.activeLayer = layer;
 
   _select(coords);
@@ -524,7 +514,7 @@ function _createRectAndFillWithBlack(layer, coords) {
   activeDocument.selection.fill(app.foregroundColor, ColorBlendMode.COLOR, 100);
 }
 
-function _getLayerByName(name) {
+function _getLayerByName (name) {
   for (var i = 0; i < activeDocument.artLayers.length; i++) {
     var layer = activeDocument.artLayers[i];
     if (layer.name === name) {
@@ -537,7 +527,7 @@ function _getLayerByName(name) {
   _deselect();
 }
 
-function processLayers(document) {
+function processLayers (document) {
   var layer;
   var fon;
   var mLayer;
@@ -570,6 +560,7 @@ function processLayers(document) {
     layer = layersToProcess[j];
     // обрабатываем слой с картинкой
     processModularLayer(layer, fon);
+    return;
   }
 
   var mergedLayer;
@@ -584,7 +575,7 @@ function processLayers(document) {
   appendCanvasTextureToModules(mergedLayers);
 }
 
-function appendCanvasTextureToModules(modules) {
+function appendCanvasTextureToModules (modules) {
   var canvasLayer = makeCanvas();
 
   /**
@@ -607,15 +598,15 @@ function appendCanvasTextureToModules(modules) {
   _deselect();
 }
 
-function _deselect() {
+function _deselect () {
   activeDocument.selection.deselect();
 }
 
-function _select(coords) {
+function _select (coords) {
   activeDocument.selection.select(coords);
 }
 
-function _selectWithEllipsis(selectionObj) {
+function _selectWithEllipsis (selectionObj) {
 
   var idsetd = charIDToTypeID( "setd" );
   var desc36 = new ActionDescriptor();
@@ -646,7 +637,7 @@ function _selectWithEllipsis(selectionObj) {
   executeAction( idsetd, desc36, DialogModes.NO );
 }
 
-function linearBurn() {
+function linearBurn () {
   var idsetd = charIDToTypeID( "setd" );
   var desc122 = new ActionDescriptor();
   var idnull = charIDToTypeID( "null" );
@@ -671,12 +662,12 @@ function linearBurn() {
   executeAction( idsetd, desc122, DialogModes.NO );
 }
 
-function _deleteSelection() {
+function _deleteSelection () {
   var idDlt = charIDToTypeID( "Dlt " );
   executeAction( idDlt, undefined, DialogModes.NO );
 }
 
-function addLayerToSelection(layer, isFirst) {
+function addLayerToSelection (layer, isFirst) {
   var layerName = layer.name;
 
   var idChnl = charIDToTypeID( "Chnl" );
@@ -723,7 +714,7 @@ function addLayerToSelection(layer, isFirst) {
 /**
  @param {[x,y][]]} points
  */
-function _cropArea(layer, points) {
+function _cropArea (layer, points) {
   var prevLayer = activeDocument.activeLayer;
   activeDocument.activeLayer = layer;
 
@@ -734,12 +725,12 @@ function _cropArea(layer, points) {
   activeDocument.activeLayer = prevLayer;
 }
 
-function _deleteArea() {
+function _deleteArea () {
   var idDlt = charIDToTypeID( "Dlt " );
   executeAction( idDlt, undefined, DialogModes.NO );
 }
 
-function _selectLasso() {
+function _selectLasso () {
   // Выбираем полигональное лассо
   // =======================================================
   var select = new ActionDescriptor();
@@ -761,7 +752,7 @@ function _selectLasso() {
     select, DialogModes.NO );
 }
 
-function _selectPoints(points) {
+function _selectPoints (points) {
   var mainAction = new ActionDescriptor();
 
   var ref31 = new ActionReference();
@@ -801,7 +792,7 @@ WRITE_TO_CSV && createFile(PSD_FOLDER_PATH + OUT_SUBFOLDER, 'pictures.csv', CSV_
 openFilesInDir(PSD_FOLDER_PATH);
 WRITE_TO_CSV && closeFile(CSV_ID);
 
-function getOutputFileName() {
+function getOutputFileName () {
   var origName = getFileNameWoExtension();
   var modulesSizes = getModulesSizes();
 
@@ -812,7 +803,7 @@ function getOutputFileName() {
   return origName;
 }
 
-function processDocument(doc) {
+function processDocument (doc) {
 
   DO_RESIZE && doc.resizeImage(1640);
   makeBackground();
@@ -847,7 +838,7 @@ function processDocument(doc) {
   return !error;
 }
 
-function _rasterizeLayer() {
+function _rasterizeLayer () {
   var idrasterizeLayer = stringIDToTypeID( "rasterizeLayer" );
   var desc116 = new ActionDescriptor();
   var idnull = charIDToTypeID( "null" );
@@ -862,7 +853,7 @@ function _rasterizeLayer() {
   return activeDocument.activeLayer;
 }
 
-function _placeImageOnNewLayer(imageFile) {
+function _placeImageOnNewLayer (imageFile) {
   var c = charIDToTypeID;
   var desc2 = new ActionDescriptor();
   desc2.putPath(c("null"), new File(imageFile));
@@ -884,7 +875,7 @@ function _placeImageOnNewLayer(imageFile) {
   return activeDocument.activeLayer;
 }
 
-function _moveLayer(layer, offsetX, offsetY) {
+function _moveLayer (layer, offsetX, offsetY) {
   var idmove = charIDToTypeID( "move" );
   var desc26 = new ActionDescriptor();
   var idnull = charIDToTypeID( "null" );
@@ -907,12 +898,12 @@ function _moveLayer(layer, offsetX, offsetY) {
   executeAction( idmove, desc26, DialogModes.NO );
 }
 
-function _invertSelection() {
+function _invertSelection () {
   activeDocument.selection.invert();
 }
 
 
-function _createTextureLayer(pathToTexture, layerName, firstOrLast) {
+function _createTextureLayer (pathToTexture, layerName, firstOrLast) {
   var layer = _placeImageOnNewLayer(pathToTexture);
 
   layer.name = layerName;
@@ -932,11 +923,11 @@ function _createTextureLayer(pathToTexture, layerName, firstOrLast) {
   return layer;
 }
 
-function makeCanvas() {
+function makeCanvas () {
   return _createTextureLayer(PATH_TO_CANVAS, CANVAS_LAYER_NAME, true);
 }
 
-function makeBackground() {
+function makeBackground () {
   return _createTextureLayer(PATH_TO_BACKGROUND, BG_LAYER_NAME, false);
 }
 

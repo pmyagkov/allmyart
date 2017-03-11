@@ -23,7 +23,7 @@ var JPG_QUALITY = 10;
  * Возвращает имя файла без расширения.
  * @returns {string}
  */
-function getFileNameWoExtension() {
+function getFileNameWoExtension () {
   return activeDocument.name.replace(FILENAME_REPLACE_EXT_RE, '');
 }
 
@@ -31,10 +31,10 @@ function getFileNameWoExtension() {
  * Открывает все документы в папке.
  * @param folderPath
  */
-function openFilesInDir(folderPath) {
+function openFilesInDir (folderPath) {
   // A hard coded path to a directory 'mac style'
   var processFolder = Folder(folderPath);
-  // Use folder object get files function with mask 'a reg ex'
+  // Use folder object get files function with  mask 'a reg ex'
   var fileList = processFolder.getFiles(PSD_FILENAME_PATTERN_RE);
 
   for (var i = 0; i < fileList.length; i++) {
@@ -62,7 +62,7 @@ function openFilesInDir(folderPath) {
 /**
  * Сохраняет активный документ в JPG.
  */
-function saveJPEG(filePath, fileName) {
+function saveJPEG (filePath, fileName) {
   var doc = app.activeDocument;
   if (doc.bitsPerChannel != BitsPerChannelType.EIGHT) {
     doc.bitsPerChannel = BitsPerChannelType.EIGHT;
@@ -78,7 +78,7 @@ function saveJPEG(filePath, fileName) {
   activeDocument.saveAs(file, jpgSaveOptions, true, Extension.LOWERCASE);
 }
 
-function exportJPEG(filePath, fileName) {
+function exportJPEG (filePath, fileName) {
   var doc = app.activeDocument;
   if (doc.bitsPerChannel != BitsPerChannelType.EIGHT) {
     doc.bitsPerChannel = BitsPerChannelType.EIGHT;
@@ -99,7 +99,7 @@ function exportJPEG(filePath, fileName) {
  * @param layer
  * @returns {{name: *, left: (string|Number), top: (string|Number), right: (string|Number), bottom: (string|Number), width: number, height: number}}
  */
-function getLayerDims(layer) {
+function getLayerDims (layer) {
   /*
    (x, y) верхнего левого угла
    (x, y) нижнего правого угла
@@ -128,7 +128,7 @@ function getLayerDims(layer) {
  * Возвращает общую длину и ширину слоев и координаты каждого конкретного слоя.
  * @returns {{layerSizes: Array, overall: {height: number, width: number}}}
  */
-function getModulesSizes() {
+function getModulesSizes () {
   var layers = activeDocument.artLayers;
   var layerSizes = [], layerSize;
 
@@ -167,7 +167,7 @@ function getModulesSizes() {
 
 var FILES = {};
 
-function createFile(filePath, fileNameWithExtension, fileId) {
+function createFile (filePath, fileNameWithExtension, fileId) {
   var file = File(filePath + fileNameWithExtension);
 
   if (file.exists) {
@@ -180,13 +180,13 @@ function createFile(filePath, fileNameWithExtension, fileId) {
   file.open("e", "TEXT", "????");
 }
 
-function writeToFile(text, fileId) {
+function writeToFile (text, fileId) {
   if (FILES[fileId]) {
     FILES[fileId].writeln(text);
   }
 }
 
-function closeFile(fileId) {
+function closeFile (fileId) {
   if (FILES[fileId]) {
     FILES[fileId].close();
     delete FILES[fileId];
