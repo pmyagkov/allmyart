@@ -4,6 +4,8 @@
 
 /* global activeDocument, ElementPlacement, app, ActionDescriptor, executeAction, charIDToTypeID, DialogModes */
 
+var c = charIDToTypeID;
+
 var LAYER_VIA_OPERATION = {
   'copy': 'copy',
   'cut': 'cut'
@@ -245,8 +247,8 @@ function processRightSide (layer) {
 
 function _feather (radius) {
   var desc177 = new ActionDescriptor();
-  desc177.putUnitDouble(charIDToTypeID("Rds "), charIDToTypeID("#Pxl"), radius);
-  executeAction(charIDToTypeID("Fthr"), desc177, DialogModes.NO);
+  desc177.putUnitDouble(c("Rds "), c("#Pxl"), radius);
+  executeAction(c("Fthr"), desc177, DialogModes.NO);
 }
 
 function _featherAndDelete (layer, radius) {
@@ -277,67 +279,67 @@ function _transformRightEdge (widthMultiplier) {
 
   var desc8 = new ActionDescriptor();
   var ref5 = new ActionReference();
-  ref5.putEnumerated(charIDToTypeID("Lyr "), charIDToTypeID("Ordn"), charIDToTypeID("Trgt"));
-  desc8.putReference(charIDToTypeID("null"), ref5);
-  desc8.putEnumerated(charIDToTypeID("FTcs"), charIDToTypeID("QCSt"), charIDToTypeID("Qcs7"));
+  ref5.putEnumerated(c("Lyr "), c("Ordn"), c("Trgt"));
+  desc8.putReference(c("null"), ref5);
+  desc8.putEnumerated(c("FTcs"), c("QCSt"), c("Qcs7"));
   var desc9 = new ActionDescriptor();
-  desc9.putUnitDouble(charIDToTypeID("Hrzn"), charIDToTypeID("#Pxl"), 0);
-  desc9.putUnitDouble(charIDToTypeID("Vrtc"), charIDToTypeID("#Pxl"), 0);
-  desc8.putObject(charIDToTypeID("Ofst"), charIDToTypeID("Ofst"), desc9);
-  desc8.putUnitDouble(charIDToTypeID("Wdth"), charIDToTypeID("#Prc"), finalPercentageWidth);
-  desc8.putEnumerated(charIDToTypeID("Intr"), charIDToTypeID("Intp"), charIDToTypeID("Bcbc"));
-  executeAction(charIDToTypeID("Trnf"), desc8, DialogModes.NO);
+  desc9.putUnitDouble(c("Hrzn"), c("#Pxl"), 0);
+  desc9.putUnitDouble(c("Vrtc"), c("#Pxl"), 0);
+  desc8.putObject(c("Ofst"), c("Ofst"), desc9);
+  desc8.putUnitDouble(c("Wdth"), c("#Prc"), finalPercentageWidth);
+  desc8.putEnumerated(c("Intr"), c("Intp"), c("Bcbc"));
+  executeAction(c("Trnf"), desc8, DialogModes.NO);
 }
 
 function _skewSelection () {
   var desc22 = new ActionDescriptor();
   var ref13 = new ActionReference();
 
-  ref13.putEnumerated(charIDToTypeID("Lyr "), charIDToTypeID("Ordn"), charIDToTypeID("Trgt"));
-  desc22.putReference(charIDToTypeID("null"), ref13);
-  desc22.putEnumerated(charIDToTypeID("FTcs"), charIDToTypeID("QCSt"), charIDToTypeID("Qcsa"));
+  ref13.putEnumerated(c("Lyr "), c("Ordn"), c("Trgt"));
+  desc22.putReference(c("null"), ref13);
+  desc22.putEnumerated(c("FTcs"), c("QCSt"), c("Qcsa"));
 
   var desc23 = new ActionDescriptor();
-  desc23.putUnitDouble(charIDToTypeID("Hrzn"), charIDToTypeID("#Pxl"), 0);
-  desc23.putUnitDouble(charIDToTypeID("Vrtc"), charIDToTypeID("#Pxl"), 9);
-  desc22.putObject(charIDToTypeID("Ofst"), charIDToTypeID("Ofst"), desc23);
-  desc22.putUnitDouble(charIDToTypeID("Wdth"), charIDToTypeID("#Prc"), 100);
+  desc23.putUnitDouble(c("Hrzn"), c("#Pxl"), 0);
+  desc23.putUnitDouble(c("Vrtc"), c("#Pxl"), 9);
+  desc22.putObject(c("Ofst"), c("Ofst"), desc23);
+  desc22.putUnitDouble(c("Wdth"), c("#Prc"), 100);
 
   var desc24 = new ActionDescriptor();
-  desc24.putUnitDouble(charIDToTypeID("Hrzn"), charIDToTypeID("#Ang"), 0);
-  desc24.putUnitDouble(charIDToTypeID("Vrtc"), charIDToTypeID("#Ang"), 45);
-  desc22.putObject(charIDToTypeID("Skew"), charIDToTypeID("Pnt "), desc24);
-  desc22.putEnumerated(charIDToTypeID("Intr"), charIDToTypeID("Intp"), charIDToTypeID("Bcbc"));
+  desc24.putUnitDouble(c("Hrzn"), c("#Ang"), 0);
+  desc24.putUnitDouble(c("Vrtc"), c("#Ang"), 45);
+  desc22.putObject(c("Skew"), c("Pnt "), desc24);
+  desc22.putEnumerated(c("Intr"), c("Intp"), c("Bcbc"));
 
-  executeAction(charIDToTypeID("Trnf"), desc22, DialogModes.NO);
+  executeAction(c("Trnf"), desc22, DialogModes.NO);
 }
 
 function _selectAdditionalLayer (layer) {
   var desc2 = new ActionDescriptor();
   var ref1 = new ActionReference();
 
-  ref1.putName(charIDToTypeID("Lyr "), layer.name);
-  desc2.putReference(charIDToTypeID("null"), ref1);
+  ref1.putName(c("Lyr "), layer.name);
+  desc2.putReference(c("null"), ref1);
   desc2.putEnumerated(
     stringIDToTypeID("selectionModifier"),
     stringIDToTypeID("selectionModifierType"),
     stringIDToTypeID("addToSelection")
   );
-  desc2.putBoolean(charIDToTypeID("MkVs"), false);
-  executeAction(charIDToTypeID("slct"), desc2, DialogModes.NO);
+  desc2.putBoolean(c("MkVs"), false);
+  executeAction(c("slct"), desc2, DialogModes.NO);
 }
 
 function _duplicateAndMerge () {
   var ref7 = new ActionReference();
-  ref7.putEnumerated(charIDToTypeID("Lyr "), charIDToTypeID("Ordn"), charIDToTypeID("Trgt"));
+  ref7.putEnumerated(c("Lyr "), c("Ordn"), c("Trgt"));
 
   var desc11 = new ActionDescriptor();
-  desc11.putReference(charIDToTypeID("null"), ref7);
-  desc11.putInteger(charIDToTypeID("Vrsn"), 5);
-  executeAction(charIDToTypeID("Dplc"), desc11, DialogModes.NO);
+  desc11.putReference(c("null"), ref7);
+  desc11.putInteger(c("Vrsn"), 5);
+  executeAction(c("Dplc"), desc11, DialogModes.NO);
 
   var desc12 = new ActionDescriptor();
-  executeAction(charIDToTypeID("Mrg2"), desc12, DialogModes.NO);
+  executeAction(c("Mrg2"), desc12, DialogModes.NO);
 }
 
 function createVinietkaShadow (layer) {
@@ -452,7 +454,7 @@ function createLayerVia (method, layerSuffix) {
   var operation = method === 'copy' ? "CpTL" : "CtTL";
 
   var layerName = activeDocument.activeLayer.name;
-  executeAction(charIDToTypeID(operation), undefined, DialogModes.NO);
+  executeAction(c(operation), undefined, DialogModes.NO);
 
   if (layerSuffix) {
     activeDocument.activeLayer.name = layerName + layerSuffix;
@@ -569,33 +571,33 @@ function _select (coords) {
 function _selectWithEllipsis (selectionObj) {
   var desc36 = new ActionDescriptor();
   var ref31 = new ActionReference();
-  ref31.putProperty(charIDToTypeID("Chnl"), charIDToTypeID("fsel"));
-  desc36.putReference(charIDToTypeID("null"), ref31);
+  ref31.putProperty(c("Chnl"), c("fsel"));
+  desc36.putReference(c("null"), ref31);
   var desc37 = new ActionDescriptor();
-  desc37.putUnitDouble(charIDToTypeID("Top "), charIDToTypeID("#Pxl"), selectionObj.top);
-  desc37.putUnitDouble(charIDToTypeID("Left"), charIDToTypeID("#Pxl"), selectionObj.left);
-  desc37.putUnitDouble(charIDToTypeID("Btom"), charIDToTypeID("#Pxl"), selectionObj.bottom);
-  desc37.putUnitDouble(charIDToTypeID("Rght"), charIDToTypeID("#Pxl"), selectionObj.right);
-  desc36.putObject(charIDToTypeID("T   "), charIDToTypeID("Elps"), desc37);
-  desc36.putBoolean(charIDToTypeID("AntA"), true);
+  desc37.putUnitDouble(c("Top "), c("#Pxl"), selectionObj.top);
+  desc37.putUnitDouble(c("Left"), c("#Pxl"), selectionObj.left);
+  desc37.putUnitDouble(c("Btom"), c("#Pxl"), selectionObj.bottom);
+  desc37.putUnitDouble(c("Rght"), c("#Pxl"), selectionObj.right);
+  desc36.putObject(c("T   "), c("Elps"), desc37);
+  desc36.putBoolean(c("AntA"), true);
 
-  executeAction(charIDToTypeID("setd"), desc36, DialogModes.NO);
+  executeAction(c("setd"), desc36, DialogModes.NO);
 }
 
 function linearBurn () {
   var desc122 = new ActionDescriptor();
   var ref98 = new ActionReference();
-  ref98.putEnumerated(charIDToTypeID("Lyr "), charIDToTypeID("Ordn"), charIDToTypeID("Trgt"));
-  desc122.putReference(charIDToTypeID("null"), ref98);
+  ref98.putEnumerated(c("Lyr "), c("Ordn"), c("Trgt"));
+  desc122.putReference(c("null"), ref98);
 
   var desc123 = new ActionDescriptor();
-  desc123.putEnumerated(charIDToTypeID("Md  "), charIDToTypeID("BlnM"), stringIDToTypeID("colorBurn"));
-  desc122.putObject(charIDToTypeID("T   "), charIDToTypeID("Lyr "), desc123);
-  executeAction(charIDToTypeID("setd"), desc122, DialogModes.NO);
+  desc123.putEnumerated(c("Md  "), c("BlnM"), stringIDToTypeID("colorBurn"));
+  desc122.putObject(c("T   "), c("Lyr "), desc123);
+  executeAction(c("setd"), desc122, DialogModes.NO);
 }
 
 function _deleteSelection () {
-  var idDlt = charIDToTypeID("Dlt ");
+  var idDlt = c("Dlt ");
   executeAction(idDlt, undefined, DialogModes.NO);
 }
 
@@ -606,27 +608,27 @@ function addLayerToSelection (layer, isFirst) {
     var desc98 = new ActionDescriptor();
     var ref66 = new ActionReference();
 
-    ref66.putProperty(charIDToTypeID("Chnl"), charIDToTypeID("fsel"));
-    desc98.putReference(charIDToTypeID("null"), ref66);
+    ref66.putProperty(c("Chnl"), c("fsel"));
+    desc98.putReference(c("null"), ref66);
 
     var ref67 = new ActionReference();
-    ref67.putEnumerated(charIDToTypeID("Chnl"), charIDToTypeID("Chnl"), charIDToTypeID("Trsp"));
-    ref67.putName(charIDToTypeID("Lyr "), layerName);
-    desc98.putReference(charIDToTypeID("T   "), ref67);
-    executeAction(charIDToTypeID("setd"), desc98, DialogModes.NO);
+    ref67.putEnumerated(c("Chnl"), c("Chnl"), c("Trsp"));
+    ref67.putName(c("Lyr "), layerName);
+    desc98.putReference(c("T   "), ref67);
+    executeAction(c("setd"), desc98, DialogModes.NO);
 
   } else {
     var desc99 = new ActionDescriptor();
     var ref68 = new ActionReference();
 
-    ref68.putEnumerated(charIDToTypeID("Chnl"), charIDToTypeID("Chnl"), charIDToTypeID("Trsp"));
-    ref68.putName(charIDToTypeID("Lyr "), layerName);
-    desc99.putReference(charIDToTypeID("null"), ref68);
+    ref68.putEnumerated(c("Chnl"), c("Chnl"), c("Trsp"));
+    ref68.putName(c("Lyr "), layerName);
+    desc99.putReference(c("null"), ref68);
 
     var ref69 = new ActionReference();
-    ref69.putProperty(charIDToTypeID("Chnl"), charIDToTypeID("fsel"));
-    desc99.putReference(charIDToTypeID("T   "), ref69);
-    executeAction(charIDToTypeID("Add "), desc99, DialogModes.NO);
+    ref69.putProperty(c("Chnl"), c("fsel"));
+    desc99.putReference(c("T   "), ref69);
+    executeAction(c("Add "), desc99, DialogModes.NO);
   }
 
 }
@@ -648,7 +650,7 @@ function _cropArea (layer, points) {
 }
 
 function _deleteArea () {
-  var idDlt = charIDToTypeID("Dlt ");
+  var idDlt = c("Dlt ");
   executeAction(idDlt, undefined, DialogModes.NO);
 }
 
@@ -661,24 +663,24 @@ function _selectLasso () {
   var ref30 = new ActionReference();
   var idpolySelTool = stringIDToTypeID("polySelTool");
   ref30.putClass(idpolySelTool);
-  select.putReference(charIDToTypeID("null"), ref30);
+  select.putReference(c("null"), ref30);
 
   var iddontRecord = stringIDToTypeID("dontRecord");
   select.putBoolean(iddontRecord, true);
   var idforceNotify = stringIDToTypeID("forceNotify");
   select.putBoolean(idforceNotify, true);
 
-  executeAction(charIDToTypeID("slct"), select, DialogModes.NO);
+  executeAction(c("slct"), select, DialogModes.NO);
 }
 
 function _selectPoints (points) {
   var mainAction = new ActionDescriptor();
 
   var ref31 = new ActionReference();
-  var idChnl = charIDToTypeID("Chnl");
-  var idfsel = charIDToTypeID("fsel");
+  var idChnl = c("Chnl");
+  var idfsel = c("fsel");
   ref31.putProperty(idChnl, idfsel);
-  mainAction.putReference(charIDToTypeID("null"), ref31);
+  mainAction.putReference(c("null"), ref31);
 
   var pointsDescripts = new ActionDescriptor();
   var pointsList = new ActionList();
@@ -689,17 +691,17 @@ function _selectPoints (points) {
   for (var i = 0; i < points.length; i++) {
     pointD = new ActionDescriptor();
     currentPoint = points[i];
-    pointD.putUnitDouble(charIDToTypeID("Hrzn"), charIDToTypeID("#Pxl"), currentPoint[0]);
-    pointD.putUnitDouble(charIDToTypeID("Vrtc"), charIDToTypeID("#Pxl"), currentPoint[1]);
+    pointD.putUnitDouble(c("Hrzn"), c("#Pxl"), currentPoint[0]);
+    pointD.putUnitDouble(c("Vrtc"), c("#Pxl"), currentPoint[1]);
 
-    pointsList.putObject(charIDToTypeID("Pnt "), pointD);
+    pointsList.putObject(c("Pnt "), pointD);
   }
 
-  pointsDescripts.putList(charIDToTypeID("Pts "), pointsList);
+  pointsDescripts.putList(c("Pts "), pointsList);
 
-  mainAction.putObject(charIDToTypeID("T   "), charIDToTypeID("Plgn"), pointsDescripts);
-  mainAction.putBoolean(charIDToTypeID("AntA"), true);
-  executeAction(charIDToTypeID("setd"), mainAction, DialogModes.NO);
+  mainAction.putObject(c("T   "), c("Plgn"), pointsDescripts);
+  mainAction.putBoolean(c("AntA"), true);
+  executeAction(c("setd"), mainAction, DialogModes.NO);
 }
 
 
@@ -759,15 +761,14 @@ function processDocument (doc) {
 function _rasterizeLayer () {
   var desc116 = new ActionDescriptor();
   var ref87 = new ActionReference();
-  ref87.putEnumerated(charIDToTypeID("Lyr "), charIDToTypeID("Ordn"), charIDToTypeID("Trgt"));
-  desc116.putReference(charIDToTypeID("null"), ref87);
+  ref87.putEnumerated(c("Lyr "), c("Ordn"), c("Trgt"));
+  desc116.putReference(c("null"), ref87);
   executeAction(stringIDToTypeID("rasterizeLayer"), desc116, DialogModes.NO);
 
   return activeDocument.activeLayer;
 }
 
 function _placeImageOnNewLayer (imageFile) {
-  var c = charIDToTypeID;
   var desc2 = new ActionDescriptor();
   desc2.putPath(c("null"), new File(imageFile));
   desc2.putEnumerated(c("FTcs"), c("QCSt"), c("Qcsa"));
@@ -791,14 +792,14 @@ function _placeImageOnNewLayer (imageFile) {
 function _moveLayer (layer, offsetX, offsetY) {
   var desc26 = new ActionDescriptor();
   var ref25 = new ActionReference();
-  ref25.putEnumerated(charIDToTypeID("Lyr "), charIDToTypeID("Ordn"), charIDToTypeID("Trgt"));
-  desc26.putReference(charIDToTypeID("null"), ref25);
+  ref25.putEnumerated(c("Lyr "), c("Ordn"), c("Trgt"));
+  desc26.putReference(c("null"), ref25);
 
   var desc27 = new ActionDescriptor();
-  desc27.putUnitDouble(charIDToTypeID("Hrzn"), charIDToTypeID("#Pxl"), offsetX);
-  desc27.putUnitDouble(charIDToTypeID("Vrtc"), charIDToTypeID("#Pxl"), offsetY);
-  desc26.putObject(charIDToTypeID("T   "), charIDToTypeID("Ofst"), desc27);
-  executeAction(charIDToTypeID("move"), desc26, DialogModes.NO);
+  desc27.putUnitDouble(c("Hrzn"), c("#Pxl"), offsetX);
+  desc27.putUnitDouble(c("Vrtc"), c("#Pxl"), offsetY);
+  desc26.putObject(c("T   "), c("Ofst"), desc27);
+  executeAction(c("move"), desc26, DialogModes.NO);
 }
 
 function _invertSelection () {
