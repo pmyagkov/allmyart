@@ -45,8 +45,8 @@ function openFilesInDir (folderPath) {
       var doc = open(fileList[i]);
       try {
         var result = processDocument(doc);
-      }
-      catch (e) {
+        return;
+      } catch (e) {
         //alert('С документом ' + doc.name + ' какая-то хуйня! Гра, разберись!\n' + e.toString());
         result = false;
       }

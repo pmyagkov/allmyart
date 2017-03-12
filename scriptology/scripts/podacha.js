@@ -13,7 +13,7 @@ var CSV_ID = 'csv';
 
 var WRITE_TO_CSV = true;
 //var MAKE_BACKGROUND = true;
-var DO_RESIZE =  true;
+var DO_RESIZE = true;
 
 // разница между `y` нижней границы модуля и `y` верхней границы черного прямоугольника
 var BOTTOM_RECT_UP = 20;
@@ -32,14 +32,13 @@ var RIGHT_RECT_BOTTOM = 40;
 // разница между `y` верхней границы модуля и `y` верхней границы черного прямоугольника
 var RIGHT_RECT_UP = 10;
 
-var RIGHT_SIDE_WIDTH = 22;
+var RIGHT_SIDE_WIDTH = 6;
 var BOTTOM_SIDE_HEIGHT = 4;
 var BOTTOM_LEFT_CORNER_WIDTH = 11;
 var TOP_SIDE_MARGIN = 2;
 var TOP_SIDE_HEIGHT = 2;
 
 var FEATHER_VALUE = 3;
-
 
 
 /**
@@ -78,14 +77,14 @@ function processBottomSide (mainLayer, rightLayer) {
 
   _selectAdditionalLayer(rightLayer);
 
-  var bottomSideCoords = [
+  var bottomSideCords = [
     [left, bottom - BOTTOM_SIDE_HEIGHT],
     [right, bottom - BOTTOM_SIDE_HEIGHT],
     [right, bottom],
     [left, bottom]
   ];
 
-  _select(bottomSideCoords);
+  _select(bottomSideCords);
 
   _duplicateAndMerge();
   var mergedLayer = activeDocument.activeLayer;
@@ -94,7 +93,7 @@ function processBottomSide (mainLayer, rightLayer) {
 
   var bottomParanjaLayer = activeDocument.artLayers.add();
   bottomParanjaLayer.name = mainLayer.name + '_bottom-paranja';
-  _createRectAndFillWithBlack(bottomParanjaLayer, bottomSideCoords);
+  _createRectAndFillWithBlack(bottomParanjaLayer, bottomSideCords);
 
   bottomParanjaLayer.opacity = 54;
 
@@ -209,8 +208,7 @@ function processRightSide (layer) {
   // вырезаем слой из выделения и переназываем его
   var rightLayer = createLayerVia(LAYER_VIA_OPERATION.cut, '_right');
   // искажаем выделение
-  _transformRightEdge(2);
-  return;
+  _transformRightEdge(3);
 
   _skewSelection();
   _deselect();
@@ -246,14 +244,9 @@ function processRightSide (layer) {
 }
 
 function _feather (radius) {
-  // =======================================================
-  var idFthr = charIDToTypeID( "Fthr" );
   var desc177 = new ActionDescriptor();
-  var idRds = charIDToTypeID( "Rds " );
-  var idPxl = charIDToTypeID( "#Pxl" );
-  desc177.putUnitDouble( idRds, idPxl, radius );
-  executeAction( idFthr, desc177, DialogModes.NO );
-  // =======================================================
+  desc177.putUnitDouble(charIDToTypeID("Rds "), charIDToTypeID("#Pxl"), radius);
+  executeAction(charIDToTypeID("Fthr"), desc177, DialogModes.NO);
 }
 
 function _featherAndDelete (layer, radius) {
@@ -284,99 +277,67 @@ function _transformRightEdge (widthMultiplier) {
 
   var desc8 = new ActionDescriptor();
   var ref5 = new ActionReference();
-  ref5.putEnumerated( charIDToTypeID( "Lyr " ), charIDToTypeID( "Ordn" ), charIDToTypeID( "Trgt" ) );
-  desc8.putReference( charIDToTypeID( "null" ), ref5 );
-  desc8.putEnumerated( charIDToTypeID( "FTcs" ), charIDToTypeID( "QCSt" ), charIDToTypeID( "Qcs7" ) );
+  ref5.putEnumerated(charIDToTypeID("Lyr "), charIDToTypeID("Ordn"), charIDToTypeID("Trgt"));
+  desc8.putReference(charIDToTypeID("null"), ref5);
+  desc8.putEnumerated(charIDToTypeID("FTcs"), charIDToTypeID("QCSt"), charIDToTypeID("Qcs7"));
   var desc9 = new ActionDescriptor();
-  desc9.putUnitDouble( charIDToTypeID( "Hrzn" ), charIDToTypeID( "#Pxl" ), 0 );
-  desc9.putUnitDouble( charIDToTypeID( "Vrtc" ), charIDToTypeID( "#Pxl" ), 0 );
-  desc8.putObject( charIDToTypeID( "Ofst" ), charIDToTypeID( "Ofst" ), desc9 );
-  desc8.putUnitDouble( charIDToTypeID( "Wdth" ), charIDToTypeID( "#Prc" ), finalPercentageWidth );
-  desc8.putEnumerated( charIDToTypeID( "Intr" ), charIDToTypeID( "Intp" ), charIDToTypeID( "Bcbc" ) );
-  executeAction( charIDToTypeID( "Trnf" ), desc8, DialogModes.NO );
+  desc9.putUnitDouble(charIDToTypeID("Hrzn"), charIDToTypeID("#Pxl"), 0);
+  desc9.putUnitDouble(charIDToTypeID("Vrtc"), charIDToTypeID("#Pxl"), 0);
+  desc8.putObject(charIDToTypeID("Ofst"), charIDToTypeID("Ofst"), desc9);
+  desc8.putUnitDouble(charIDToTypeID("Wdth"), charIDToTypeID("#Prc"), finalPercentageWidth);
+  desc8.putEnumerated(charIDToTypeID("Intr"), charIDToTypeID("Intp"), charIDToTypeID("Bcbc"));
+  executeAction(charIDToTypeID("Trnf"), desc8, DialogModes.NO);
 }
 
 function _skewSelection () {
-
-  var idTrnf = charIDToTypeID( "Trnf" );
   var desc22 = new ActionDescriptor();
-  var idnull = charIDToTypeID( "null" );
   var ref13 = new ActionReference();
-  var idLyr = charIDToTypeID( "Lyr " );
-  var idOrdn = charIDToTypeID( "Ordn" );
-  var idTrgt = charIDToTypeID( "Trgt" );
-  ref13.putEnumerated( idLyr, idOrdn, idTrgt );
-  desc22.putReference( idnull, ref13 );
-  var idFTcs = charIDToTypeID( "FTcs" );
-  var idQCSt = charIDToTypeID( "QCSt" );
-  var idQcsa = charIDToTypeID( "Qcsa" );
-  desc22.putEnumerated( idFTcs, idQCSt, idQcsa );
-  var idOfst = charIDToTypeID( "Ofst" );
+
+  ref13.putEnumerated(charIDToTypeID("Lyr "), charIDToTypeID("Ordn"), charIDToTypeID("Trgt"));
+  desc22.putReference(charIDToTypeID("null"), ref13);
+  desc22.putEnumerated(charIDToTypeID("FTcs"), charIDToTypeID("QCSt"), charIDToTypeID("Qcsa"));
+
   var desc23 = new ActionDescriptor();
-  var idHrzn = charIDToTypeID( "Hrzn" );
-  var idPxl = charIDToTypeID( "#Pxl" );
-  desc23.putUnitDouble( idHrzn, idPxl, -6.000000 );
-  var idVrtc = charIDToTypeID( "Vrtc" );
-  var idPxl = charIDToTypeID( "#Pxl" );
-  desc23.putUnitDouble( idVrtc, idPxl, 6.000000 );
-  var idOfst = charIDToTypeID( "Ofst" );
-  desc22.putObject( idOfst, idOfst, desc23 );
-  var idWdth = charIDToTypeID( "Wdth" );
-  var idPrc = charIDToTypeID( "#Prc" );
-  desc22.putUnitDouble( idWdth, idPrc, 53.000000 );
-  var idSkew = charIDToTypeID( "Skew" );
+  desc23.putUnitDouble(charIDToTypeID("Hrzn"), charIDToTypeID("#Pxl"), 0);
+  desc23.putUnitDouble(charIDToTypeID("Vrtc"), charIDToTypeID("#Pxl"), 9);
+  desc22.putObject(charIDToTypeID("Ofst"), charIDToTypeID("Ofst"), desc23);
+  desc22.putUnitDouble(charIDToTypeID("Wdth"), charIDToTypeID("#Prc"), 100);
+
   var desc24 = new ActionDescriptor();
-  var idHrzn = charIDToTypeID( "Hrzn" );
-  var idAng = charIDToTypeID( "#Ang" );
-  desc24.putUnitDouble( idHrzn, idAng, 0.000000 );
-  var idVrtc = charIDToTypeID( "Vrtc" );
-  var idAng = charIDToTypeID( "#Ang" );
-  desc24.putUnitDouble( idVrtc, idAng, 45.000000 );
-  var idPnt = charIDToTypeID( "Pnt " );
-  desc22.putObject( idSkew, idPnt, desc24 );
-  var idIntr = charIDToTypeID( "Intr" );
-  var idIntp = charIDToTypeID( "Intp" );
-  var idBcbc = charIDToTypeID( "Bcbc" );
-  desc22.putEnumerated( idIntr, idIntp, idBcbc );
-  executeAction( idTrnf, desc22, DialogModes.NO );
+  desc24.putUnitDouble(charIDToTypeID("Hrzn"), charIDToTypeID("#Ang"), 0);
+  desc24.putUnitDouble(charIDToTypeID("Vrtc"), charIDToTypeID("#Ang"), 45);
+  desc22.putObject(charIDToTypeID("Skew"), charIDToTypeID("Pnt "), desc24);
+  desc22.putEnumerated(charIDToTypeID("Intr"), charIDToTypeID("Intp"), charIDToTypeID("Bcbc"));
+
+  executeAction(charIDToTypeID("Trnf"), desc22, DialogModes.NO);
 }
 
 function _selectAdditionalLayer (layer) {
-  var idslct = charIDToTypeID( "slct" );
   var desc2 = new ActionDescriptor();
-  var idnull = charIDToTypeID( "null" );
   var ref1 = new ActionReference();
-  var idLyr = charIDToTypeID( "Lyr " );
-  ref1.putName( idLyr, layer.name );
-  desc2.putReference( idnull, ref1 );
-  var idselectionModifier = stringIDToTypeID( "selectionModifier" );
-  var idselectionModifierType = stringIDToTypeID( "selectionModifierType" );
-  var idaddToSelection = stringIDToTypeID( "addToSelection" );
-  desc2.putEnumerated( idselectionModifier, idselectionModifierType, idaddToSelection );
-  var idMkVs = charIDToTypeID( "MkVs" );
-  desc2.putBoolean( idMkVs, false );
-  executeAction( idslct, desc2, DialogModes.NO );
+
+  ref1.putName(charIDToTypeID("Lyr "), layer.name);
+  desc2.putReference(charIDToTypeID("null"), ref1);
+  desc2.putEnumerated(
+    stringIDToTypeID("selectionModifier"),
+    stringIDToTypeID("selectionModifierType"),
+    stringIDToTypeID("addToSelection")
+  );
+  desc2.putBoolean(charIDToTypeID("MkVs"), false);
+  executeAction(charIDToTypeID("slct"), desc2, DialogModes.NO);
 }
 
 function _duplicateAndMerge () {
-  // =======================================================
-  var idDplc = charIDToTypeID( "Dplc" );
-  var desc11 = new ActionDescriptor();
-  var idnull = charIDToTypeID( "null" );
   var ref7 = new ActionReference();
-  var idLyr = charIDToTypeID( "Lyr " );
-  var idOrdn = charIDToTypeID( "Ordn" );
-  var idTrgt = charIDToTypeID( "Trgt" );
-  ref7.putEnumerated( idLyr, idOrdn, idTrgt );
-  desc11.putReference( idnull, ref7 );
-  var idVrsn = charIDToTypeID( "Vrsn" );
-  desc11.putInteger( idVrsn, 5 );
-  executeAction( idDplc, desc11, DialogModes.NO );
+  ref7.putEnumerated(charIDToTypeID("Lyr "), charIDToTypeID("Ordn"), charIDToTypeID("Trgt"));
 
-// =======================================================
-  var idMrgtwo = charIDToTypeID( "Mrg2" );
+  var desc11 = new ActionDescriptor();
+  desc11.putReference(charIDToTypeID("null"), ref7);
+  desc11.putInteger(charIDToTypeID("Vrsn"), 5);
+  executeAction(charIDToTypeID("Dplc"), desc11, DialogModes.NO);
+
   var desc12 = new ActionDescriptor();
-  executeAction( idMrgtwo, desc12, DialogModes.NO );
+  executeAction(charIDToTypeID("Mrg2"), desc12, DialogModes.NO);
 }
 
 function createVinietkaShadow (layer) {
@@ -388,7 +349,7 @@ function createVinietkaShadow (layer) {
   _adjustBrightness(copiedLayer, -48, -11);
 
   var boundsObj = _getLayerBounds(copiedLayer);
-  var diameter = boundsObj.height < boundsObj.width ? boundsObj.height: boundsObj.width;
+  var diameter = boundsObj.height < boundsObj.width ? boundsObj.height : boundsObj.width;
   var radius = diameter / 2;
   var center = {
     x: boundsObj.left + boundsObj.width / 2,
@@ -427,12 +388,12 @@ function processModularLayer (layer) {
    * Гра!
    * Это виньетка, если хочешь её оставить — убери //
    */
-  //createVinietkaShadow(mergedLayer);
+    //createVinietkaShadow(mergedLayer);
 
   var shadowLayer = createBoxShadow({
-    mergedLayer: mergedLayer,
-    moduleLayer: layer
-  });
+      mergedLayer: mergedLayer,
+      moduleLayer: layer
+    });
 
   var bgLayer = _getLayerByName('bg');
   shadowLayer.move(bgLayer, ElementPlacement.PLACEBEFORE);
@@ -491,7 +452,7 @@ function createLayerVia (method, layerSuffix) {
   var operation = method === 'copy' ? "CpTL" : "CtTL";
 
   var layerName = activeDocument.activeLayer.name;
-  executeAction( charIDToTypeID( operation ), undefined, DialogModes.NO );
+  executeAction(charIDToTypeID(operation), undefined, DialogModes.NO);
 
   if (layerSuffix) {
     activeDocument.activeLayer.name = layerName + layerSuffix;
@@ -560,7 +521,6 @@ function processLayers (document) {
     layer = layersToProcess[j];
     // обрабатываем слой с картинкой
     processModularLayer(layer, fon);
-    return;
   }
 
   var mergedLayer;
@@ -607,104 +567,66 @@ function _select (coords) {
 }
 
 function _selectWithEllipsis (selectionObj) {
-
-  var idsetd = charIDToTypeID( "setd" );
   var desc36 = new ActionDescriptor();
-  var idnull = charIDToTypeID( "null" );
   var ref31 = new ActionReference();
-  var idChnl = charIDToTypeID( "Chnl" );
-  var idfsel = charIDToTypeID( "fsel" );
-  ref31.putProperty( idChnl, idfsel );
-  desc36.putReference( idnull, ref31 );
-  var idT = charIDToTypeID( "T   " );
+  ref31.putProperty(charIDToTypeID("Chnl"), charIDToTypeID("fsel"));
+  desc36.putReference(charIDToTypeID("null"), ref31);
   var desc37 = new ActionDescriptor();
-  var idTop = charIDToTypeID( "Top " );
-  var idPxl = charIDToTypeID( "#Pxl" );
-  desc37.putUnitDouble( idTop, idPxl, selectionObj.top );
-  var idLeft = charIDToTypeID( "Left" );
-  var idPxl = charIDToTypeID( "#Pxl" );
-  desc37.putUnitDouble( idLeft, idPxl, selectionObj.left );
-  var idBtom = charIDToTypeID( "Btom" );
-  var idPxl = charIDToTypeID( "#Pxl" );
-  desc37.putUnitDouble( idBtom, idPxl, selectionObj.bottom );
-  var idRght = charIDToTypeID( "Rght" );
-  var idPxl = charIDToTypeID( "#Pxl" );
-  desc37.putUnitDouble( idRght, idPxl, selectionObj.right );
-  var idElps = charIDToTypeID( "Elps" );
-  desc36.putObject( idT, idElps, desc37 );
-  var idAntA = charIDToTypeID( "AntA" );
-  desc36.putBoolean( idAntA, true );
-  executeAction( idsetd, desc36, DialogModes.NO );
+  desc37.putUnitDouble(charIDToTypeID("Top "), charIDToTypeID("#Pxl"), selectionObj.top);
+  desc37.putUnitDouble(charIDToTypeID("Left"), charIDToTypeID("#Pxl"), selectionObj.left);
+  desc37.putUnitDouble(charIDToTypeID("Btom"), charIDToTypeID("#Pxl"), selectionObj.bottom);
+  desc37.putUnitDouble(charIDToTypeID("Rght"), charIDToTypeID("#Pxl"), selectionObj.right);
+  desc36.putObject(charIDToTypeID("T   "), charIDToTypeID("Elps"), desc37);
+  desc36.putBoolean(charIDToTypeID("AntA"), true);
+
+  executeAction(charIDToTypeID("setd"), desc36, DialogModes.NO);
 }
 
 function linearBurn () {
-  var idsetd = charIDToTypeID( "setd" );
   var desc122 = new ActionDescriptor();
-  var idnull = charIDToTypeID( "null" );
   var ref98 = new ActionReference();
-  var idLyr = charIDToTypeID( "Lyr " );
-  var idOrdn = charIDToTypeID( "Ordn" );
-  var idTrgt = charIDToTypeID( "Trgt" );
-  ref98.putEnumerated( idLyr, idOrdn, idTrgt );
-  desc122.putReference( idnull, ref98 );
-  var idT = charIDToTypeID( "T   " );
+  ref98.putEnumerated(charIDToTypeID("Lyr "), charIDToTypeID("Ordn"), charIDToTypeID("Trgt"));
+  desc122.putReference(charIDToTypeID("null"), ref98);
+
   var desc123 = new ActionDescriptor();
-  var idMd = charIDToTypeID( "Md  " );
-  var idBlnM = charIDToTypeID( "BlnM" );
-  /**
-   * Гра!
-   * Это режим наложения. Например, colorBurn, linearBurn, overlay.
-   */
-  var idlinearBurn = stringIDToTypeID( "colorBurn" );
-  desc123.putEnumerated( idMd, idBlnM, idlinearBurn );
-  idLyr = charIDToTypeID( "Lyr " );
-  desc122.putObject( idT, idLyr, desc123 );
-  executeAction( idsetd, desc122, DialogModes.NO );
+  desc123.putEnumerated(charIDToTypeID("Md  "), charIDToTypeID("BlnM"), stringIDToTypeID("colorBurn"));
+  desc122.putObject(charIDToTypeID("T   "), charIDToTypeID("Lyr "), desc123);
+  executeAction(charIDToTypeID("setd"), desc122, DialogModes.NO);
 }
 
 function _deleteSelection () {
-  var idDlt = charIDToTypeID( "Dlt " );
-  executeAction( idDlt, undefined, DialogModes.NO );
+  var idDlt = charIDToTypeID("Dlt ");
+  executeAction(idDlt, undefined, DialogModes.NO);
 }
 
 function addLayerToSelection (layer, isFirst) {
   var layerName = layer.name;
 
-  var idChnl = charIDToTypeID( "Chnl" );
-  var idTrsp = charIDToTypeID( "Trsp" );
-  var idfsel = charIDToTypeID( "fsel" );
-
-  var idnull = charIDToTypeID( "null" );
-
-  var idLyr = charIDToTypeID( "Lyr " );
-  var idT = charIDToTypeID( "T   " );
-
-
   if (isFirst) {
-    var idsetd = charIDToTypeID( "setd" );
     var desc98 = new ActionDescriptor();
     var ref66 = new ActionReference();
 
-    ref66.putProperty( idChnl, idfsel );
-    desc98.putReference( idnull, ref66 );
-    var ref67 = new ActionReference();
+    ref66.putProperty(charIDToTypeID("Chnl"), charIDToTypeID("fsel"));
+    desc98.putReference(charIDToTypeID("null"), ref66);
 
-    ref67.putEnumerated( idChnl, idChnl, idTrsp );
-    ref67.putName( idLyr, layerName );
-    desc98.putReference( idT, ref67 );
-    executeAction( idsetd, desc98, DialogModes.NO );
+    var ref67 = new ActionReference();
+    ref67.putEnumerated(charIDToTypeID("Chnl"), charIDToTypeID("Chnl"), charIDToTypeID("Trsp"));
+    ref67.putName(charIDToTypeID("Lyr "), layerName);
+    desc98.putReference(charIDToTypeID("T   "), ref67);
+    executeAction(charIDToTypeID("setd"), desc98, DialogModes.NO);
+
   } else {
-    var idAdd = charIDToTypeID( "Add " );
     var desc99 = new ActionDescriptor();
     var ref68 = new ActionReference();
 
-    ref68.putEnumerated( idChnl, idChnl, idTrsp );
-    ref68.putName( idLyr, layerName );
-    desc99.putReference( idnull, ref68 );
+    ref68.putEnumerated(charIDToTypeID("Chnl"), charIDToTypeID("Chnl"), charIDToTypeID("Trsp"));
+    ref68.putName(charIDToTypeID("Lyr "), layerName);
+    desc99.putReference(charIDToTypeID("null"), ref68);
+
     var ref69 = new ActionReference();
-    ref69.putProperty( idChnl, idfsel );
-    desc99.putReference( idT, ref69 );
-    executeAction( idAdd, desc99, DialogModes.NO );
+    ref69.putProperty(charIDToTypeID("Chnl"), charIDToTypeID("fsel"));
+    desc99.putReference(charIDToTypeID("T   "), ref69);
+    executeAction(charIDToTypeID("Add "), desc99, DialogModes.NO);
   }
 
 }
@@ -726,40 +648,37 @@ function _cropArea (layer, points) {
 }
 
 function _deleteArea () {
-  var idDlt = charIDToTypeID( "Dlt " );
-  executeAction( idDlt, undefined, DialogModes.NO );
+  var idDlt = charIDToTypeID("Dlt ");
+  executeAction(idDlt, undefined, DialogModes.NO);
 }
 
+/**
+ * Выбираем полигональное лассо
+ */
 function _selectLasso () {
-  // Выбираем полигональное лассо
-  // =======================================================
   var select = new ActionDescriptor();
 
   var ref30 = new ActionReference();
-  var idpolySelTool = stringIDToTypeID( "polySelTool" );
-  ref30.putClass( idpolySelTool );
-  select.putReference(
-    charIDToTypeID( "null" ),
-    ref30 );
+  var idpolySelTool = stringIDToTypeID("polySelTool");
+  ref30.putClass(idpolySelTool);
+  select.putReference(charIDToTypeID("null"), ref30);
 
-  var iddontRecord = stringIDToTypeID( "dontRecord" );
-  select.putBoolean( iddontRecord, true );
-  var idforceNotify = stringIDToTypeID( "forceNotify" );
-  select.putBoolean( idforceNotify, true );
+  var iddontRecord = stringIDToTypeID("dontRecord");
+  select.putBoolean(iddontRecord, true);
+  var idforceNotify = stringIDToTypeID("forceNotify");
+  select.putBoolean(idforceNotify, true);
 
-  executeAction(
-    charIDToTypeID( "slct" ),
-    select, DialogModes.NO );
+  executeAction(charIDToTypeID("slct"), select, DialogModes.NO);
 }
 
 function _selectPoints (points) {
   var mainAction = new ActionDescriptor();
 
   var ref31 = new ActionReference();
-  var idChnl = charIDToTypeID( "Chnl" );
-  var idfsel = charIDToTypeID( "fsel" );
-  ref31.putProperty( idChnl, idfsel );
-  mainAction.putReference( charIDToTypeID( "null" ), ref31 );
+  var idChnl = charIDToTypeID("Chnl");
+  var idfsel = charIDToTypeID("fsel");
+  ref31.putProperty(idChnl, idfsel);
+  mainAction.putReference(charIDToTypeID("null"), ref31);
 
   var pointsDescripts = new ActionDescriptor();
   var pointsList = new ActionList();
@@ -778,11 +697,10 @@ function _selectPoints (points) {
 
   pointsDescripts.putList(charIDToTypeID("Pts "), pointsList);
 
-  mainAction.putObject(charIDToTypeID( "T   " ), charIDToTypeID( "Plgn" ), pointsDescripts);
-  mainAction.putBoolean(charIDToTypeID( "AntA" ), true);
-  executeAction(charIDToTypeID( "setd" ), mainAction, DialogModes.NO);
+  mainAction.putObject(charIDToTypeID("T   "), charIDToTypeID("Plgn"), pointsDescripts);
+  mainAction.putBoolean(charIDToTypeID("AntA"), true);
+  executeAction(charIDToTypeID("setd"), mainAction, DialogModes.NO);
 }
-
 
 
 /** ============================ RUN ================================ */
@@ -839,16 +757,11 @@ function processDocument (doc) {
 }
 
 function _rasterizeLayer () {
-  var idrasterizeLayer = stringIDToTypeID( "rasterizeLayer" );
   var desc116 = new ActionDescriptor();
-  var idnull = charIDToTypeID( "null" );
   var ref87 = new ActionReference();
-  var idLyr = charIDToTypeID( "Lyr " );
-  var idOrdn = charIDToTypeID( "Ordn" );
-  var idTrgt = charIDToTypeID( "Trgt" );
-  ref87.putEnumerated( idLyr, idOrdn, idTrgt );
-  desc116.putReference( idnull, ref87 );
-  executeAction( idrasterizeLayer, desc116, DialogModes.NO );
+  ref87.putEnumerated(charIDToTypeID("Lyr "), charIDToTypeID("Ordn"), charIDToTypeID("Trgt"));
+  desc116.putReference(charIDToTypeID("null"), ref87);
+  executeAction(stringIDToTypeID("rasterizeLayer"), desc116, DialogModes.NO);
 
   return activeDocument.activeLayer;
 }
@@ -876,26 +789,16 @@ function _placeImageOnNewLayer (imageFile) {
 }
 
 function _moveLayer (layer, offsetX, offsetY) {
-  var idmove = charIDToTypeID( "move" );
   var desc26 = new ActionDescriptor();
-  var idnull = charIDToTypeID( "null" );
   var ref25 = new ActionReference();
-  var idLyr = charIDToTypeID( "Lyr " );
-  var idOrdn = charIDToTypeID( "Ordn" );
-  var idTrgt = charIDToTypeID( "Trgt" );
-  ref25.putEnumerated( idLyr, idOrdn, idTrgt );
-  desc26.putReference( idnull, ref25 );
-  var idT = charIDToTypeID( "T   " );
+  ref25.putEnumerated(charIDToTypeID("Lyr "), charIDToTypeID("Ordn"), charIDToTypeID("Trgt"));
+  desc26.putReference(charIDToTypeID("null"), ref25);
+
   var desc27 = new ActionDescriptor();
-  var idHrzn = charIDToTypeID( "Hrzn" );
-  var idPxl = charIDToTypeID( "#Pxl" );
-  desc27.putUnitDouble( idHrzn, idPxl, offsetX );
-  var idVrtc = charIDToTypeID( "Vrtc" );
-  var idPxl = charIDToTypeID( "#Pxl" );
-  desc27.putUnitDouble( idVrtc, idPxl,offsetY );
-  var idOfst = charIDToTypeID( "Ofst" );
-  desc26.putObject( idT, idOfst, desc27 );
-  executeAction( idmove, desc26, DialogModes.NO );
+  desc27.putUnitDouble(charIDToTypeID("Hrzn"), charIDToTypeID("#Pxl"), offsetX);
+  desc27.putUnitDouble(charIDToTypeID("Vrtc"), charIDToTypeID("#Pxl"), offsetY);
+  desc26.putObject(charIDToTypeID("T   "), charIDToTypeID("Ofst"), desc27);
+  executeAction(charIDToTypeID("move"), desc26, DialogModes.NO);
 }
 
 function _invertSelection () {
