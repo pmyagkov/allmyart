@@ -10,7 +10,6 @@ var PSD_FILENAME_PATTERN_RE = /\.(psd)$/i;
  * 2. Папки `PSD_FOLDER_PATH`, `TEXTURES_PATH` и `PSD_FOLDER_PATH+OUT_SUBFOLDER` должны существовать.
  */
 var PSD_FOLDER_PATH = '/Users/puelle/Projects/allmyart/scriptology/samples/';
-
 var TEXTURES_PATH = "/Users/puelle/Projects/allmyart/scriptology/textures/";
 
 var PATH_TO_BACKGROUND = TEXTURES_PATH + "concrete.jpg";
@@ -45,7 +44,6 @@ function openFilesInDir (folderPath) {
       var doc = open(fileList[i]);
       try {
         var result = processDocument(doc);
-        return;
       } catch (e) {
         //alert('С документом ' + doc.name + ' какая-то хуйня! Гра, разберись!\n' + e.toString());
         result = false;
@@ -54,7 +52,6 @@ function openFilesInDir (folderPath) {
       if (result) {
         doc.close(SaveOptions.DONOTSAVECHANGES);
       }
-
     }
   }
 }

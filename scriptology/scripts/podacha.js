@@ -35,7 +35,7 @@ var RIGHT_RECT_BOTTOM = 40;
 var RIGHT_RECT_UP = 10;
 
 var RIGHT_SIDE_WIDTH = 6;
-var BOTTOM_SIDE_HEIGHT = 4;
+var BOTTOM_SIDE_HEIGHT = 8;
 var BOTTOM_LEFT_CORNER_WIDTH = 11;
 var TOP_SIDE_MARGIN = 2;
 var TOP_SIDE_HEIGHT = 2;
@@ -232,8 +232,8 @@ function processRightSide (layer) {
     // обрезаем нижний угол
     _cropArea(layers[i], [
       [bounds.right - RIGHT_SIDE_WIDTH - 5, bounds.bottom],
-      [bounds.right, bounds.bottom],
-      [bounds.right - RIGHT_SIDE_WIDTH / 2 + 2, bounds.bottom + 15]
+      [bounds.right + RIGHT_SIDE_WIDTH * 2 + 2, bounds.bottom],
+      [bounds.right + RIGHT_SIDE_WIDTH * 2 + 2, bounds.bottom + 30]
     ]);
     _deselect();
   }
@@ -409,36 +409,40 @@ function createBoxShadow (options) {
   shadowLayer.name = moduleLayer.name + '_shadow';
 
   var layerBounds = _getLayerBounds(mergedLayer);
-  var coords = [
+
+  var rightEdge = layerBounds.right + 19 + 9;
+  var bottomEdge = layerBounds.bottom + 32 + 17;
+
+  var cords = [
     [layerBounds.left + 13, layerBounds.top + 11],
-    [layerBounds.right + 19, layerBounds.top + 11],
-    [layerBounds.right + 19, layerBounds.bottom + 32],
-    [layerBounds.left + 13, layerBounds.bottom + 32]
+    [rightEdge, layerBounds.top + 11],
+    [rightEdge, bottomEdge],
+    [layerBounds.left + 13, bottomEdge]
   ];
 
-  _createRectAndFillWithBlack(shadowLayer, coords);
+  _createRectAndFillWithBlack(shadowLayer, cords);
 
   shadowLayer.move(moduleLayer, ElementPlacement.PLACEBEFORE);
   _moveLayer(shadowLayer, -6, 0);
 
   // обрезаем угол
   var shadowLayerBounds = _getLayerBounds(shadowLayer);
-  coords = [
-    [shadowLayerBounds.right - 13, shadowLayerBounds.top],
+  cords = [
+    [shadowLayerBounds.right - 13 - 9, shadowLayerBounds.top],
     [shadowLayerBounds.right, shadowLayerBounds.top + 43],
-    [shadowLayerBounds.right + 20, shadowLayerBounds.top + 43],
-    [shadowLayerBounds.right + 20, shadowLayerBounds.top - 10],
-    [shadowLayerBounds.right - 13, shadowLayerBounds.top - 10],
+    [rightEdge + 1, shadowLayerBounds.top + 43],
+    [rightEdge + 1, shadowLayerBounds.top - 10],
+    [shadowLayerBounds.right - 13 - 9, shadowLayerBounds.top - 10],
   ];
 
-  _select(coords);
+  _select(cords);
   _deleteSelection();
 
   // прозрачность
   shadowLayer.opacity = 30;
 
   // размытие
-  _applyGaussianBlur(shadowLayer, 2);
+  _applyGaussianBlur(shadowLayer, 3);
 
   return shadowLayer;
 }
