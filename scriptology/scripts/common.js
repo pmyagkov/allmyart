@@ -45,7 +45,7 @@ function openFilesInDir (folderPath) {
       try {
         var result = processDocument(doc);
       } catch (e) {
-        //alert('С документом ' + doc.name + ' какая-то хуйня! Гра, разберись!\n' + e.toString());
+        // alert('С документом ' + doc.name + ' какая-то хуйня! Гра, разберись!\n' + e.toString());
         result = false;
       }
 
@@ -57,38 +57,33 @@ function openFilesInDir (folderPath) {
 }
 
 /**
- * Сохраняет активный документ в JPG.
+ *
+ * @param format JPEG
  */
-function saveJPEG (filePath, fileName) {
+function exportFile (filePath, fileName, format) {
   var doc = app.activeDocument;
   if (doc.bitsPerChannel != BitsPerChannelType.EIGHT) {
     doc.bitsPerChannel = BitsPerChannelType.EIGHT;
   }
 
-  var file = new File(filePath + fileName + '.jpg');
+  var isPNG = format === 'PNG';
 
-  var jpgSaveOptions = new JPEGSaveOptions();
-  jpgSaveOptions.embedColorProfile = false;
-  jpgSaveOptions.formatOptions = FormatOptions.STANDARDBASELINE;
-  jpgSaveOptions.matte = MatteType.NONE;
-  jpgSaveOptions.quality = JPG_QUALITY;
-  activeDocument.saveAs(file, jpgSaveOptions, true, Extension.LOWERCASE);
-}
+  var extension = isPNG ? '.png' : '.jpg';
 
-function exportJPEG (filePath, fileName) {
-  var doc = app.activeDocument;
-  if (doc.bitsPerChannel != BitsPerChannelType.EIGHT) {
-    doc.bitsPerChannel = BitsPerChannelType.EIGHT;
+  var file = new File(filePath + fileName + extension);
+
+  if (isPNG) {
+    var exportOptions = new ExportOptionsSaveForWeb();
+    exportOptions.PNG8 = false;
+    exportOptions.transparency = true;
+    exportOptions.interlaced = false;
+    exportOptions.quality = 100;
+    exportOptions.includeProfile = false;
+    exportOptions.format = SaveDocumentType.PNG;
+    doc.exportDocument(file, ExportType.SAVEFORWEB, exportOptions);
+  } else {
+    doc.exportDocument(file, ExportType.SAVEFORWEB);
   }
-
-  var file = new File(filePath + fileName + '.jpg');
-  var exportOptions = new ExportOptionsSaveForWeb();
-  exportOptions.format = SaveDocumentType.JPEG;
-  exportOptions.matteColor = new NoColor();
-  exportOptions.quality = 75;
-
-  doc.exportDocument(file, ExportType.SAVEFORWEB)
-
 }
 
 /**
@@ -146,10 +141,18 @@ function getModulesSizes () {
         maxRight = layerSize.right;
       }
 
-      if (layerSize.top < minTop) { minTop = layerSize.top; }
-      if (layerSize.bottom > maxBottom) { maxBottom = layerSize.bottom; }
-      if (layerSize.left < minLeft) { minLeft = layerSize.left; }
-      if (layerSize.right > maxRight) { maxRight = layerSize.right; }
+      if (layerSize.top < minTop) {
+        minTop = layerSize.top;
+      }
+      if (layerSize.bottom > maxBottom) {
+        maxBottom = layerSize.bottom;
+      }
+      if (layerSize.left < minLeft) {
+        minLeft = layerSize.left;
+      }
+      if (layerSize.right > maxRight) {
+        maxRight = layerSize.right;
+      }
     }
   }
 

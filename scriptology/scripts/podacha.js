@@ -90,11 +90,11 @@ function processBottomSide (mainLayer, rightLayer) {
 
   _duplicateAndMerge();
   var mergedLayer = activeDocument.activeLayer;
-  mergedLayer.name = mainLayer.name + '_merged';
+  mergedLayer.name = '_' + mainLayer.name;
 
 
   var bottomParanjaLayer = activeDocument.artLayers.add();
-  bottomParanjaLayer.name = mainLayer.name + '_bottom-paranja';
+  bottomParanjaLayer.name = mergedLayer.name + '_bottom';
   _createRectAndFillWithBlack(bottomParanjaLayer, bottomSideCords);
 
   bottomParanjaLayer.opacity = 54;
@@ -223,6 +223,7 @@ function processRightSide (layer) {
   ];
 
   var featherLayer = createLayerVia(LAYER_VIA_OPERATION.copy, '_shadow');
+  featherLayer.name = '_' + layer.name + '_right';
 
   // уменьшаем яркость
   _adjustBrightness(featherLayer, -140, 0);
@@ -329,6 +330,25 @@ function _selectAdditionalLayer (layer) {
   executeAction(c("slct"), desc2, DialogModes.NO);
 }
 
+function _addLayerToSelection (layerName) {
+  var desc54 = new ActionDescriptor();
+  var ref53 = new ActionReference();
+  ref53.putName(charIDToTypeID("Lyr "), layerName);
+  desc54.putReference(charIDToTypeID("null"), ref53);
+  desc54.putEnumerated(
+    stringIDToTypeID("selectionModifier"),
+    stringIDToTypeID("selectionModifierType"),
+    stringIDToTypeID("addToSelection")
+  );
+  desc54.putBoolean(charIDToTypeID("MkVs"), false);
+  executeAction(charIDToTypeID("slct"), desc54, DialogModes.NO);
+}
+
+function _mergeSelectedLayers () {
+  var desc12 = new ActionDescriptor();
+  executeAction(c("Mrg2"), desc12, DialogModes.NO);
+}
+
 function _duplicateAndMerge () {
   var ref7 = new ActionReference();
   ref7.putEnumerated(c("Lyr "), c("Ordn"), c("Trgt"));
@@ -338,36 +358,7 @@ function _duplicateAndMerge () {
   desc11.putInteger(c("Vrsn"), 5);
   executeAction(c("Dplc"), desc11, DialogModes.NO);
 
-  var desc12 = new ActionDescriptor();
-  executeAction(c("Mrg2"), desc12, DialogModes.NO);
-}
-
-function createVinietkaShadow (layer) {
-  activeDocument.activeLayer = layer;
-
-  var copiedLayer = createLayerVia(LAYER_VIA_OPERATION.copy, '_vinietka');
-  copiedLayer.opacity = 40;
-
-  _adjustBrightness(copiedLayer, -48, -11);
-
-  var boundsObj = _getLayerBounds(copiedLayer);
-  var diameter = boundsObj.height < boundsObj.width ? boundsObj.height : boundsObj.width;
-  var radius = diameter / 2;
-  var center = {
-    x: boundsObj.left + boundsObj.width / 2,
-    y: boundsObj.top + boundsObj.height / 2
-  };
-
-  _selectWithEllipsis({
-    left: center.x - radius,
-    top: center.y - radius,
-    right: center.x + radius,
-    bottom: center.y + radius
-  });
-
-  _feather(150);
-
-  _deleteSelection();
+  _mergeSelectedLayers();
 }
 
 /**
@@ -380,25 +371,40 @@ function processModularLayer (layer) {
 
   var mergedLayer = processBottomSide(layer, rightLayer);
 
-  processTopSide({
+  var topSideLayer = processTopSide({
     mergedLayer: mergedLayer,
     mainLayer: layer
   });
 
-
-  /**
-   * Гра!
-   * Это виньетка, если хочешь её оставить — убери //
-   */
-    //createVinietkaShadow(mergedLayer);
-
   var shadowLayer = createBoxShadow({
-      mergedLayer: mergedLayer,
-      moduleLayer: layer
-    });
+    mergedLayer: mergedLayer,
+    moduleLayer: layer
+  });
+
+  var mainLayer = _mergeLayersForModules(layer);
 
   var bgLayer = _getLayerByName('bg');
   shadowLayer.move(bgLayer, ElementPlacement.PLACEBEFORE);
+
+  return {
+    main: mainLayer,
+    shadow: shadowLayer
+  }
+}
+
+function _mergeLayersForModules (mainLayer) {
+  var mainLayerName = mainLayer.name;
+  activeDocument.activeLayer = _getLayerByName('_' + mainLayerName);
+
+  _addLayerToSelection('_' + mainLayerName + '_bottom');
+  _addLayerToSelection('_' + mainLayerName + '_top');
+  _addLayerToSelection('_' + mainLayerName + '_right');
+
+  _mergeSelectedLayers();
+
+  activeDocument.activeLayer.name = '_' + mainLayerName;
+
+  return activeDocument.activeLayer;
 }
 
 function createBoxShadow (options) {
@@ -523,22 +529,39 @@ function processLayers (document) {
     mLayer.visible = false;
   }
 
+  var left = 1000000;
+  var right = -1;
+  var top = 100000;
+  var bottom = -1;
+
+  var result, shadow, main;
+  var bounds;
   for (j = 0; j < layersToProcess.length; j++) {
     layer = layersToProcess[j];
     // обрабатываем слой с картинкой
-    processModularLayer(layer, fon);
+    result = processModularLayer(layer, fon);
+
+    bounds = _getLayerBounds(result.main);
+    left = bounds.left < left ? bounds.left : left;
+    top = bounds.top < top ? bounds.top : top;
+
+    bounds = _getLayerBounds(result.shadow);
+    right = bounds.right > right ? bounds.right : right;
+    bottom = bounds.bottom > bottom ? bounds.bottom : bottom;
   }
 
   var mergedLayer;
   var mergedLayers = [];
   for (var i = 0; i < layersToProcess.length; i++) {
     layer = layersToProcess[i];
-    mergedLayer = _getLayerByName(layer.name + '_merged');
+    mergedLayer = _getLayerByName('_' + layer.name);
     mergedLayers.push(mergedLayer);
   }
 
   // накладывает canvas на модули с картинами для текстуры (linear burn mode)
   appendCanvasTextureToModules(mergedLayers);
+
+  return [left, top, right, bottom];
 }
 
 function appendCanvasTextureToModules (modules) {
@@ -734,10 +757,10 @@ function processDocument (doc) {
 
   var error = false;
 
-  processLayers(doc);
+  var cropBounds = processLayers(doc);
 
   var outFileName = getOutputFileName();
-  exportJPEG(PSD_FOLDER_PATH + OUT_SUBFOLDER, outFileName);
+  exportFile(PSD_FOLDER_PATH + OUT_SUBFOLDER, outFileName, 'JPEG');
 
   var moduleSizes = getModulesSizes();
   var str = outFileName + ',';
@@ -758,6 +781,12 @@ function processDocument (doc) {
   }
 
   WRITE_TO_CSV && writeToFile(str, CSV_ID);
+
+  activeDocument.crop(cropBounds);e
+  activeDocument.resizeImage(200);
+  _getLayerByName('bg').visible = false;
+
+  exportFile(PSD_FOLDER_PATH + OUT_SUBFOLDER, outFileName, 'PNG');
 
   return !error;
 }
