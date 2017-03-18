@@ -782,7 +782,7 @@ function processDocument (doc) {
 
   WRITE_TO_CSV && writeToFile(str, CSV_ID);
 
-  activeDocument.crop(cropBounds);e
+  activeDocument.crop(cropBounds);
   activeDocument.resizeImage(200);
   _getLayerByName('bg').visible = false;
 
