@@ -954,11 +954,13 @@ function processDocument (doc) {
 
   WRITE_TO_CSV && writeToFile(str, CSV_ID)
 
+  exportFile(PSD_FOLDER_PATH + OUT_SUBFOLDER, outFileName, 'PSD')
+
   activeDocument.crop(cropBounds)
   activeDocument.resizeImage(200)
   _getLayerByName('bg').visible = false
 
-  exportFile(PSD_FOLDER_PATH + OUT_SUBFOLDER, outFileName, 'PNG');
+  exportFile(PSD_FOLDER_PATH + OUT_SUBFOLDER, outFileName, 'PNG')
 
   return !error
 }
