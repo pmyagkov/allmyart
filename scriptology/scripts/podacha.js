@@ -647,7 +647,11 @@ function processLayers (document) {
   for (i = 0; i < layersToProcess.length; i++) {
     layerName = layersToProcess[i].name
     _translateLayerWithShadow('_' + layerName, -1 * overallTranslatedBy / 2, 0)
+  }
 
+  // calculating crop bounds
+  for (i = 0; i < layersToProcess.length; i++) {
+    layerName = layersToProcess[i].name
     bounds = _getLayerBounds(_getLayerByName('_' + layerName))
     left = bounds.left < left ? bounds.left : left
     top = bounds.top < top ? bounds.top : top
