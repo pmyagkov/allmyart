@@ -227,8 +227,8 @@ function processRightSide (layer) {
   var rightSideCordsWithSkew = [
     [bounds.right - RIGHT_SIDE_WIDTH, bounds.top],
     [bounds.right, bounds.top],
-    [bounds.right, bounds.bottom + 15],
-    [bounds.right - RIGHT_SIDE_WIDTH, bounds.bottom + 15]
+    [bounds.right, bounds.bottom + 25],
+    [bounds.right - RIGHT_SIDE_WIDTH, bounds.bottom + 25]
   ]
 
   var featherLayer = createLayerVia(LAYER_VIA_OPERATION.copy, '_shadow')
@@ -302,6 +302,9 @@ function _transformRightEdge (widthMultiplier) {
 }
 
 function _skewSelection () {
+  var SKEW_ANGLE = 60
+  var VERTICAL_TRANSLATE = 16
+
   var desc22 = new ActionDescriptor()
   var ref13 = new ActionReference()
 
@@ -311,13 +314,13 @@ function _skewSelection () {
 
   var desc23 = new ActionDescriptor()
   desc23.putUnitDouble(c("Hrzn"), c("#Pxl"), 0)
-  desc23.putUnitDouble(c("Vrtc"), c("#Pxl"), 9)
+  desc23.putUnitDouble(c("Vrtc"), c("#Pxl"), VERTICAL_TRANSLATE)
   desc22.putObject(c("Ofst"), c("Ofst"), desc23)
   desc22.putUnitDouble(c("Wdth"), c("#Prc"), 100)
 
   var desc24 = new ActionDescriptor()
   desc24.putUnitDouble(c("Hrzn"), c("#Ang"), 0)
-  desc24.putUnitDouble(c("Vrtc"), c("#Ang"), 45)
+  desc24.putUnitDouble(c("Vrtc"), c("#Ang"), SKEW_ANGLE)
   desc22.putObject(c("Skew"), c("Pnt "), desc24)
   desc22.putEnumerated(c("Intr"), c("Intp"), c("Bcbc"))
 
@@ -417,6 +420,11 @@ function _mergeLayersForModules (mainLayer) {
 }
 
 function createBoxShadow (options) {
+  var LEFT_OFFSET = 13
+  var TOP_OFFSET = 5
+  var RIGHT_OFFSET = 18
+  var BOTTOM_OFFSET = 32
+
   var mergedLayer = options.mergedLayer
   var moduleLayer = options.moduleLayer
 
@@ -425,14 +433,16 @@ function createBoxShadow (options) {
 
   var layerBounds = _getLayerBounds(mergedLayer)
 
-  var rightEdge = layerBounds.right + 18
-  var bottomEdge = layerBounds.bottom + 32 + 17
+  var rightEdge = layerBounds.right + RIGHT_OFFSET
+  var bottomEdge = layerBounds.bottom + BOTTOM_OFFSET
+  var leftEdge = layerBounds.left + LEFT_OFFSET
+  var topEdge = layerBounds.top + TOP_OFFSET
 
   var cords = [
-    [layerBounds.left + 13, layerBounds.top + 11],
-    [rightEdge, layerBounds.top + 11],
+    [leftEdge, topEdge],
+    [rightEdge, topEdge],
     [rightEdge, bottomEdge],
-    [layerBounds.left + 13, bottomEdge]
+    [leftEdge, bottomEdge]
   ]
 
   _createRectAndFillWithBlack(shadowLayer, cords)
@@ -440,12 +450,14 @@ function createBoxShadow (options) {
   shadowLayer.move(moduleLayer, ElementPlacement.PLACEBEFORE)
   _moveLayer(shadowLayer, -6, 0)
 
+  var RIGHT_SKEW = 60
+
   // обрезаем угол
   var shadowLayerBounds = _getLayerBounds(shadowLayer)
   cords = [
     [shadowLayerBounds.right - 13 - 9, shadowLayerBounds.top],
-    [shadowLayerBounds.right, shadowLayerBounds.top + 43],
-    [rightEdge + 1, shadowLayerBounds.top + 43],
+    [shadowLayerBounds.right, shadowLayerBounds.top + RIGHT_SKEW],
+    [rightEdge + 1, shadowLayerBounds.top + RIGHT_SKEW],
     [rightEdge + 1, shadowLayerBounds.top - 10],
     [shadowLayerBounds.right - 13 - 9, shadowLayerBounds.top - 10],
   ]
@@ -573,7 +585,12 @@ function processLayers (document) {
     for (k = j + 1; k < layersToProcess.length + 1; k++) {
       compareLayer = _getLayerByName('_' + k)
       intersectionObj = getIntersectionObject(layer, compareLayer)
-      intersectionObj && $.writeln('INTERSECTION', intersectionObj.left.name, intersectionObj.right.name)
+      intersectionObj && $.writeln(
+        'INTERSECTION',
+        intersectionObj.left.name,
+        intersectionObj.right.name,
+        intersectionObj.optionString
+      )
 
       if (!intersectionObj) {
         continue
@@ -640,11 +657,11 @@ function processLayers (document) {
   }
 
   // move the entire picture to the right
-  var layerName
+  /*var layerName
   for (i = 0; i < layersToProcess.length; i++) {
     layerName = layersToProcess[i].name
     _translateLayerWithShadow('_' + layerName, -1 * overallTranslatedBy / 2, 0)
-  }
+  }*/
 
   // calculating crop bounds
   for (i = 0; i < layersToProcess.length; i++) {
@@ -694,30 +711,36 @@ function getIntersectionObject (layer1, layer2) {
   var bounds1 = _getLayerBounds(layer1)
   var bounds2 = _getLayerBounds(layer2)
 
+  var optionString
+
   /*
     1 t---------b
     2     t---------b
    */
-  var option1 = bounds1.top <= bounds2.top && bounds1.bottom >= bounds2.top && 
+  var option1 = bounds1.top <= bounds2.top && bounds1.bottom >= bounds2.top &&
     bounds1.bottom <= bounds2.bottom && bounds1.bottom >= bounds2.top
+  optionString = '1'
   /*
     1      t---------b
     2 t---------b
    */
-  var option2 = bounds2.top <= bounds1.top && bounds2.bottom >= bounds1.top && 
+  var option2 = bounds2.top <= bounds1.top && bounds2.bottom >= bounds1.top &&
     bounds2.bottom <= bounds1.bottom && bounds2.bottom >= bounds1.top
+  optionString = '2'
   /*
     1   t------b
     2 t-----------b
    */
   var option3 = bounds1.top >= bounds2.top && bounds1.top <= bounds2.bottom &&
-    bounds1.bottom <= bounds2.bottom && bounds1.bottom >= bounds2.top  
+    bounds1.bottom <= bounds2.bottom && bounds1.bottom >= bounds2.top
+  optionString = '3'
   /*
     1 t-----------b
     2   t------b
    */
   var option4 = bounds2.top >= bounds1.top && bounds2.top <= bounds1.bottom &&
     bounds2.bottom <= bounds1.bottom && bounds2.bottom >= bounds1.top
+  optionString = '4'
 
   if (!option1 && !option2 && !option3 && !option4) {
     return null
@@ -734,9 +757,17 @@ function getIntersectionObject (layer1, layer2) {
     return null
   }
 
+  if (
+    leftBounds.top > rightBounds.bottom ||
+    rightBounds.top > leftBounds.bottom
+  ) {
+    return null
+  }
+
   return {
     left: leftLayer,
     right: rightLayer,
+    optionString: optionString,
   }
 }
 
@@ -959,6 +990,7 @@ function processDocument (doc) {
 
   WRITE_TO_CSV && writeToFile(str, CSV_ID)
 
+/*
   exportFile(PSD_FOLDER_PATH + OUT_SUBFOLDER, outFileName, 'PSD')
 
   activeDocument.crop(cropBounds)
@@ -966,6 +998,7 @@ function processDocument (doc) {
   _getLayerByName('bg').visible = false
 
   exportFile(PSD_FOLDER_PATH + OUT_SUBFOLDER, outFileName, 'PNG')
+*/
 
   return !error
 }
