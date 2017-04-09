@@ -178,11 +178,15 @@ function processTopSide (options) {
 
 /**
  *
- * @param layer
+ * @param layer ArtLayer obj or a layer name
  * @returns {{left, top, right, bottom, width, height}}
  * @private
  */
 function _getLayerBounds (layer) {
+  if (!layer.boundsNoEffects) {
+    layer = _getLayerByName(layer)
+  }
+
   var bounds = layer.boundsNoEffects
 
   var boundsObj = {
@@ -563,6 +567,7 @@ function processLayers (document) {
   var rightLayer
   var leftLayer
   var moveDeclaration = {}
+  var diff
   for (j = 1; j < layersToProcess.length + 1; j++) {
     layer = _getLayerByName('_' + j)
     for (k = j + 1; k < layersToProcess.length + 1; k++) {
@@ -584,13 +589,6 @@ function processLayers (document) {
   }
 
   var rightLayerName
-  for (rightLayerName in moveDeclaration) {
-    var rightBounds = _getLayerBounds(_getLayerByName(rightLayerName))
-    var leftBounds = _getLayerBounds(_getLayerByName(moveDeclaration[rightLayerName].layers[0]))
-    var diff = rightBounds.left - leftBounds.right
-    moveDeclaration[rightLayerName].diff = diff
-  }
-
   var moveSequence = []
   for (rightLayerName in moveDeclaration) {
     moveSequence.push(rightLayerName)
@@ -598,14 +596,11 @@ function processLayers (document) {
 
   // sort layers from right to left
   moveSequence = moveSequence.sort(function (layer1Name, layer2Name) {
-    var bounds1 = _getLayerBounds(_getLayerByName(layer1Name))
-    var bounds2 = _getLayerBounds(_getLayerByName(layer2Name))
+    var bounds1 = _getLayerBounds(layer1Name)
+    var bounds2 = _getLayerBounds(layer2Name)
     return bounds1.right < bounds2.left ? 1 : -1
   })
 
-  $.writeln('SEQUENCE  ', moveSequence)
-
-  var movesCount = 0
   var leftLayerNames
   var leftLayerNamesToMove
   var layerToMoveName
@@ -629,16 +624,18 @@ function processLayers (document) {
       continue
     }
 
-    var TRANSLATE_DISTANCE = -12
+    var IDEAL_TRANSLATE_DISTANCE = -24
 
     // move layers to the left
     for (j = 0; j < leftLayerNamesToMove.length; j++) {
       layerToMoveName = leftLayerNamesToMove[j]
       movedLayers[layerToMoveName] = true
-      translateBy = (TRANSLATE_DISTANCE /*+ moveDeclaration[rightLayerName].diff*/) * (movesCount + 1)
+
+      diff = _getLayersHorizontalDiff(layerToMoveName, rightLayerName)
+
+      translateBy = IDEAL_TRANSLATE_DISTANCE - diff
       _translateLayerWithShadow(layerToMoveName, translateBy, 0)
     }
-    movesCount++
     overallTranslatedBy = translateBy
   }
 
@@ -652,11 +649,11 @@ function processLayers (document) {
   // calculating crop bounds
   for (i = 0; i < layersToProcess.length; i++) {
     layerName = layersToProcess[i].name
-    bounds = _getLayerBounds(_getLayerByName('_' + layerName))
+    bounds = _getLayerBounds('_' + layerName)
     left = bounds.left < left ? bounds.left : left
     top = bounds.top < top ? bounds.top : top
 
-    bounds = _getLayerBounds(_getLayerByName('_' + layerName + '_shadow'))
+    bounds = _getLayerBounds('_' + layerName + '_shadow')
     right = bounds.right > right ? bounds.right : right
     bottom = bounds.bottom > bottom ? bounds.bottom : bottom
   }
@@ -665,6 +662,14 @@ function processLayers (document) {
   appendCanvasTextureToModules(mergedLayers)
 
   return [left, top, right, bottom]
+}
+
+function _getLayersHorizontalDiff (leftLayerName, rightLayerName) {
+  var rightBounds = _getLayerBounds(rightLayerName)
+  var leftBounds = _getLayerBounds(leftLayerName)
+  var diff = leftBounds.right - rightBounds.left
+
+  return diff
 }
 
 function _translateLayerWithShadow (layerName, x, y) {
