@@ -589,7 +589,6 @@ function processLayers (document) {
         'INTERSECTION',
         intersectionObj.left.name,
         intersectionObj.right.name,
-        intersectionObj.optionString
       )
 
       if (!intersectionObj) {
@@ -711,7 +710,11 @@ function getIntersectionObject (layer1, layer2) {
   var bounds1 = _getLayerBounds(layer1)
   var bounds2 = _getLayerBounds(layer2)
 
-  var optionString
+  var BOTTOM_TOP_CORRECTION = 50
+  if (bounds1.top + BOTTOM_TOP_CORRECTION> bounds2.bottom ||
+    bounds2.top + BOTTOM_TOP_CORRECTION > bounds1.bottom) {
+    return null
+  }
 
   /*
     1 t---------b
@@ -719,28 +722,27 @@ function getIntersectionObject (layer1, layer2) {
    */
   var option1 = bounds1.top <= bounds2.top && bounds1.bottom >= bounds2.top &&
     bounds1.bottom <= bounds2.bottom && bounds1.bottom >= bounds2.top
-  optionString = '1'
+
   /*
     1      t---------b
     2 t---------b
    */
   var option2 = bounds2.top <= bounds1.top && bounds2.bottom >= bounds1.top &&
     bounds2.bottom <= bounds1.bottom && bounds2.bottom >= bounds1.top
-  optionString = '2'
+
   /*
     1   t------b
     2 t-----------b
    */
   var option3 = bounds1.top >= bounds2.top && bounds1.top <= bounds2.bottom &&
     bounds1.bottom <= bounds2.bottom && bounds1.bottom >= bounds2.top
-  optionString = '3'
+
   /*
     1 t-----------b
     2   t------b
    */
   var option4 = bounds2.top >= bounds1.top && bounds2.top <= bounds1.bottom &&
     bounds2.bottom <= bounds1.bottom && bounds2.bottom >= bounds1.top
-  optionString = '4'
 
   if (!option1 && !option2 && !option3 && !option4) {
     return null
@@ -767,7 +769,6 @@ function getIntersectionObject (layer1, layer2) {
   return {
     left: leftLayer,
     right: rightLayer,
-    optionString: optionString,
   }
 }
 
