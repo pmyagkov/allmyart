@@ -425,7 +425,7 @@ function createBoxShadow (options) {
 
   var layerBounds = _getLayerBounds(mergedLayer)
 
-  var rightEdge = layerBounds.right + 19 + 9
+  var rightEdge = layerBounds.right + 18
   var bottomEdge = layerBounds.bottom + 32 + 17
 
   var cords = [
