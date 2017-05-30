@@ -50,7 +50,7 @@ function openFilesInDir (folderPath) {
       }*/
 
       if (result) {
-        // doc.close(SaveOptions.DONOTSAVECHANGES)
+        doc.close(SaveOptions.DONOTSAVECHANGES)
       }
     }
   }
@@ -217,5 +217,130 @@ function closeFile (fileId) {
     FILES[fileId].close()
     delete FILES[fileId]
   }
+}
+
+/**
+ *
+ * @param layer ArtLayer obj or a layer name
+ * @returns {{left, top, right, bottom, width, height}}
+ * @private
+ */
+function _getLayerBounds (layer) {
+  if (!layer.boundsNoEffects) {
+    layer = _getLayerByName(layer)
+  }
+
+  var bounds = layer.boundsNoEffects
+
+  var boundsObj = {
+    left: bounds[0].value,
+    top: bounds[1].value,
+    right: bounds[2].value,
+    bottom: bounds[3].value,
+  }
+
+  boundsObj.height = boundsObj.bottom - boundsObj.top
+  boundsObj.width = boundsObj.right - boundsObj.left
+
+  return boundsObj
+}
+
+function _placeImageOnNewLayer (imageFile) {
+  var desc2 = new ActionDescriptor()
+  desc2.putPath(c("null"), new File(imageFile))
+  desc2.putEnumerated(c("FTcs"), c("QCSt"), c("Qcsa"))
+
+  var desc3 = new ActionDescriptor()
+  desc3.putUnitDouble(c("Hrzn"), c("#Pxl"), 0)
+  desc3.putUnitDouble(c("Vrtc"), c("#Pxl"), 0)
+
+  desc2.putObject(c("Ofst"), c("Ofst"), desc3)
+
+  executeAction(c("Plc "), desc2, DialogModes.NO)
+
+  var canvasLayer = _rasterizeLayer()
+
+  var canvasLayerBounds = _getLayerBounds(canvasLayer)
+  _moveLayer(canvasLayer, -canvasLayerBounds.left, -canvasLayerBounds.top)
+
+  return activeDocument.activeLayer
+}
+
+function _addLayerToSelection (layerName) {
+  var desc54 = new ActionDescriptor()
+  var ref53 = new ActionReference()
+  ref53.putName(charIDToTypeID("Lyr "), layerName)
+  desc54.putReference(charIDToTypeID("null"), ref53)
+  desc54.putEnumerated(
+    stringIDToTypeID("selectionModifier"),
+    stringIDToTypeID("selectionModifierType"),
+    stringIDToTypeID("addToSelection")
+  )
+  desc54.putBoolean(charIDToTypeID("MkVs"), false)
+  executeAction(charIDToTypeID("slct"), desc54, DialogModes.NO)
+}
+
+function _deleteSelection () {
+  var idDlt = c("Dlt ")
+  executeAction(idDlt, undefined, DialogModes.NO)
+}
+
+function _invertSelection () {
+  activeDocument.selection.invert()
+}
+
+function _rasterizeLayer () {
+  var desc116 = new ActionDescriptor()
+  var ref87 = new ActionReference()
+  ref87.putEnumerated(c("Lyr "), c("Ordn"), c("Trgt"))
+  desc116.putReference(c("null"), ref87)
+  executeAction(stringIDToTypeID("rasterizeLayer"), desc116, DialogModes.NO)
+
+  return activeDocument.activeLayer
+}
+
+function _moveLayer (layer, offsetX, offsetY) {
+  var desc26 = new ActionDescriptor()
+  var ref25 = new ActionReference()
+  ref25.putEnumerated(c("Lyr "), c("Ordn"), c("Trgt"))
+  desc26.putReference(c("null"), ref25)
+
+  var desc27 = new ActionDescriptor()
+  desc27.putUnitDouble(c("Hrzn"), c("#Pxl"), offsetX)
+  desc27.putUnitDouble(c("Vrtc"), c("#Pxl"), offsetY)
+  desc26.putObject(c("T   "), c("Ofst"), desc27)
+  executeAction(c("move"), desc26, DialogModes.NO)
+}
+
+function addLayerToSelection (layer, isFirst) {
+  var layerName = layer.name
+
+  if (isFirst) {
+    var desc98 = new ActionDescriptor()
+    var ref66 = new ActionReference()
+
+    ref66.putProperty(c("Chnl"), c("fsel"))
+    desc98.putReference(c("null"), ref66)
+
+    var ref67 = new ActionReference()
+    ref67.putEnumerated(c("Chnl"), c("Chnl"), c("Trsp"))
+    ref67.putName(c("Lyr "), layerName)
+    desc98.putReference(c("T   "), ref67)
+    executeAction(c("setd"), desc98, DialogModes.NO)
+
+  } else {
+    var desc99 = new ActionDescriptor()
+    var ref68 = new ActionReference()
+
+    ref68.putEnumerated(c("Chnl"), c("Chnl"), c("Trsp"))
+    ref68.putName(c("Lyr "), layerName)
+    desc99.putReference(c("null"), ref68)
+
+    var ref69 = new ActionReference()
+    ref69.putProperty(c("Chnl"), c("fsel"))
+    desc99.putReference(c("T   "), ref69)
+    executeAction(c("Add "), desc99, DialogModes.NO)
+  }
+
 }
 

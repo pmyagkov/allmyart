@@ -176,32 +176,6 @@ function processTopSide (options) {
   return newLayer
 }
 
-/**
- *
- * @param layer ArtLayer obj or a layer name
- * @returns {{left, top, right, bottom, width, height}}
- * @private
- */
-function _getLayerBounds (layer) {
-  if (!layer.boundsNoEffects) {
-    layer = _getLayerByName(layer)
-  }
-
-  var bounds = layer.boundsNoEffects
-
-  var boundsObj = {
-    left: bounds[0].value,
-    top: bounds[1].value,
-    right: bounds[2].value,
-    bottom: bounds[3].value,
-  }
-
-  boundsObj.height = boundsObj.bottom - boundsObj.top
-  boundsObj.width = boundsObj.right - boundsObj.left
-
-  return boundsObj
-}
-
 function processRightSide (layer) {
   activeDocument.activeLayer = layer
 
@@ -340,20 +314,6 @@ function _selectAdditionalLayer (layer) {
   )
   desc2.putBoolean(c("MkVs"), false)
   executeAction(c("slct"), desc2, DialogModes.NO)
-}
-
-function _addLayerToSelection (layerName) {
-  var desc54 = new ActionDescriptor()
-  var ref53 = new ActionReference()
-  ref53.putName(charIDToTypeID("Lyr "), layerName)
-  desc54.putReference(charIDToTypeID("null"), ref53)
-  desc54.putEnumerated(
-    stringIDToTypeID("selectionModifier"),
-    stringIDToTypeID("selectionModifierType"),
-    stringIDToTypeID("addToSelection")
-  )
-  desc54.putBoolean(charIDToTypeID("MkVs"), false)
-  executeAction(charIDToTypeID("slct"), desc54, DialogModes.NO)
 }
 
 function _mergeSelectedLayers () {
@@ -832,11 +792,6 @@ function linearBurn () {
   executeAction(c("setd"), desc122, DialogModes.NO)
 }
 
-function _deleteSelection () {
-  var idDlt = c("Dlt ")
-  executeAction(idDlt, undefined, DialogModes.NO)
-}
-
 function addLayerToSelection (layer, isFirst) {
   var layerName = layer.name
 
@@ -998,60 +953,11 @@ function processDocument (doc) {
   activeDocument.resizeImage(200)
   _getLayerByName('bg').visible = false
 
-  exportFile(PSD_FOLDER_PATH + OUT_SUBFOLDER, outFileName, 'PNG')
+  exportFile(PSD_FOLDER_PATH + OUT_SUBFOLDER, outFileName, 'PNG'q)
 */
 
   return !error
 }
-
-function _rasterizeLayer () {
-  var desc116 = new ActionDescriptor()
-  var ref87 = new ActionReference()
-  ref87.putEnumerated(c("Lyr "), c("Ordn"), c("Trgt"))
-  desc116.putReference(c("null"), ref87)
-  executeAction(stringIDToTypeID("rasterizeLayer"), desc116, DialogModes.NO)
-
-  return activeDocument.activeLayer
-}
-
-function _placeImageOnNewLayer (imageFile) {
-  var desc2 = new ActionDescriptor()
-  desc2.putPath(c("null"), new File(imageFile))
-  desc2.putEnumerated(c("FTcs"), c("QCSt"), c("Qcsa"))
-
-  var desc3 = new ActionDescriptor()
-  desc3.putUnitDouble(c("Hrzn"), c("#Pxl"), 0)
-  desc3.putUnitDouble(c("Vrtc"), c("#Pxl"), 0)
-
-  desc2.putObject(c("Ofst"), c("Ofst"), desc3)
-
-  executeAction(c("Plc "), desc2, DialogModes.NO)
-
-  var canvasLayer = _rasterizeLayer()
-
-  var canvasLayerBounds = _getLayerBounds(canvasLayer)
-  _moveLayer(canvasLayer, -canvasLayerBounds.left, -canvasLayerBounds.top)
-
-  return activeDocument.activeLayer
-}
-
-function _moveLayer (layer, offsetX, offsetY) {
-  var desc26 = new ActionDescriptor()
-  var ref25 = new ActionReference()
-  ref25.putEnumerated(c("Lyr "), c("Ordn"), c("Trgt"))
-  desc26.putReference(c("null"), ref25)
-
-  var desc27 = new ActionDescriptor()
-  desc27.putUnitDouble(c("Hrzn"), c("#Pxl"), offsetX)
-  desc27.putUnitDouble(c("Vrtc"), c("#Pxl"), offsetY)
-  desc26.putObject(c("T   "), c("Ofst"), desc27)
-  executeAction(c("move"), desc26, DialogModes.NO)
-}
-
-function _invertSelection () {
-  activeDocument.selection.invert()
-}
-
 
 function _createTextureLayer (pathToTexture, layerName, firstOrLast) {
   var layer = _placeImageOnNewLayer(pathToTexture)
