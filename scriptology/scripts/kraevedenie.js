@@ -12,21 +12,13 @@ function processDocument (doc) {
 }
 
 function processLayers (document) {
-  var layer
-  for (j = 0; j < document.artLayers.length; j++) {
-    layer = document.artLayers[j]
-
-    if (LAYER_NAME_RE.test(layer.name)) {
-      // обрабатываем слой с картинкой
-      processModularLayer(layer)
-      break;
-    }
-  }
+  var layer = document.artLayers.getByName('1')
+  _activateLayer(layer)
+  processModularLayer(layer)
 }
 
 function processModularLayer (layer) {
   var doc = activeDocument
-  doc.activeLayer = layer
   var EDGE_HEIGHT = 44
 
   var bounds = _getLayerBounds(layer)
@@ -53,6 +45,15 @@ function processModularLayer (layer) {
 
   var outFileName = getFileNameWoExtension() + '_edge'
   exportFile(PSD_FOLDER_PATH + OUT_SUBFOLDER, outFileName, 'PNG')
+}
+
+function _activateLayer (layer) {
+  var desc12 = new ActionDescriptor();
+  var ref8 = new ActionReference();
+  ref8.putName(c('Lyr '), layer.name );
+  desc12.putReference(c('null'), ref8 );
+  desc12.putBoolean(c('MkVs'), false );
+  executeAction(c( 'slct'), desc12, DialogModes.NO );
 }
 
 function createCanvasLayer () {
@@ -92,21 +93,21 @@ function skewEdge (layer) {
 function coverWithCanvas () {
   var desc20 = new ActionDescriptor()
   var ref15 = new ActionReference()
-  ref15.putEnumerated(charIDToTypeID('Lyr '), charIDToTypeID('Ordn'), charIDToTypeID('Trgt'))
-  desc20.putReference(charIDToTypeID('null'), ref15)
+  ref15.putEnumerated(c('Lyr '), c('Ordn'), c('Trgt'))
+  desc20.putReference(c('null'), ref15)
   var desc21 = new ActionDescriptor()
-  desc21.putEnumerated(charIDToTypeID('Md  '), charIDToTypeID('BlnM'), charIDToTypeID('Mltp'))
-  desc20.putObject(charIDToTypeID('T   '), charIDToTypeID('Lyr '), desc21)
-  executeAction(charIDToTypeID('setd'), desc20, DialogModes.NO)
+  desc21.putEnumerated(c('Md  '), c('BlnM'), c('Mltp'))
+  desc20.putObject(c('T   '), c('Lyr '), desc21)
+  executeAction(c('setd'), desc20, DialogModes.NO)
 
   var desc22 = new ActionDescriptor()
   var ref16 = new ActionReference()
-  ref16.putEnumerated(charIDToTypeID('Lyr '), charIDToTypeID('Ordn'), charIDToTypeID('Trgt'))
-  desc22.putReference(charIDToTypeID('null'), ref16)
+  ref16.putEnumerated(c('Lyr '), c('Ordn'), c('Trgt'))
+  desc22.putReference(c('null'), ref16)
   var desc23 = new ActionDescriptor()
-  desc23.putUnitDouble(charIDToTypeID('Opct'), charIDToTypeID('#Prc'), 60.000000)
-  desc22.putObject(charIDToTypeID('T   '), charIDToTypeID('Lyr '), desc23)
-  executeAction(charIDToTypeID('setd'), desc22, DialogModes.NO)
+  desc23.putUnitDouble(c('Opct'), c('#Prc'), 60.000000)
+  desc22.putObject(c('T   '), c('Lyr '), desc23)
+  executeAction(c('setd'), desc22, DialogModes.NO)
 }
 
 openFilesInDir(PSD_FOLDER_PATH)
