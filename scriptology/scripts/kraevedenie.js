@@ -26,6 +26,7 @@ function processLayers (document) {
 
 function processModularLayer (layer) {
   var doc = activeDocument
+  doc.activeLayer = layer
   var EDGE_HEIGHT = 44
 
   var bounds = _getLayerBounds(layer)
