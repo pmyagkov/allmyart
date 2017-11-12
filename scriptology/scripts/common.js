@@ -18,6 +18,8 @@ var PATH_TO_CANVAS = TEXTURES_PATH + "canvas_dark.jpg"
 var OUT_SUBFOLDER = '_/'
 var JPG_QUALITY = 10
 
+var c = charIDToTypeID
+
 /**
  * Возвращает имя файла без расширения.
  * @returns {string}
@@ -344,3 +346,15 @@ function addLayerToSelection (layer, isFirst) {
 
 }
 
+function _deselect () {
+  activeDocument.selection.deselect()
+}
+
+function _select (coords) {
+  activeDocument.selection.select(coords)
+}
+
+function _deleteArea () {
+  var idDlt = c("Dlt ")
+  executeAction(idDlt, undefined, DialogModes.NO)
+}

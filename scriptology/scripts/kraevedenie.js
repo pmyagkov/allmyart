@@ -48,12 +48,12 @@ function processModularLayer (layer) {
 }
 
 function _activateLayer (layer) {
-  var desc12 = new ActionDescriptor();
-  var ref8 = new ActionReference();
-  ref8.putName(c('Lyr '), layer.name );
-  desc12.putReference(c('null'), ref8 );
-  desc12.putBoolean(c('MkVs'), false );
-  executeAction(c( 'slct'), desc12, DialogModes.NO );
+  var desc12 = new ActionDescriptor()
+  var ref8 = new ActionReference()
+  ref8.putName(c('Lyr '), layer.name)
+  desc12.putReference(c('null'), ref8)
+  desc12.putBoolean(c('MkVs'), false)
+  executeAction(c('slct'), desc12, DialogModes.NO)
 }
 
 function createCanvasLayer () {
