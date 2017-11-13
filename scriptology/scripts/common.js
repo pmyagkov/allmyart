@@ -262,9 +262,6 @@ function _placeImageOnNewLayer (imageFile) {
 
   var canvasLayer = _rasterizeLayer()
 
-  var canvasLayerBounds = _getLayerBounds(canvasLayer)
-  _moveLayer(canvasLayer, -canvasLayerBounds.left, -canvasLayerBounds.top)
-
   return activeDocument.activeLayer
 }
 

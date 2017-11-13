@@ -4,8 +4,6 @@
 
 /* global activeDocument, ElementPlacement, app, ActionDescriptor, executeAction, charIDToTypeID, DialogModes */
 
-var c = charIDToTypeID
-
 var LAYER_VIA_OPERATION = {
   'copy': 'copy',
   'cut': 'cut'
@@ -511,13 +509,8 @@ function processLayers (document) {
     mLayer.visible = false
   }
 
-  var left = 1000000
-  var right = -1
-  var top = 100000
-  var bottom = -1
+  translateLayers(layersToProcess)
 
-  var result, shadow, main
-  var bounds
   for (j = 0; j < layersToProcess.length; j++) {
     layer = layersToProcess[j]
     // обрабатываем слой с картинкой
@@ -534,21 +527,70 @@ function processLayers (document) {
 
   _deselect()
 
+  // move the entire picture to the right
+  /*var layerName
+  for (i = 0; i < layersToProcess.length; i++) {
+    layerName = layersToProcess[i].name
+    _translateLayerWithShadow('_' + layerName, -1 * overallTranslatedBy / 2, 0)
+  }*/
+
+  // накладывает canvas на модули с картинами для текстуры (linear burn mode)
+  appendCanvasTextureToModules(mergedLayers)
+
+  var pictureDimension = calculatePictureDimension(layersToProcess)
+
+
+}
+
+function calculatePictureDimension (layersToProcess) {
+  var left = 1000000
+  var right = -1
+  var top = 100000
+  var bottom = -1
+
+  var bounds
+
+  // calculating crop bounds
+  for (i = 0; i < layersToProcess.length; i++) {
+    layerName = layersToProcess[i].name
+    bounds = _getLayerBounds('_' + layerName)
+    left = bounds.left < left ? bounds.left : left
+    top = bounds.top < top ? bounds.top : top
+
+    bounds = _getLayerBounds('_' + layerName + '_shadow')
+    right = bounds.right > right ? bounds.right : right
+    bottom = bounds.bottom > bottom ? bounds.bottom : bottom
+  }
+
+  return {
+    left: left,
+    top: top,
+    right: right,
+    bottom: bottom,
+    width: right - left,
+    height: bottom - top,
+  }
+}
+
+function translateLayers (layersToProcess) {
   var intersectionObj = null
   var compareLayer
   var rightLayer
   var leftLayer
   var moveDeclaration = {}
   var diff
-  for (j = 1; j < layersToProcess.length + 1; j++) {
-    layer = _getLayerByName('_' + j)
-    for (k = j + 1; k < layersToProcess.length + 1; k++) {
-      compareLayer = _getLayerByName('_' + k)
+
+  var j, k
+
+  for (j = 0; j < layersToProcess.length; j++) {
+    layer = layersToProcess[j]
+    for (k = j + 1; k < layersToProcess.length; k++) {
+      compareLayer = layersToProcess[k]
       intersectionObj = getIntersectionObject(layer, compareLayer)
       intersectionObj && $.writeln(
         'INTERSECTION',
         intersectionObj.left.name,
-        intersectionObj.right.name,
+        intersectionObj.right.name
       )
 
       if (!intersectionObj) {
@@ -614,30 +656,6 @@ function processLayers (document) {
     }
     overallTranslatedBy = translateBy
   }
-
-  // move the entire picture to the right
-  /*var layerName
-  for (i = 0; i < layersToProcess.length; i++) {
-    layerName = layersToProcess[i].name
-    _translateLayerWithShadow('_' + layerName, -1 * overallTranslatedBy / 2, 0)
-  }*/
-
-  // calculating crop bounds
-  for (i = 0; i < layersToProcess.length; i++) {
-    layerName = layersToProcess[i].name
-    bounds = _getLayerBounds('_' + layerName)
-    left = bounds.left < left ? bounds.left : left
-    top = bounds.top < top ? bounds.top : top
-
-    bounds = _getLayerBounds('_' + layerName + '_shadow')
-    right = bounds.right > right ? bounds.right : right
-    bottom = bounds.bottom > bottom ? bounds.bottom : bottom
-  }
-
-  // накладывает canvas на модули с картинами для текстуры (linear burn mode)
-  appendCanvasTextureToModules(mergedLayers)
-
-  return [left, top, right, bottom]
 }
 
 function _getLayersHorizontalDiff (leftLayerName, rightLayerName) {
@@ -650,7 +668,7 @@ function _getLayersHorizontalDiff (leftLayerName, rightLayerName) {
 
 function _translateLayerWithShadow (layerName, x, y) {
   _translateLayer(layerName, x, y)
-  _translateLayer(layerName + '_shadow', x, y)
+  // _translateLayer(layerName + '_shadow', x, y)
 }
 
 function _translateLayer (layerName, x, y) {
@@ -732,7 +750,6 @@ function getIntersectionObject (layer1, layer2) {
   }
 }
 
-
 function appendCanvasTextureToModules (modules) {
   var canvasLayer = makeCanvas()
 
@@ -754,14 +771,6 @@ function appendCanvasTextureToModules (modules) {
   linearBurn()
 
   _deselect()
-}
-
-function _deselect () {
-  activeDocument.selection.deselect()
-}
-
-function _select (coords) {
-  activeDocument.selection.select(coords)
 }
 
 function _selectWithEllipsis (selectionObj) {
@@ -840,11 +849,6 @@ function _cropArea (layer, points) {
   activeDocument.activeLayer = prevLayer
 }
 
-function _deleteArea () {
-  var idDlt = c("Dlt ")
-  executeAction(idDlt, undefined, DialogModes.NO)
-}
-
 /**
  * Выбираем полигональное лассо
  */
@@ -921,7 +925,7 @@ function processDocument (doc) {
 
   var error = false
 
-  var cropBounds = processLayers(doc)
+  processLayers(doc)
 
   var outFileName = getOutputFileName()
   exportFile(PSD_FOLDER_PATH + OUT_SUBFOLDER, outFileName, 'JPEG')
@@ -946,23 +950,15 @@ function processDocument (doc) {
 
   WRITE_TO_CSV && writeToFile(str, CSV_ID)
 
-/*
-  exportFile(PSD_FOLDER_PATH + OUT_SUBFOLDER, outFileName, 'PSD')
-
-  activeDocument.crop(cropBounds)
-  activeDocument.resizeImage(200)
-  _getLayerByName('bg').visible = false
-
-  exportFile(PSD_FOLDER_PATH + OUT_SUBFOLDER, outFileName, 'PNG'q)
-*/
-
   return !error
 }
 
 function _createTextureLayer (pathToTexture, layerName, firstOrLast) {
   var layer = _placeImageOnNewLayer(pathToTexture)
-
   layer.name = layerName
+
+  var layerBounds = _getLayerBounds(layer)
+  _moveLayer(layer, -layerBounds.left, -layerBounds.top)
 
   var traverseLayer
   var direction
@@ -986,5 +982,3 @@ function makeCanvas () {
 function makeBackground () {
   return _createTextureLayer(PATH_TO_BACKGROUND, BG_LAYER_NAME, false)
 }
-
-

@@ -1,10 +1,12 @@
-﻿#target photoshop
+﻿#target estoolkit
+#target photoshop
 #include common.js
 
 var sheetFilePath = '~/Projects/allmyart/scriptology/visuarea_dimensions.csv'
+var logoFilePath = '~/Projects/allmyart/scriptology/logo+site.tif'
 
 var OUTER_FRAME_SIZE = 3 // cm
-var INNER_FRAME_SIZE = 3 // cm
+// var INNER_FRAME_SIZE = 3.5 // cm
 var LINE_SIDE_MARGIN = 8.7 // cm
 var DOTS_SIDE_MARGIN = 0.5 // cm
 var DOT_RADIUS = 4 // px
@@ -52,20 +54,60 @@ function initColors () {
   COLORS['princess'] = [princess1Color, princess2Color, princess3Color]
 }
 
-function requestFileName (secondAttempt) {
-  var hint = 'Give me the file bitch!'
-  if (secondAttempt) {
-    hint = 'Are you dump?\n' + hint
+function showDialogWindow (defaultPicture, callback, secondAttempt) {
+  var dialogTitle = secondAttempt
+    ? 'Are you dump?'
+    : 'Give me the info bitch!'
+
+  var win = new Window ('dialog', dialogTitle)
+  win.alignChildren = 'left'
+  win.orientation = 'column'
+  win.size = { width: 245, height: 170 }
+
+  var skuPanel = win.skuPanel = win.add('panel')
+  skuPanel.orientation = 'row'
+  var skuLabel = win.skuLabel = skuPanel.add('statictext', [0, 0, 35, 20], 'Sku:')
+  var skuField = win.skuField = skuPanel.add('edittext', [0, 0, 70, 20], defaultPicture)
+  skuField.active = true
+  skuField.minimalSize = [80, 20]
+
+  skuLabel.location = [10, 10]
+  skuField.location = [60, 10]
+
+  var sizePanel = win.sizePanel = win.add('panel')
+  sizePanel.orientation = 'row'
+  var sizeLabel = win.sizeLabel = sizePanel.add('statictext', [0, 0, 35, 20], 'Size:')
+  var size1Field = win.size1Field = sizePanel.add('radiobutton', [0, 0, 50, 20], '3cm')
+  win.size1Field.value = true
+  var size2Field = win.size2Field = sizePanel.add('radiobutton', [0, 0, 80, 20], '3.5cm')
+
+  win.okButton = win.add('button', undefined, 'OK')
+
+  win.okButton.onClick = function() {
+    win.hide()
+
+    var size = new UnitValue(size1Field.value ? 3 : 3.5, 'cm')
+    var sku = skuField.text
+
+    if (!sku) {
+      showDialogWindow(defaultPicture, callback, true)
+    }
+
+    callback(sku, size)
+
+    return false
   }
 
-  // TODO: remove default value
-  var fileName = prompt(hint, '101832', '')
-  $.writeln('Given fileName `' + fileName + '`')
-  if (!fileName) {
-    return requestFileName(true)
-  }
+  win.show()
 
-  return fileName
+  return win
+}
+
+function pictureInfoGotten (sku, size) {
+  var modulesDefinition = findModulesByFileName(sku)
+
+  createModulesFrames(modulesDefinition, size)
+  insertLogo()
 }
 
 function parseModulesDefinition (line) {
@@ -150,7 +192,7 @@ function drawBorder (bounds, size, color, opacity) {
 }
 
 
-function drawFramesInDocument (frameDocument) {
+function drawFramesInDocument (frameDocument, innerFrameSize) {
   var blackBounds = {
     left: new UnitValue(0, 'cm'),
     top: new UnitValue(0, 'cm'),
@@ -174,7 +216,7 @@ function drawFramesInDocument (frameDocument) {
   }
 
   var princessColor = COLORS['princess'][Math.floor(Math.random() * COLORS['princess'].length)]
-  drawBorder(princessBounds, INNER_FRAME_SIZE, princessColor, 40)
+  drawBorder(princessBounds, innerFrameSize, princessColor, 40)
 
   drawCornerLines(frameDocument)
 
@@ -318,7 +360,7 @@ function drawDots (frameDocument) {
  * @param [modulesDefinition.name]
  * @param [modulesDefinition.modules] Array<Array<number, number>>
  */
-function createModulesFrames (modulesDefinition) {
+function createModulesFrames (modulesDefinition, innerFrameSize) {
   var frames = modulesDefinition.modules
   var frame, frameName
   var resolution = 150
@@ -328,10 +370,10 @@ function createModulesFrames (modulesDefinition) {
     frameName = modulesDefinition.name + '-' + i
     $.writeln('Creating frame ', frameName + ' ', frame[0] + 'cm' + ' ', frame[1] + 'cm')
 
-    UnitValue.baseUnit = UnitValue (1 / resolution, "in")
+    UnitValue.baseUnit = UnitValue (1 / resolution, 'in')
 
-    w = new UnitValue(frame[0] + OUTER_FRAME_SIZE * 2 + INNER_FRAME_SIZE * 2, 'cm')
-    h = new UnitValue(frame[1] + OUTER_FRAME_SIZE * 2 + INNER_FRAME_SIZE * 2, 'cm')
+    w = new UnitValue(frame[0] + OUTER_FRAME_SIZE * 2 + innerFrameSize * 2, 'cm')
+    h = new UnitValue(frame[1] + OUTER_FRAME_SIZE * 2 + innerFrameSize * 2, 'cm')
     var frameDocument = documents.add(
       w,                          // width
       h,                          // height
@@ -343,9 +385,33 @@ function createModulesFrames (modulesDefinition) {
       BitsPerChannelType.SIXTEEN  // bitsPerChannel
     )
 
-    drawFramesInDocument(frameDocument)
+    drawFramesInDocument(frameDocument, innerFrameSize)
+    insertModuleNumber(frameDocument, i + 1)
+    return
   }
 }
+
+function insertModuleNumber (frameDocument, moduleNumber) {
+  var layer = frameDocument.artLayers.add()
+  layer.kind = LayerKind.TEXT
+  layer.name = 'module number'
+  layer.rotate(180)
+
+  var textItem = layer.textItem
+  textItem.contents = moduleNumber.toString()
+  textItem.size = new UnitValue(40, 'pt')
+  textItem.font = 'MuseoSansCyrl-300'
+  textItem.justification = Justification.CENTER;
+  textItem.kind = TextType.PARAGRAPHTEXT;
+  textItem.color = COLORS['white']
+
+  var layerBounds = _getLayerBounds(layer)
+  layer.translate(
+    frameDocument.width / 2 - layerBounds.left - layerBounds.width / 2,
+    - layerBounds.top + new UnitValue(1.3, 'cm')
+  )
+}
+
 
 function _selectWithEllipse (bounds) {
   var desc171 = new ActionDescriptor()
@@ -362,13 +428,25 @@ function _selectWithEllipse (bounds) {
   executeAction(c('setd'), desc171, DialogModes.NO)
 }
 
+function insertLogo () {
+  var logoLayer = _placeImageOnNewLayer(logoFilePath)
+  var logoLayerBounds = _getLayerBounds(logoLayer)
+
+  // place the layer 1cm below the upper edge of bottom outer border side
+  var deltaY = activeDocument.height
+    - logoLayerBounds.bottom
+    - OUTER_FRAME_SIZE
+    + 1
+    + logoLayerBounds.height
+
+  _moveLayer(logoLayer, 0, deltaY.as('px'))
+}
+
 function beginMagic () {
   initColors()
 
-  var fileName = requestFileName()
-  var modulesDefinition = findModulesByFileName(fileName)
-
-  createModulesFrames(modulesDefinition)
+  app.preferences.typeUnits = TypeUnits.POINTS
+  showDialogWindow('', pictureInfoGotten)
 }
 
 beginMagic()

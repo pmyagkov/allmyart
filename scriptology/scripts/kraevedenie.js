@@ -60,6 +60,9 @@ function createCanvasLayer () {
   var canvasLayer = _placeImageOnNewLayer(PATH_TO_EDGE_CANVAS)
   canvasLayer.name = 'canvas'
 
+  var canvasLayerBounds = _getLayerBounds(canvasLayer)
+  _moveLayer(canvasLayer, -canvasLayerBounds.left, -canvasLayerBounds.top)
+
   return canvasLayer
 }
 
