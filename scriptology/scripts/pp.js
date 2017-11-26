@@ -86,6 +86,7 @@ function showDialogWindow (defaultPicture, callback, secondAttempt) {
   win.okButton.onClick = function() {
     win.hide()
 
+    LINE_SIDE_MARGIN = size1Field.value ? LINE_SIDE_MARGIN : LINE_SIDE_MARGIN + 0.5
     var size = new UnitValue(size1Field.value ? 3 : 3.5, 'cm')
     var sku = skuField.text
 
@@ -387,6 +388,7 @@ function createModulesFrames (modulesDefinition, innerFrameSize) {
 
     drawFramesInDocument(frameDocument, innerFrameSize)
     insertModuleNumber(frameDocument, i + 1)
+
     return
   }
 }
@@ -445,8 +447,21 @@ function insertLogo () {
 function beginMagic () {
   initColors()
 
+  var prevRulerUnits, prevTypeUnits
+  prevRulerUnits = app.preferences.rulerUnits
+  prevTypeUnits = app.preferences.typeUnits
+  app.preferences.rulerUnits = Units.CM
   app.preferences.typeUnits = TypeUnits.POINTS
-  showDialogWindow('', pictureInfoGotten)
+
+  showDialogWindow('', function (sku, size) {
+    try {
+      pictureInfoGotten(sku, size)
+    } catch (e) {}
+
+    app.preferences.rulerUnits = prevRulerUnits
+    app.preferences.typeUnits = prevTypeUnits
+  })
+
 }
 
 beginMagic()
