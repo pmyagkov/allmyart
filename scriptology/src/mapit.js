@@ -1,8 +1,7 @@
-﻿#target estoolkit
-#target photoshop
+﻿#target photoshop
 #include common.js
 
-var sheetFilePath = '~/Projects/allmyart/scriptology/visuarea_dimensions.csv'
+var sheetFilePath = '~/Projects/allmyart/scriptology/src/config/visuarea_dimensions.csv'
 var logoFilePath = '~/Projects/allmyart/scriptology/logo+site.tif'
 
 var OUTER_FRAME_SIZE = 3 // cm
