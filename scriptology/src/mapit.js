@@ -53,119 +53,9 @@ function initColors () {
   COLORS['princess'] = [princess1Color, princess2Color, princess3Color]
 }
 
-function showDialogWindow (defaultPicture, callback, secondAttempt) {
-  var dialogTitle = secondAttempt
-    ? 'Are you dump?'
-    : 'Give me the info bitch!'
-
-  var win = new Window ('dialog', dialogTitle)
-  win.alignChildren = 'left'
-  win.orientation = 'column'
-  win.size = { width: 245, height: 170 }
-
-  var skuPanel = win.skuPanel = win.add('panel')
-  skuPanel.orientation = 'row'
-  var skuLabel = win.skuLabel = skuPanel.add('statictext', [0, 0, 35, 20], 'Sku:')
-  var skuField = win.skuField = skuPanel.add('edittext', [0, 0, 70, 20], defaultPicture)
-  skuField.active = true
-  skuField.minimalSize = [80, 20]
-
-  skuLabel.location = [10, 10]
-  skuField.location = [60, 10]
-
-  var sizePanel = win.sizePanel = win.add('panel')
-  sizePanel.orientation = 'row'
-  var sizeLabel = win.sizeLabel = sizePanel.add('statictext', [0, 0, 35, 20], 'Size:')
-  var size1Field = win.size1Field = sizePanel.add('radiobutton', [0, 0, 50, 20], '3cm')
-  win.size1Field.value = true
-  var size2Field = win.size2Field = sizePanel.add('radiobutton', [0, 0, 80, 20], '3.5cm')
-
-  win.okButton = win.add('button', undefined, 'OK')
-
-  win.okButton.onClick = function() {
-    win.hide()
-
-    LINE_SIDE_MARGIN = size1Field.value ? LINE_SIDE_MARGIN : LINE_SIDE_MARGIN + 0.5
-    var size = new UnitValue(size1Field.value ? 3 : 3.5, 'cm')
-    var sku = skuField.text
-
-    if (!sku) {
-      showDialogWindow(defaultPicture, callback, true)
-    }
-
-    callback(sku, size)
-
-    return false
-  }
-
-  win.show()
-
-  return win
-}
-
-function pictureInfoGotten (sku, size) {
-  var modulesDefinition = findModulesByFileName(sku)
-
-  createModulesFrames(modulesDefinition, size)
+function pictureInfoGotten (pictureDefinition, size) {
+  createModulesFrames(pictureDefinition, size)
   insertLogo()
-}
-
-function parseModulesDefinition (line) {
-  if (!line) {
-    return null
-  }
-
-  var split = line.split(';')
-  if (split.length === 1) {
-    alert('Something wrong with a line from the sheet: `' + line + '`')
-    return null
-  }
-
-  // the first chunk is a name
-  var name = split[0]
-  split = split.slice(1)
-
-  // others — modules width and height
-  var i = 0
-  var modules = []
-  var w, h
-  while (i + 1 < split.length) {
-    w = parseInt(split[i], 10)
-    h = parseInt(split[i + 1], 10)
-    if (w === 0 || h === 0) {
-      break
-    }
-
-    modules.push([w, h])
-    i += 2
-  }
-
-  return {
-    name: name,
-    modules: modules,
-  }
-}
-
-function findModulesByFileName (fileName) {
-  var fileDescriptor = new File(sheetFilePath)
-  fileDescriptor.open('r')
-
-  var line = '';
-  while (!fileDescriptor.eof) {
-    line = fileDescriptor.readln()
-    if (line.indexOf(fileName) > -1) {
-      break
-    }
-  }
-
-  fileDescriptor.close()
-
-  if (!line) {
-    alert('No file `' + fileName + '` found in the sheet.')
-    return null
-  }
-
-  return parseModulesDefinition(line)
 }
 
 function drawBorder (bounds, size, color, opacity) {
@@ -221,23 +111,6 @@ function drawFramesInDocument (frameDocument, innerFrameSize) {
   drawCornerLines(frameDocument)
 
   drawDots(frameDocument)
-}
-
-function _drawLine (startXY, endXY, width) {
-  var desc = new ActionDescriptor()
-  var lineDesc = new ActionDescriptor()
-  var startDesc = new ActionDescriptor()
-  startDesc.putUnitDouble(c('Hrzn'), c('#Pxl'), startXY[0])
-  startDesc.putUnitDouble(c('Vrtc'), c('#Pxl'), startXY[1])
-  lineDesc.putObject(c('Strt'), c('Pnt '), startDesc)
-  var endDesc = new ActionDescriptor()
-  endDesc.putUnitDouble(c('Hrzn'), c('#Pxl'), endXY[0])
-  endDesc.putUnitDouble(c('Vrtc'), c('#Pxl'), endXY[1])
-  lineDesc.putObject(c('End '), c('Pnt '), endDesc)
-  lineDesc.putUnitDouble(c('Wdth'), c('#Pxl'), width)
-  desc.putObject(c('Shp '), c('Ln  '), lineDesc)
-  desc.putBoolean(c('AntA'), true)
-  executeAction(c('Draw'), desc, DialogModes.NO)
 }
 
 function drawCornerLines (frameDocument) {
@@ -413,22 +286,6 @@ function insertModuleNumber (frameDocument, moduleNumber) {
   )
 }
 
-
-function _selectWithEllipse (bounds) {
-  var desc171 = new ActionDescriptor()
-  var ref79 = new ActionReference()
-  ref79.putProperty(c('Chnl'), c('fsel'))
-  desc171.putReference(c('null'), ref79)
-  var desc172 = new ActionDescriptor()
-  desc172.putUnitDouble(c('Top '), c('#Pxl'), bounds.top)
-  desc172.putUnitDouble(c('Left'), c('#Pxl'), bounds.left)
-  desc172.putUnitDouble(c('Btom'), c('#Pxl'), bounds.bottom)
-  desc172.putUnitDouble(c('Rght'), c('#Pxl'), bounds.right)
-  desc171.putObject(c('T   '), c('Elps'), desc172)
-  desc171.putBoolean(c('AntA'), true)
-  executeAction(c('setd'), desc171, DialogModes.NO)
-}
-
 function insertLogo () {
   var logoLayer = _placeImageOnNewLayer(logoFilePath)
   var logoLayerBounds = _getLayerBounds(logoLayer)
@@ -443,8 +300,10 @@ function insertLogo () {
   _moveLayer(logoLayer, 0, deltaY.as('px'))
 }
 
+var config
 function beginMagic () {
   initColors()
+  config = _parseConfig()
 
   var prevRulerUnits, prevTypeUnits
   prevRulerUnits = app.preferences.rulerUnits
@@ -452,9 +311,9 @@ function beginMagic () {
   app.preferences.rulerUnits = Units.CM
   app.preferences.typeUnits = TypeUnits.POINTS
 
-  showDialogWindow('', function (sku, size) {
+  _showInfoDialog('', function (pictureDefinition, size) {
     try {
-      pictureInfoGotten(sku, size)
+      pictureInfoGotten(pictureDefinition, size)
     } catch (e) {}
 
     app.preferences.rulerUnits = prevRulerUnits
