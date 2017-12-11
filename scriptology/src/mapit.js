@@ -1,325 +1,1 @@
-﻿#target photoshop
-#include common.js
-
-var sheetFilePath = '~/Projects/allmyart/scriptology/src/config/visuarea_dimensions.csv'
-var logoFilePath = '~/Projects/allmyart/scriptology/logo+site.tif'
-
-var OUTER_FRAME_SIZE = 3 // cm
-// var INNER_FRAME_SIZE = 3.5 // cm
-var LINE_SIDE_MARGIN = 8.7 // cm
-var DOTS_SIDE_MARGIN = 0.5 // cm
-var DOT_RADIUS = 4 // px
-
-var OUTER_FRAME_LAYER_NAME = 'all black'
-var INNER_FRAME_LAYER_NAME = 'all princess'
-var LINES_DOTS_LAYER_NAME = 'lines & dots'
-
-var COLORS = {}
-function initColors () {
-  var whiteColor = new SolidColor()
-  whiteColor.cmyk.cyan = 0
-  whiteColor.cmyk.magenta = 0
-  whiteColor.cmyk.yellow = 0
-  whiteColor.cmyk.black = 0
-
-  COLORS['white'] = whiteColor
-
-  var blackColor = new SolidColor()
-  blackColor.cmyk.cyan = 75
-  blackColor.cmyk.magenta = 68
-  blackColor.cmyk.yellow = 67
-  blackColor.cmyk.black = 90
-
-  COLORS['black'] = blackColor
-
-  var princess1Color = new SolidColor()
-  princess1Color.cmyk.cyan = 55
-  princess1Color.cmyk.magenta = 1
-  princess1Color.cmyk.yellow = 1
-  princess1Color.cmyk.black = 1
-
-  var princess2Color = new SolidColor()
-  princess2Color.cmyk.cyan = 20
-  princess2Color.cmyk.magenta = 66
-  princess2Color.cmyk.yellow = 1
-  princess2Color.cmyk.black = 1
-
-  var princess3Color = new SolidColor()
-  princess3Color.cmyk.cyan = 1
-  princess3Color.cmyk.magenta = 14
-  princess3Color.cmyk.yellow = 88
-  princess3Color.cmyk.black = 1
-
-  COLORS['princess'] = [princess1Color, princess2Color, princess3Color]
-}
-
-function pictureInfoGotten (pictureDefinition, size) {
-  createModulesFrames(pictureDefinition, size)
-  insertLogo()
-}
-
-function drawBorder (bounds, size, color, opacity) {
-  _select([
-    [bounds.left.as('px'), bounds.top.as('px')],
-    [bounds.left.as('px'), bounds.bottom.as('px')],
-    [bounds.right.as('px'), bounds.bottom.as('px')],
-    [bounds.right.as('px'), bounds.top.as('px')],
-  ])
-
-  activeDocument.selection.fill(color, ColorBlendMode.COLOR, opacity)
-
-  var borderSizeCm = new UnitValue(size, 'cm')
-
-  _select([
-    [(bounds.left + borderSizeCm).as('px'), (bounds.top + borderSizeCm).as('px')],
-    [(bounds.left + borderSizeCm).as('px'), (bounds.bottom - borderSizeCm).as('px')],
-    [(bounds.right - borderSizeCm).as('px'), (bounds.bottom - borderSizeCm).as('px')],
-    [(bounds.right - borderSizeCm).as('px'), (bounds.top + borderSizeCm).as('px')],
-  ])
-
-  _deleteArea()
-  _deselect()
-}
-
-
-function drawFramesInDocument (frameDocument, innerFrameSize) {
-  var blackBounds = {
-    left: new UnitValue(0, 'cm'),
-    top: new UnitValue(0, 'cm'),
-    right: frameDocument.width,
-    bottom: frameDocument.height,
-  }
-
-  var blackLayer = frameDocument.artLayers.add()
-  blackLayer.name = OUTER_FRAME_LAYER_NAME
-
-  drawBorder(blackBounds, OUTER_FRAME_SIZE, COLORS['black'], 100)
-
-  var princessLayer = frameDocument.artLayers.add()
-  princessLayer.name = INNER_FRAME_LAYER_NAME
-
-  var princessBounds = {
-    left: blackBounds.left + OUTER_FRAME_SIZE,
-    top: blackBounds.top + OUTER_FRAME_SIZE,
-    right: blackBounds.right - OUTER_FRAME_SIZE,
-    bottom: blackBounds.bottom - OUTER_FRAME_SIZE,
-  }
-
-  var princessColor = COLORS['princess'][Math.floor(Math.random() * COLORS['princess'].length)]
-  drawBorder(princessBounds, innerFrameSize, princessColor, 40)
-
-  drawCornerLines(frameDocument)
-
-  drawDots(frameDocument)
-}
-
-function drawCornerLines (frameDocument) {
-  var linesLayer = frameDocument.artLayers.add()
-  linesLayer.name = LINES_DOTS_LAYER_NAME
-
-  var blackBounds = {
-    left: new UnitValue(0, 'cm'),
-    top: new UnitValue(0, 'cm'),
-    right: frameDocument.width,
-    bottom: frameDocument.height,
-  }
-
-  app.foregroundColor = COLORS['white']
-
-  var strokeWidth = new UnitValue(2, 'px')
-
-  // top-left
-  _drawLine([
-      (blackBounds.left + LINE_SIDE_MARGIN).as('px'),
-      (blackBounds.top).as('px')
-    ], [
-      (blackBounds.left).as('px'),
-      (blackBounds.top + LINE_SIDE_MARGIN).as('px')
-    ],
-    strokeWidth
-  )
-
-  // top-right
-  _drawLine([
-      (blackBounds.right - LINE_SIDE_MARGIN).as('px'),
-      (blackBounds.top).as('px')
-    ], [
-      (blackBounds.right).as('px'),
-      (blackBounds.top + LINE_SIDE_MARGIN).as('px')
-    ],
-    strokeWidth
-  )
-
-  // bottom-right
-  _drawLine([
-      (blackBounds.right - LINE_SIDE_MARGIN).as('px'),
-      (blackBounds.bottom).as('px')
-    ], [
-      (blackBounds.right).as('px'),
-      (blackBounds.bottom - LINE_SIDE_MARGIN).as('px')
-    ],
-    strokeWidth
-  )
-
-  // bottom-left
-  _drawLine([
-      (blackBounds.left + LINE_SIDE_MARGIN).as('px'),
-      (blackBounds.bottom).as('px')
-    ], [
-      (blackBounds.left).as('px'),
-      (blackBounds.bottom - LINE_SIDE_MARGIN).as('px')
-    ],
-    strokeWidth
-  )
-}
-
-function drawDot (centerX, centerY) {
-  _selectWithEllipse({
-    left: new UnitValue(centerX - DOT_RADIUS, 'px'),
-    top: new UnitValue(centerY - DOT_RADIUS, 'px'),
-    right: new UnitValue(centerX + DOT_RADIUS, 'px'),
-    bottom: new UnitValue(centerY + DOT_RADIUS, 'px'),
-  })
-
-  activeDocument.selection.fill(app.foregroundColor, ColorBlendMode.COLOR, 100)
-  _deselect()
-}
-
-function drawDots (frameDocument) {
-  var blackBounds = {
-    left: new UnitValue(0, 'cm'),
-    top: new UnitValue(0, 'cm'),
-    right: frameDocument.width,
-    bottom: frameDocument.height,
-  }
-
-  var verticalCenterY = blackBounds.bottom / 2
-  var horizontalCenterY = blackBounds.right / 2
-
-  var dotsSideMarginCm = new UnitValue(DOTS_SIDE_MARGIN, 'cm')
-
-  var addition = new UnitValue(0, 'cm')
-  var leftX = (blackBounds.left + dotsSideMarginCm).as('px')
-  var rightX = (blackBounds.right - dotsSideMarginCm).as('px')
-  while (verticalCenterY + addition < blackBounds.bottom) {
-    drawDot(leftX, (verticalCenterY + addition).as('px'))
-    drawDot(rightX, (verticalCenterY + addition).as('px'))
-    if (addition.value !== 0) {
-      drawDot(leftX, (verticalCenterY - addition).as('px'))
-      drawDot(rightX, (verticalCenterY - addition).as('px'))
-    }
-
-    addition += 6
-  }
-
-  addition = new UnitValue(0, 'cm')
-  var topY = (blackBounds.top + dotsSideMarginCm).as('px')
-  var bottomY = (blackBounds.bottom - dotsSideMarginCm).as('px')
-  while (horizontalCenterY + addition < blackBounds.right) {
-    drawDot((horizontalCenterY + addition).as('px'), topY)
-    drawDot((horizontalCenterY + addition).as('px'), bottomY)
-    if (addition.value !== 0) {
-      drawDot((horizontalCenterY - addition).as('px'), topY)
-      drawDot((horizontalCenterY - addition).as('px'), bottomY)
-    }
-
-    addition += 6
-  }
-}
-
-/**
- *
- * @param modulesDefinition
- * @param [modulesDefinition.name]
- * @param [modulesDefinition.modules] Array<Array<number, number>>
- */
-function createModulesFrames (modulesDefinition, innerFrameSize) {
-  var frames = modulesDefinition.modules
-  var frame, frameName
-  var resolution = 150
-  var w, h;
-  for (var i = 0; i < frames.length; i++) {
-    frame = frames[i]
-    frameName = modulesDefinition.name + '-' + i
-    $.writeln('Creating frame ', frameName + ' ', frame[0] + 'cm' + ' ', frame[1] + 'cm')
-
-    UnitValue.baseUnit = UnitValue (1 / resolution, 'in')
-
-    w = new UnitValue(frame[0] + OUTER_FRAME_SIZE * 2 + innerFrameSize * 2, 'cm')
-    h = new UnitValue(frame[1] + OUTER_FRAME_SIZE * 2 + innerFrameSize * 2, 'cm')
-    var frameDocument = documents.add(
-      w,                          // width
-      h,                          // height
-      resolution,                 // resolution
-      frameName,                  // name
-      NewDocumentMode.CMYK,       // mode
-      DocumentFill.TRANSPARENT,   // initialFill
-      1.0,                        // pixelAspectRatio
-      BitsPerChannelType.SIXTEEN  // bitsPerChannel
-    )
-
-    drawFramesInDocument(frameDocument, innerFrameSize)
-    insertModuleNumber(frameDocument, i + 1)
-
-    return
-  }
-}
-
-function insertModuleNumber (frameDocument, moduleNumber) {
-  var layer = frameDocument.artLayers.add()
-  layer.kind = LayerKind.TEXT
-  layer.name = 'module number'
-  layer.rotate(180)
-
-  var textItem = layer.textItem
-  textItem.contents = moduleNumber.toString()
-  textItem.size = new UnitValue(40, 'pt')
-  textItem.font = 'MuseoSansCyrl-300'
-  textItem.justification = Justification.CENTER;
-  textItem.kind = TextType.PARAGRAPHTEXT;
-  textItem.color = COLORS['white']
-
-  var layerBounds = _getLayerBounds(layer)
-  layer.translate(
-    frameDocument.width / 2 - layerBounds.left - layerBounds.width / 2,
-    - layerBounds.top + new UnitValue(1.3, 'cm')
-  )
-}
-
-function insertLogo () {
-  var logoLayer = _placeImageOnNewLayer(logoFilePath)
-  var logoLayerBounds = _getLayerBounds(logoLayer)
-
-  // place the layer 1cm below the upper edge of bottom outer border side
-  var deltaY = activeDocument.height
-    - logoLayerBounds.bottom
-    - OUTER_FRAME_SIZE
-    + 1
-    + logoLayerBounds.height
-
-  _moveLayer(logoLayer, 0, deltaY.as('px'))
-}
-
-var config
-function beginMagic () {
-  initColors()
-  config = _parseConfig()
-
-  var prevRulerUnits, prevTypeUnits
-  prevRulerUnits = app.preferences.rulerUnits
-  prevTypeUnits = app.preferences.typeUnits
-  app.preferences.rulerUnits = Units.CM
-  app.preferences.typeUnits = TypeUnits.POINTS
-
-  _showInfoDialog('', function (pictureDefinition, size) {
-    try {
-      pictureInfoGotten(pictureDefinition, size)
-    } catch (e) {}
-
-    app.preferences.rulerUnits = prevRulerUnits
-    app.preferences.typeUnits = prevTypeUnits
-  })
-
-}
-
-beginMagic()
+﻿#target photoshop#include common.js_evalDependencies([  '../lib/es5-shim.js',])// TODO remove it, it's necessary for common.js work but is useless herevar LINE_SIDE_MARGIN = 8.7 // cmvar INSTRUCTIONS_LAYER_NAME = 'Instruction+level'var HOOK_VERTICAL_MARGIN = 2.8 // cmvar MODULE_HORIZONTAL_INITIAL_MARGIN = 4.6var MODULE_VERTICAL_INITIAL_MARGIN = 2.81function cropModule (doc, innerFrameSize) {  var margin = new UnitValue(config.sizes.outer_frame + innerFrameSize, 'cm')  var region = [    margin, // left    margin, // top    doc.width - margin, // right    doc.height - margin, // bottom  ]  doc.crop(region)}function pictureDefinitionGotten (pictureDefinition, innerFrameSize) {  var mapDoc = open(File(_normalizePath(config.paths.map_basis)))  // A hard coded path to a directory 'mac style'  var processFolder = Folder(_normalizePath(config.paths.map_input))  // Use folder object get files function with  mask 'a reg ex'  var fileList = processFolder.getFiles(new RegExp(SLASH + pictureDefinition.name + '-\\d.tif'))  var initialOffsetX = new UnitValue(MODULE_HORIZONTAL_INITIAL_MARGIN, 'cm')  var initialOffsetY = new UnitValue(MODULE_VERTICAL_INITIAL_MARGIN, 'cm')  var offsetX = new UnitValue(initialOffsetX, 'cm')  var offsetY = new UnitValue(initialOffsetY, 'cm')  fileList.forEach(function (file, i) {    // Only process the returned file objects    // The filter 'should' have missed out any folder objects    if (file instanceof File && file.hidden == false) {      // get a reference to the new document      var doc = open(file)      cropModule(doc, innerFrameSize)      var croppedFileName = pictureDefinition.name + '-' + i + '_cropped'      var croppedFileFolder = config.paths.map_input + '/'      var croppedFilePath = croppedFileFolder + croppedFileName + '.psd'      exportFile(croppedFileFolder, croppedFileName, 'PSD')      doc.close(SaveOptions.DONOTSAVECHANGES)      app.activeDocument = mapDoc      placeImage(croppedFilePath)      new File(croppedFilePath).remove()      var layer = app.activeDocument.activeLayer      layer.name = i + 1      var layerBounds = _getLayerBounds(layer)      layer.translate(offsetX - layerBounds.left, offsetY - layerBounds.top)      offsetX += layerBounds.width + (i < fileList.length - 1 ? pictureDefinition.margin : 0)    }  })  selectModuleLayers(mapDoc, pictureDefinition)  _duplicateLayers()  _createGroupFromLayers()  var layerGroup = mapDoc.layerSets[0]  layerGroup.opacity = 30  mapDoc.activeLayer = mapDoc.artLayers.getByName('style')  executeAction(c('CpFX'), undefined, DialogModes.NO)  selectModuleLayers(mapDoc, pictureDefinition)  executeAction(c('PaFX'), undefined, DialogModes.NO)  mapDoc.crop([    0,    0,    new UnitValue(offsetX + initialOffsetX),    new UnitValue(offsetY + getMaxModuleHeight(mapDoc, pictureDefinition) + initialOffsetY),  ])  mapDoc.artLayers.getByName(INSTRUCTIONS_LAYER_NAME).move(layerGroup, ElementPlacement.PLACEBEFORE)  placeHooks(mapDoc, pictureDefinition)}function placeHooks (doc, pictureDefinition) {  pictureDefinition.modules.forEach(function (moduleDefinition, i) {    var hookLayer = doc.artLayers.getByName('hook-' + String(i + 1))    var moduleLayer = doc.artLayers.getByName(String(i + 1))    var hookBounds = _getLayerBounds(hookLayer)    var moduleBounds = _getLayerBounds(moduleLayer)    hookLayer.move(doc.layerSets[0], ElementPlacement.PLACEBEFORE)    hookLayer.translate(      new UnitValue(moduleBounds.left + moduleBounds.width / 2 - hookBounds.width / 2 - hookBounds.left, 'cm'),      new UnitValue(moduleBounds.top + HOOK_VERTICAL_MARGIN - hookBounds.top, 'cm')    )  })}function getMaxModuleHeight (doc, pictureDefinition) {  var height = _getLayerBounds(doc.artLayers.getByName('1')).height   pictureDefinition.modules.slice(1).forEach(function (moduleDefinition, i) {    var layerBounds = _getLayerBounds(doc.artLayers.getByName(String(i + 1)))    height = layerBounds.height > height ? layerBounds.height : height  })  return height}function selectModuleLayers (doc, pictureDefinition) {  doc.activeLayer = doc.artLayers.getByName('1')  for (var i = 1; i < pictureDefinition.modules.length; i++) {    _selectAdditionalLayer(String(i + 1))  }}function _createGroupFromLayers () {  var desc46 = new ActionDescriptor()  var ref28 = new ActionReference()  ref28.putClass(stringIDToTypeID('layerSection'))  desc46.putReference(charIDToTypeID('null'), ref28)  var ref29 = new ActionReference()  ref29.putEnumerated(charIDToTypeID('Lyr '), charIDToTypeID('Ordn'), charIDToTypeID('Trgt'))  desc46.putReference(charIDToTypeID('From'), ref29)  executeAction(charIDToTypeID('Mk  '), desc46, DialogModes.NO)}function placeImage (imagePath) {  var desc2 = new ActionDescriptor()  desc2.putPath(c('null'), new File(imagePath))  desc2.putEnumerated(c('FTcs'), c('QCSt'), c('Qcsa'))  var desc3 = new ActionDescriptor()  desc3.putUnitDouble(c('Hrzn'), c('#Rlt'), 0)  desc3.putUnitDouble(c('Vrtc'), c('#Rlt'), 0)  desc2.putObject(c('Ofst'), c('Ofst'), desc3)  executeAction(c('Plc '), desc2, DialogModes.NO)}var configfunction beginMagic () {  config = _parseConfig()  var prevRulerUnits, prevTypeUnits  prevRulerUnits = app.preferences.rulerUnits  prevTypeUnits = app.preferences.typeUnits  app.preferences.rulerUnits = Units.CM  app.preferences.typeUnits = TypeUnits.POINTS  _showInfoDialog('122443', function (pictureDefinition, size) {    //try {      pictureDefinitionGotten(pictureDefinition, size)    /*} catch (e) {      alert(e)    }*/    app.preferences.rulerUnits = prevRulerUnits    app.preferences.typeUnits = prevTypeUnits  })}beginMagic()

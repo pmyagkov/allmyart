@@ -299,21 +299,6 @@ function _skewSelection () {
   executeAction(c("Trnf"), desc22, DialogModes.NO)
 }
 
-function _selectAdditionalLayer (layer) {
-  var desc2 = new ActionDescriptor()
-  var ref1 = new ActionReference()
-
-  ref1.putName(c("Lyr "), layer.name)
-  desc2.putReference(c("null"), ref1)
-  desc2.putEnumerated(
-    stringIDToTypeID("selectionModifier"),
-    stringIDToTypeID("selectionModifierType"),
-    stringIDToTypeID("addToSelection")
-  )
-  desc2.putBoolean(c("MkVs"), false)
-  executeAction(c("slct"), desc2, DialogModes.NO)
-}
-
 function _mergeSelectedLayers () {
   var desc12 = new ActionDescriptor()
   executeAction(c("Mrg2"), desc12, DialogModes.NO)
@@ -834,20 +819,6 @@ function addLayerToSelection (layer, isFirst) {
 }
 
 // =====================================================================================================
-
-/**
- @param {[x,y][]]} points
- */
-function _cropArea (layer, points) {
-  var prevLayer = activeDocument.activeLayer
-  activeDocument.activeLayer = layer
-
-  _selectLasso()
-  _selectPoints(points)
-  _deleteArea()
-
-  activeDocument.activeLayer = prevLayer
-}
 
 /**
  * Выбираем полигональное лассо
