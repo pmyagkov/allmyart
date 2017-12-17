@@ -164,7 +164,7 @@ function beginMagic () {
   app.preferences.rulerUnits = Units.CM
   app.preferences.typeUnits = TypeUnits.POINTS
 
-  _showInfoDialog('122443', function (pictureDefinition, size) {
+  _showInfoDialog('', function (pictureDefinition, size) {
     try {
       pictureDefinitionGotten(pictureDefinition, size)
     } catch (e) {
