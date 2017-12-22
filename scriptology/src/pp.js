@@ -54,11 +54,11 @@ function initColors () {
 }
 
 function pictureDefinitionGotten (pictureDefinition, size) {
-  /*createModulesFrames(pictureDefinition, size)
-  insertLogo()*/
+  createModulesFrames(pictureDefinition, size)
+
+  return
 
   var masterFileName = pictureDefinition.name.substr(0, pictureDefinition.name.length - 1)
-  $.writeln('MASTER', masterFileName)
 
   var masterPath = config.paths['pp_input']
   if (!masterPath) {
@@ -341,6 +341,7 @@ function createModulesFrames (pictureDefinition, innerFrameSize) {
 
     drawFramesInDocument(frameDocument, innerFrameSize)
     insertModuleNumber(frameDocument, i + 1)
+    insertLogo(frameDocument)
   }
 }
 
@@ -365,12 +366,12 @@ function insertModuleNumber (frameDocument, moduleNumber) {
   )
 }
 
-function insertLogo () {
+function insertLogo (doc) {
   var logoLayer = _placeImageOnNewLayer(config.paths.logo)
   var logoLayerBounds = _getLayerBounds(logoLayer)
 
   // place the layer 1cm below the upper edge of bottom outer border side
-  var deltaY = activeDocument.height
+  var deltaY = doc.height
     - logoLayerBounds.bottom
     - config.sizes.outer_frame
     + 1
