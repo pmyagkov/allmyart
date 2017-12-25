@@ -22,6 +22,11 @@ var PATH_TO_CANVAS = TEXTURES_PATH + "canvas_dark.jpg"
 var OUT_SUBFOLDER = '_/'
 var JPG_QUALITY = 10
 
+var LAYER_VIA_OPERATION = {
+  'copy': 'copy',
+  'cut': 'cut'
+}
+
 var c = charIDToTypeID
 
 var SLASH = $.os.indexOf('Macintosh') > -1 ? '/' : '\\'
@@ -299,7 +304,9 @@ function _placeImageOnNewLayer (imageFile) {
   return _rasterizeLayer()
 }
 
-function _addLayerToSelection (layerName) {
+function _addLayerToSelection (layer) {
+  var layerName = layer.name ? layer.name : layer
+
   var desc54 = new ActionDescriptor()
   var ref53 = new ActionReference()
   ref53.putName(c("Lyr "), layerName)
@@ -639,4 +646,64 @@ function _duplicateLayers () {
   desc45.putReference(c('null'), ref27)
   desc45.putInteger(c('Vrsn'), 5)
   executeAction(c('Dplc'), desc45, DialogModes.NO)
+}
+
+function _createLayerVia (method, layerSuffix) {
+  var operation = method === 'copy' ? "CpTL" : "CtTL"
+
+  var layerName = activeDocument.activeLayer.name
+  executeAction(c(operation), undefined, DialogModes.NO)
+
+  if (layerSuffix) {
+    activeDocument.activeLayer.name = layerName + layerSuffix
+  }
+
+  return activeDocument.activeLayer
+}
+
+function _selectPoints (points) {
+  var mainAction = new ActionDescriptor()
+
+  var ref31 = new ActionReference()
+  var idChnl = c("Chnl")
+  var idfsel = c("fsel")
+  ref31.putProperty(idChnl, idfsel)
+  mainAction.putReference(c("null"), ref31)
+
+  var pointsDescripts = new ActionDescriptor()
+  var pointsList = new ActionList()
+
+  var pointD
+  var currentPoint
+
+  for (var i = 0; i < points.length; i++) {
+    pointD = new ActionDescriptor()
+    currentPoint = points[i]
+    pointD.putUnitDouble(c("Hrzn"), c("#Pxl"), currentPoint[0])
+    pointD.putUnitDouble(c("Vrtc"), c("#Pxl"), currentPoint[1])
+
+    pointsList.putObject(c("Pnt "), pointD)
+  }
+
+  pointsDescripts.putList(c("Pts "), pointsList)
+
+  mainAction.putObject(c("T   "), c("Plgn"), pointsDescripts)
+  mainAction.putBoolean(c("AntA"), true)
+  executeAction(c("setd"), mainAction, DialogModes.NO)
+}
+
+var FLIP_DIRECTION = {
+  horizontal: 'Hrzn',
+  vertical: 'Vrtc',
+}
+
+function _flipLayer (direction) {
+  var desc = new ActionDescriptor()
+  desc.putEnumerated(c('Axis'), c('Ornt'), c(direction))
+  executeAction(c('Flip'), desc, DialogModes.NO)
+}
+
+function _mergeSelectedLayers () {
+  var desc12 = new ActionDescriptor()
+  executeAction(c("Mrg2"), desc12, DialogModes.NO)
 }

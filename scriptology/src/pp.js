@@ -9,6 +9,8 @@ _evalDependencies([
 var LINE_SIDE_MARGIN = 8.7 // cm
 var DOTS_SIDE_MARGIN = 0.5 // cm
 var DOT_RADIUS = 4 // px
+var MIRRORED_LAYER_WIDTH = 4 // cm
+var SUBPIXEL_BLUR_COMPENSATION_WIDTH = 3 // px
 
 var OUTER_FRAME_LAYER_NAME = 'all black'
 var INNER_FRAME_LAYER_NAME = 'all princess'
@@ -56,8 +58,6 @@ function initColors () {
 function pictureDefinitionGotten (pictureDefinition, size) {
   createModulesFrames(pictureDefinition, size)
 
-  return
-
   var masterFileName = pictureDefinition.name.substr(0, pictureDefinition.name.length - 1)
 
   var masterPath = config.paths['pp_input']
@@ -89,32 +89,37 @@ function pictureDefinitionGotten (pictureDefinition, size) {
 
 function insertMasterModules (masterDocument, pictureDefinition, innerFrameSize) {
   var pictureName = pictureDefinition.name
-  var frameDocument, layer, bounds, cropRegion, beforeCropHistory
-  /*
-  history = doc.historyStates.length - 1;
-  doc.activeHistoryState = doc.historyStates[history];
-   */
+  var frameDocument, pictureLayer, bounds, cropRegion, beforeCropHistory
 
   var entireFrameSize = new UnitValue(config.sizes.outer_frame + innerFrameSize, 'cm')
 
   pictureDefinition.modules.forEach(function (module, i) {
     frameDocument = documents.getByName(pictureName + '-' + (i + 1))
     app.activeDocument = masterDocument
-    layer = masterDocument.artLayers.getByName(i + 1)
-    bounds = _getLayerBounds(layer)
-    var percentage = (module[0] + 0.1) / bounds.width * 100
-    layer.resize(percentage, percentage)
+    pictureLayer = masterDocument.artLayers.getByName(i + 1)
+    bounds = _getLayerBounds(pictureLayer)
+    var widthPercentage =
+      (new UnitValue(module[0], 'cm').as('px') + SUBPIXEL_BLUR_COMPENSATION_WIDTH)
+      / new UnitValue(bounds.width, 'cm').as('px')
+      * 100
+    var heightPercentage =
+      (new UnitValue(module[1], 'cm').as('px') + SUBPIXEL_BLUR_COMPENSATION_WIDTH)
+      / new UnitValue(bounds.height, 'cm').as('px')
+      * 100
+    pictureLayer.resize(widthPercentage, heightPercentage)
 
+    // stretch & crop
     beforeCropHistory = masterDocument.historyStates.length - 1
-    bounds = _getLayerBounds(layer)
+    bounds = _getLayerBounds(pictureLayer)
     var left = new UnitValue(bounds.left, 'cm').as('px')
     var top = new UnitValue(bounds.top, 'cm').as('px')
     cropRegion = [
-      left + 3,
-      top + 3,
-      left + new UnitValue(bounds.width, 'cm').as('px') - 3,
-      top + new UnitValue(bounds.height, 'cm').as('px') - 3,
+      left + SUBPIXEL_BLUR_COMPENSATION_WIDTH,
+      top + SUBPIXEL_BLUR_COMPENSATION_WIDTH,
+      left + new UnitValue(bounds.width, 'cm').as('px') - SUBPIXEL_BLUR_COMPENSATION_WIDTH,
+      top + new UnitValue(bounds.height, 'cm').as('px') - SUBPIXEL_BLUR_COMPENSATION_WIDTH,
     ]
+
     cropRegion = cropRegion.map(function (value) {
       return new UnitValue(value, 'px').as('cm')
     })
@@ -129,14 +134,97 @@ function insertMasterModules (masterDocument, pictureDefinition, innerFrameSize)
 
     app.activeDocument = frameDocument
 
-    layer = _placeImageOnNewLayer(moduleFilePath)
-    bounds = _getLayerBounds(layer)
-    layer.translate(
+    // place main picture inside the princess frame
+    pictureLayer = _placeImageOnNewLayer(moduleFilePath)
+    pictureLayer.name = 'picture'
+    bounds = _getLayerBounds(pictureLayer)
+    pictureLayer.translate(
       entireFrameSize - bounds.left,
       entireFrameSize - bounds.top
     )
     new File(moduleFilePath).remove()
+
+    createMirroredEdges(frameDocument, pictureLayer)
   })
+
+  masterDocument.close(SaveOptions.DONOTSAVECHANGES)
+}
+
+function createMirroredEdges (frameDocument, pictureLayer) {
+  var mirroredLayer
+  // mirror the sides
+  var blackLayer = frameDocument.artLayers.getByName(OUTER_FRAME_LAYER_NAME)
+  var pictureBounds = _getLayerBounds(pictureLayer)
+
+  // left part
+  frameDocument.activeLayer = pictureLayer
+  _select([
+    [new UnitValue(pictureBounds.left, 'cm').as('px'), new UnitValue(pictureBounds.top, 'cm').as('px')],
+    [new UnitValue(pictureBounds.left + MIRRORED_LAYER_WIDTH, 'cm').as('px'), new UnitValue(pictureBounds.top, 'cm').as('px')],
+    [new UnitValue(pictureBounds.left + MIRRORED_LAYER_WIDTH, 'cm').as('px'), new UnitValue(pictureBounds.bottom, 'cm').as('px')],
+    [new UnitValue(pictureBounds.left, 'cm').as('px'), new UnitValue(pictureBounds.bottom, 'cm').as('px')],
+  ])
+
+  var leftMirroredLayer = _createLayerVia(LAYER_VIA_OPERATION.copy, '_left')
+  leftMirroredLayer.move(blackLayer, ElementPlacement.PLACEAFTER)
+
+  _flipLayer(FLIP_DIRECTION.horizontal)
+  leftMirroredLayer.translate(new UnitValue(-MIRRORED_LAYER_WIDTH, 'cm'), 0)
+
+  // right part
+  frameDocument.activeLayer = pictureLayer
+  _select([
+    [new UnitValue(pictureBounds.right - MIRRORED_LAYER_WIDTH, 'cm').as('px'), new UnitValue(pictureBounds.top, 'cm').as('px')],
+    [new UnitValue(pictureBounds.right, 'cm').as('px'), new UnitValue(pictureBounds.top, 'cm').as('px')],
+    [new UnitValue(pictureBounds.right, 'cm').as('px'), new UnitValue(pictureBounds.bottom, 'cm').as('px')],
+    [new UnitValue(pictureBounds.right - MIRRORED_LAYER_WIDTH, 'cm').as('px'), new UnitValue(pictureBounds.bottom, 'cm').as('px')],
+  ])
+
+  var rightMirroredLayer = _createLayerVia(LAYER_VIA_OPERATION.copy, '_right')
+  rightMirroredLayer.move(blackLayer, ElementPlacement.PLACEAFTER)
+
+  _flipLayer(FLIP_DIRECTION.horizontal)
+  rightMirroredLayer.translate(new UnitValue(MIRRORED_LAYER_WIDTH, 'cm'), 0)
+
+
+  frameDocument.activeLayer = pictureLayer
+  _addLayerToSelection(leftMirroredLayer)
+  _addLayerToSelection(rightMirroredLayer)
+  _mergeSelectedLayers()
+
+  pictureLayer = frameDocument.activeLayer
+  pictureBounds = _getLayerBounds(pictureLayer)
+
+  // top part
+  _select([
+    [new UnitValue(pictureBounds.left, 'cm').as('px'), new UnitValue(pictureBounds.top, 'cm').as('px')],
+    [new UnitValue(pictureBounds.right, 'cm').as('px'), new UnitValue(pictureBounds.top, 'cm').as('px')],
+    [new UnitValue(pictureBounds.right, 'cm').as('px'), new UnitValue(pictureBounds.top + MIRRORED_LAYER_WIDTH, 'cm').as('px')],
+    [new UnitValue(pictureBounds.left, 'cm').as('px'), new UnitValue(pictureBounds.top + MIRRORED_LAYER_WIDTH, 'cm').as('px')],
+  ])
+
+  mirroredLayer = _createLayerVia(LAYER_VIA_OPERATION.copy, '_top')
+  mirroredLayer.move(blackLayer, ElementPlacement.PLACEAFTER)
+
+  _flipLayer(FLIP_DIRECTION.vertical)
+  mirroredLayer.translate(0, new UnitValue(-MIRRORED_LAYER_WIDTH, 'cm'))
+
+  // bottom part
+  frameDocument.activeLayer = pictureLayer
+  _select([
+    [new UnitValue(pictureBounds.left, 'cm').as('px'), new UnitValue(pictureBounds.bottom - MIRRORED_LAYER_WIDTH, 'cm').as('px')],
+    [new UnitValue(pictureBounds.right, 'cm').as('px'), new UnitValue(pictureBounds.bottom - MIRRORED_LAYER_WIDTH, 'cm').as('px')],
+    [new UnitValue(pictureBounds.right, 'cm').as('px'), new UnitValue(pictureBounds.bottom, 'cm').as('px')],
+    [new UnitValue(pictureBounds.left, 'cm').as('px'), new UnitValue(pictureBounds.bottom, 'cm').as('px')],
+  ])
+
+  mirroredLayer = _createLayerVia(LAYER_VIA_OPERATION.copy, '_bottom')
+  mirroredLayer.move(blackLayer, ElementPlacement.PLACEAFTER)
+
+  _flipLayer(FLIP_DIRECTION.vertical)
+  mirroredLayer.translate(0, new UnitValue(MIRRORED_LAYER_WIDTH, 'cm'))
+
+  pictureLayer.move(blackLayer, ElementPlacement.PLACEAFTER)
 }
 
 function drawBorder (bounds, size, color, opacity) {
