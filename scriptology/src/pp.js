@@ -99,11 +99,11 @@ function insertMasterModules (masterDocument, pictureDefinition, innerFrameSize)
     pictureLayer = masterDocument.artLayers.getByName(i + 1)
     bounds = _getLayerBounds(pictureLayer)
     var widthPercentage =
-      (new UnitValue(module[0], 'cm').as('px') + SUBPIXEL_BLUR_COMPENSATION_WIDTH)
+      (new UnitValue(module[0], 'cm').as('px'))
       / new UnitValue(bounds.width, 'cm').as('px')
       * 100
     var heightPercentage =
-      (new UnitValue(module[1], 'cm').as('px') + SUBPIXEL_BLUR_COMPENSATION_WIDTH)
+      (new UnitValue(module[1], 'cm').as('px'))
       / new UnitValue(bounds.height, 'cm').as('px')
       * 100
     pictureLayer.resize(widthPercentage, heightPercentage)
@@ -114,15 +114,21 @@ function insertMasterModules (masterDocument, pictureDefinition, innerFrameSize)
     var left = new UnitValue(bounds.left, 'cm').as('px')
     var top = new UnitValue(bounds.top, 'cm').as('px')
     cropRegion = [
-      left + SUBPIXEL_BLUR_COMPENSATION_WIDTH,
-      top + SUBPIXEL_BLUR_COMPENSATION_WIDTH,
-      left + new UnitValue(bounds.width, 'cm').as('px') - SUBPIXEL_BLUR_COMPENSATION_WIDTH,
-      top + new UnitValue(bounds.height, 'cm').as('px') - SUBPIXEL_BLUR_COMPENSATION_WIDTH,
+      left,
+      top,
+      left + new UnitValue(bounds.width, 'cm').as('px'),
+      top + new UnitValue(bounds.height, 'cm').as('px'),
     ]
 
     cropRegion = cropRegion.map(function (value) {
       return new UnitValue(value, 'px').as('cm')
     })
+    _select([
+      [cropRegion[0], cropRegion[1]],
+      [cropRegion[2], cropRegion[1]],
+      [cropRegion[2], cropRegion[3]],
+      [cropRegion[0], cropRegion[3]],
+    ])
     masterDocument.crop(cropRegion)
 
     var moduleFileName = pictureName + '-' + (i + 1) + '_module'
@@ -132,22 +138,48 @@ function insertMasterModules (masterDocument, pictureDefinition, innerFrameSize)
 
     masterDocument.activeHistoryState = masterDocument.historyStates[beforeCropHistory]
 
-    app.activeDocument = frameDocument
-
-    // place main picture inside the princess frame
-    pictureLayer = _placeImageOnNewLayer(moduleFilePath)
-    pictureLayer.name = 'picture'
-    bounds = _getLayerBounds(pictureLayer)
-    pictureLayer.translate(
-      entireFrameSize - bounds.left,
-      entireFrameSize - bounds.top
-    )
-    new File(moduleFilePath).remove()
+    pictureLayer = placePictureInsideFrame(frameDocument, moduleFilePath, entireFrameSize)
 
     createMirroredEdges(frameDocument, pictureLayer)
   })
 
   masterDocument.close(SaveOptions.DONOTSAVECHANGES)
+}
+
+function placePictureInsideFrame (frameDocument, moduleFilePath, entireFrameSize) {
+  app.activeDocument = frameDocument
+
+  var pictureLayer = _placeImageOnNewLayer(moduleFilePath)
+  pictureLayer.name = 'picture'
+  var bounds = _getLayerBounds(pictureLayer)
+  pictureLayer.translate(
+    entireFrameSize - bounds.left,
+    entireFrameSize - bounds.top
+  )
+  bounds = _getLayerBounds(pictureLayer)
+  var pxWidth = new UnitValue(bounds.width, 'cm').as('px')
+  var resizeRatio = (pxWidth + SUBPIXEL_BLUR_COMPENSATION_WIDTH) / pxWidth * 100
+  pictureLayer.resize(resizeRatio, resizeRatio)
+
+  var unitBounds = _getLayerUnitBounds(pictureLayer, 'px')
+  var region = [
+    [unitBounds.left + SUBPIXEL_BLUR_COMPENSATION_WIDTH, unitBounds.top + SUBPIXEL_BLUR_COMPENSATION_WIDTH],
+    [unitBounds.right - SUBPIXEL_BLUR_COMPENSATION_WIDTH, unitBounds.top + SUBPIXEL_BLUR_COMPENSATION_WIDTH],
+    [unitBounds.right - SUBPIXEL_BLUR_COMPENSATION_WIDTH, unitBounds.bottom - SUBPIXEL_BLUR_COMPENSATION_WIDTH],
+    [unitBounds.left + SUBPIXEL_BLUR_COMPENSATION_WIDTH, unitBounds.bottom - SUBPIXEL_BLUR_COMPENSATION_WIDTH],
+  ]
+  _select(region)
+  _invertSelection()
+  _deleteSelection()
+  bounds = _getLayerBounds(pictureLayer)
+  pictureLayer.translate(
+    entireFrameSize - bounds.left,
+    entireFrameSize - bounds.top
+  )
+
+  new File(moduleFilePath).remove()
+
+  return pictureLayer
 }
 
 function createMirroredEdges (frameDocument, pictureLayer) {
@@ -479,7 +511,11 @@ function beginMagic () {
   app.preferences.rulerUnits = Units.CM
   app.preferences.typeUnits = TypeUnits.POINTS
 
-  _showInfoDialog('100041', function (pictureDefinition, size) {
+  var defaultPictureNumber = config.default && config.default.picture_number
+    ? config.default.picture_number
+    : ''
+
+  _showInfoDialog(defaultPictureNumber, function (pictureDefinition, size) {
     // try {
       pictureDefinitionGotten(pictureDefinition, size)
     // } catch (e) {}

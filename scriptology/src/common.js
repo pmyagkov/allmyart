@@ -267,22 +267,29 @@ function _getLayerBounds (layer) {
   return boundsObj
 }
 
-function _getLayerUnitBounds (layer) {
+
+
+function _getLayerUnitBounds (layer, unit /* cm | px */) {
   if (!layer.boundsNoEffects) {
     layer = _getLayerByName(layer)
+  }
+
+  var convert = function (value) { return value }
+  if (unit) {
+    convert = function (value) { return  new UnitValue(new UnitValue(value).as(unit), unit) }
   }
 
   var bounds = layer.boundsNoEffects
 
   var boundsObj = {
-    left: bounds[0],
-    top: bounds[1],
-    right: bounds[2],
-    bottom: bounds[3],
+    left: convert(bounds[0]),
+    top: convert(bounds[1]),
+    right: convert(bounds[2]),
+    bottom: convert(bounds[3]),
   }
 
-  boundsObj.height = boundsObj.bottom - boundsObj.top
-  boundsObj.width = boundsObj.right - boundsObj.left
+  boundsObj.height = convert(boundsObj.bottom - boundsObj.top)
+  boundsObj.width = convert(boundsObj.right - boundsObj.left)
 
   return boundsObj
 }
@@ -453,7 +460,6 @@ function _evalDependencies (dependencies) {
   for (var i = 0; i < dependencies.length; i++) {
     var normalizedPath = _normalizePath(scriptDirPath + dependencies[i])
     if (!EVALED_SCRIPTS[normalizedPath]) {
-      $.writeln(_normalizePath(scriptDirPath + dependencies[i]))
       $.evalFile(_normalizePath(scriptDirPath + dependencies[i]))
       EVALED_SCRIPTS[normalizedPath] = true
     }
