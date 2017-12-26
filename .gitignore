@@ -1,7 +1,5 @@
 .DS_Store
 .idea
 
-psd
-parent
-scriptology/samples
-scriptology/assets/mapbasis.psd
+samples
+assets/mapbasis.psd
