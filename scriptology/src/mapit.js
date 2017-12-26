@@ -54,7 +54,7 @@ function pictureDefinitionGotten (pictureDefinition, innerFrameSize) {
 
       app.activeDocument = mapDoc
 
-      placeImage(croppedFilePath)
+      _placeImageOnNewLayer(croppedFilePath)
       new File(croppedFilePath).remove()
 
       var layer = app.activeDocument.activeLayer
@@ -141,17 +141,6 @@ function _createGroupFromLayers () {
   ref29.putEnumerated(charIDToTypeID('Lyr '), charIDToTypeID('Ordn'), charIDToTypeID('Trgt'))
   desc46.putReference(charIDToTypeID('From'), ref29)
   executeAction(charIDToTypeID('Mk  '), desc46, DialogModes.NO)
-}
-
-function placeImage (imagePath) {
-  var desc2 = new ActionDescriptor()
-  desc2.putPath(c('null'), new File(imagePath))
-  desc2.putEnumerated(c('FTcs'), c('QCSt'), c('Qcsa'))
-  var desc3 = new ActionDescriptor()
-  desc3.putUnitDouble(c('Hrzn'), c('#Rlt'), 0)
-  desc3.putUnitDouble(c('Vrtc'), c('#Rlt'), 0)
-  desc2.putObject(c('Ofst'), c('Ofst'), desc3)
-  executeAction(c('Plc '), desc2, DialogModes.NO)
 }
 
 var config

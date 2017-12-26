@@ -4,11 +4,6 @@
 
 /* global activeDocument, ElementPlacement, app, ActionDescriptor, executeAction, charIDToTypeID, DialogModes */
 
-var LAYER_VIA_OPERATION = {
-  'copy': 'copy',
-  'cut': 'cut'
-}
-
 var CSV_ID = 'csv'
 
 var WRITE_TO_CSV = true
@@ -165,7 +160,7 @@ function processTopSide (options) {
   _select(topSideCords)
 
   // вырезаем слой из выделения и переназываем его
-  var newLayer = createLayerVia(LAYER_VIA_OPERATION.cut, '_top')
+  var newLayer = _createLayerVia(LAYER_VIA_OPERATION.cut, '_top')
   // искажаем выделение
   // уменьшаем яркость
   _adjustBrightness(newLayer, 30, 0)
@@ -189,7 +184,7 @@ function processRightSide (layer) {
   _select(rightSideCords)
 
   // вырезаем слой из выделения и переназываем его
-  var rightLayer = createLayerVia(LAYER_VIA_OPERATION.cut, '_right')
+  var rightLayer = _createLayerVia(LAYER_VIA_OPERATION.cut, '_right')
   // искажаем выделение
   _transformRightEdge(3)
 
@@ -203,7 +198,7 @@ function processRightSide (layer) {
     [bounds.right - RIGHT_SIDE_WIDTH, bounds.bottom + 25]
   ]
 
-  var featherLayer = createLayerVia(LAYER_VIA_OPERATION.copy, '_shadow')
+  var featherLayer = _createLayerVia(LAYER_VIA_OPERATION.copy, '_shadow')
   featherLayer.name = '_' + layer.name + '_right'
 
   // уменьшаем яркость
@@ -297,11 +292,6 @@ function _skewSelection () {
   desc22.putEnumerated(c("Intr"), c("Intp"), c("Bcbc"))
 
   executeAction(c("Trnf"), desc22, DialogModes.NO)
-}
-
-function _mergeSelectedLayers () {
-  var desc12 = new ActionDescriptor()
-  executeAction(c("Mrg2"), desc12, DialogModes.NO)
 }
 
 function _duplicateAndMerge () {
@@ -423,20 +413,6 @@ function _applyGaussianBlur (layer, value) {
   activeDocument.selection.selectAll()
   activeDocument.activeLayer.applyGaussianBlur(value)
 }
-
-function createLayerVia (method, layerSuffix) {
-  var operation = method === 'copy' ? "CpTL" : "CtTL"
-
-  var layerName = activeDocument.activeLayer.name
-  executeAction(c(operation), undefined, DialogModes.NO)
-
-  if (layerSuffix) {
-    activeDocument.activeLayer.name = layerName + layerSuffix
-  }
-
-  return activeDocument.activeLayer
-}
-
 
 /**
  Заливает область выделения черным.
@@ -838,38 +814,6 @@ function _selectLasso () {
 
   executeAction(c("slct"), select, DialogModes.NO)
 }
-
-function _selectPoints (points) {
-  var mainAction = new ActionDescriptor()
-
-  var ref31 = new ActionReference()
-  var idChnl = c("Chnl")
-  var idfsel = c("fsel")
-  ref31.putProperty(idChnl, idfsel)
-  mainAction.putReference(c("null"), ref31)
-
-  var pointsDescripts = new ActionDescriptor()
-  var pointsList = new ActionList()
-
-  var pointD
-  var currentPoint
-
-  for (var i = 0; i < points.length; i++) {
-    pointD = new ActionDescriptor()
-    currentPoint = points[i]
-    pointD.putUnitDouble(c("Hrzn"), c("#Pxl"), currentPoint[0])
-    pointD.putUnitDouble(c("Vrtc"), c("#Pxl"), currentPoint[1])
-
-    pointsList.putObject(c("Pnt "), pointD)
-  }
-
-  pointsDescripts.putList(c("Pts "), pointsList)
-
-  mainAction.putObject(c("T   "), c("Plgn"), pointsDescripts)
-  mainAction.putBoolean(c("AntA"), true)
-  executeAction(c("setd"), mainAction, DialogModes.NO)
-}
-
 
 /** ============================ RUN ================================ */
 
