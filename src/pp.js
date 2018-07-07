@@ -1,4 +1,4 @@
-﻿#target photoshop
+#target photoshop
 #include common.js
 
 _evalDependencies([
@@ -15,6 +15,8 @@ var SUBPIXEL_BLUR_COMPENSATION_WIDTH = 3 // px
 var OUTER_FRAME_LAYER_NAME = 'all black'
 var INNER_FRAME_LAYER_NAME = 'all princess'
 var LINES_DOTS_LAYER_NAME = 'lines & dots'
+
+var RESOLUTION = 150 // dpi
 
 var COLORS = {}
 function initColors () {
@@ -55,6 +57,23 @@ function initColors () {
   COLORS['princess'] = [princess1Color, princess2Color, princess3Color]
 }
 
+function adjustMasterDocumentDPI (doc) {
+  $.writeln('Master file DPI ', doc.resolution)
+  if (doc.resolution !== RESOLUTION) {
+    /*
+    ([width]
+[, height]
+[, resolution]
+[, resampleMethod] [, amount])
+     */
+    doc.resizeImage(
+      doc.width,
+      doc.height,
+      RESOLUTION
+    )
+  }
+}
+
 function pictureDefinitionGotten (pictureDefinition, size) {
   createModulesFrames(pictureDefinition, size)
 
@@ -84,6 +103,7 @@ function pictureDefinitionGotten (pictureDefinition, size) {
     return null
   }
 
+  adjustMasterDocumentDPI(masterDocument)
   insertMasterModules(masterDocument, pictureDefinition, size)
 }
 
@@ -143,7 +163,7 @@ function insertMasterModules (masterDocument, pictureDefinition, innerFrameSize)
     createMirroredEdges(frameDocument, pictureLayer)
   })
 
-  masterDocument.close(SaveOptions.DONOTSAVECHANGES)
+  // masterDocument.close(SaveOptions.DONOTSAVECHANGES)
 }
 
 function placePictureInsideFrame (frameDocument, moduleFilePath, entireFrameSize) {
@@ -281,7 +301,6 @@ function drawBorder (bounds, size, color, opacity) {
   _deleteArea()
   _deselect()
 }
-
 
 function drawFramesInDocument (frameDocument, innerFrameSize) {
   var blackBounds = {
@@ -501,7 +520,7 @@ function insertLogo (doc) {
 }
 
 var config
-function beginMagic () {
+function startMagic () {
   initColors()
   config = _parseConfig()
 
@@ -525,4 +544,4 @@ function beginMagic () {
   })
 }
 
-beginMagic()
+startMagic()
