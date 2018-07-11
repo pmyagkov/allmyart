@@ -108,6 +108,8 @@ function pictureDefinitionGotten (pictureDefinition, size) {
 }
 
 function insertMasterModules (masterDocument, pictureDefinition, innerFrameSize) {
+  var CROP_ARTEFACT_DELTA = 5
+
   var pictureName = pictureDefinition.name
   var frameDocument, pictureLayer, bounds, cropRegion, beforeCropHistory
 
@@ -134,10 +136,10 @@ function insertMasterModules (masterDocument, pictureDefinition, innerFrameSize)
     var left = new UnitValue(bounds.left, 'cm').as('px')
     var top = new UnitValue(bounds.top, 'cm').as('px')
     cropRegion = [
-      left,
-      top,
-      left + new UnitValue(bounds.width, 'cm').as('px'),
-      top + new UnitValue(bounds.height, 'cm').as('px'),
+      left + CROP_ARTEFACT_DELTA,
+      top + CROP_ARTEFACT_DELTA,
+      left + new UnitValue(bounds.width, 'cm').as('px') - CROP_ARTEFACT_DELTA,
+      top + new UnitValue(bounds.height, 'cm').as('px') - CROP_ARTEFACT_DELTA,
     ]
 
     cropRegion = cropRegion.map(function (value) {
@@ -150,6 +152,11 @@ function insertMasterModules (masterDocument, pictureDefinition, innerFrameSize)
       [cropRegion[0], cropRegion[3]],
     ])
     masterDocument.crop(cropRegion)
+
+    masterDocument.resizeImage(
+      new UnitValue(module[0], 'cm'),
+      new UnitValue(module[1], 'cm')
+    )
 
     var moduleFileName = pictureName + '-' + (i + 1) + '_module'
     var moduleFileFolder = config.paths.pp_input + '/'
